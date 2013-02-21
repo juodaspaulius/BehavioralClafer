@@ -1,0 +1,51 @@
+Heart
+  xor State
+    AtrialPulse
+    AtrialContract
+    VentricalPulse
+    VentricalContract
+
+PulseGenerator
+  xor OperatingMode
+    DDDR
+    VDDR
+    DDIR
+    DOOR
+    VOOR
+    AOOR
+    VVIR
+    AAIR
+    DDD
+    VDD
+    DDI
+    DOO
+    VOO
+    AOO
+    VVI
+    AAI
+    VVT
+    AAT
+  Leads
+    VentricleLead
+    AtrialLead
+  PWaveAmplitude
+  RWaveAmplitude
+  ImplantDate
+  DeviceModel
+  SerialNumber
+
+VVI
+	State
+	xor CurrentState
+		State1: State
+			PaceVentricle
+		State2: State
+			WaitForSense
+				VentricalAmplitude : Integer
+				VentricalPulseWidth : Integer
+		State3: State
+			SenseTimeout
+		State4: State
+			InhibitPulse
+		State5: State
+			WaitVentricalRefractoryPeriod

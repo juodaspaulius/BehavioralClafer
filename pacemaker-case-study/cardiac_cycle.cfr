@@ -63,8 +63,11 @@ abstract HeartStage4: Heart
 abstract HeartStage5: Heart
   [SLValve.Closed && AVValve.Closed && !Atria.Contracted && !Ventricles.HasBlood && !Ventricles.Contracted]
 
+abstract Person
+  `Heart 
 
-
+Bob: Person
+  
 // Some instance
 
 BobsHeart: Heart

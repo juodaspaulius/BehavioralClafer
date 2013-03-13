@@ -48,16 +48,17 @@ Stage4: SLValve.Open && Ventricles.Contracted && !Ventricles.HasBlood
 Stage5: SLValve.Closed && AVValve.Closed && !Ventricles.Contracted
 
 [Stage1-->Stage2-->Stage3-->Stage4-->Stage5]
-// Ventricles.HasBlood -> Ventricles.Contracted && !Ventricles.HasBlood
 
-BobsHeartStage1: Heart
+BobsHeart: Heart
+
+BobsHeartStage1: BobsHeart
   [SLValve.Closed && AVValve.Open && !Atria.Contracted && !Ventricles.HasBlood && !Ventricles.Contracted]
-BobsHeartStage2: Heart
+BobsHeartStage2: BobsHeart
   [SLValve.Closed && AVValve.Open && Atria.Contracted && Ventricles.HasBlood && !Ventricles.Contracted]
-BobsHeartStage3: Heart
+BobsHeartStage3: BobsHeart
   [SLValve.Closed && AVValve.Closed && !Atria.Contracted && Ventricles.HasBlood && !Ventricles.Contracted]
-BobsHeartStage4: Heart
+BobsHeartStage4: BobsHeart
   [SLValve.Open && AVValve.Closed && !Atria.Contracted && !Ventricles.HasBlood && Ventricles.Contracted]
-BobsHeartStage5: Heart
+BobsHeartStage5: BobsHeart
   [SLValve.Closed && AVValve.Closed && !Atria.Contracted && !Ventricles.HasBlood && !Ventricles.Contracted]
 

@@ -3,6 +3,9 @@
 abstract Person
   firstName: String [firstName.length != 0]
   lastName: String  [lastName.length != 0]
+  xor gender
+    Male
+    Female
   age : integer [age must be >= 0]
   xor RelationshipStatus
     Single
@@ -10,6 +13,9 @@ abstract Person
     Married
     Divorced
     Widowed
+  spouse : Person ?   [optional: only if a person is actually married]
+  hasChildren : boolean
+  noOfChildren : integer ? [optional: only if a person actually has children]
   xor LiveStatus
     Alive
     Dead
@@ -20,7 +26,7 @@ abstract Person
     Adult [ age >= 18 years]
     Old [ age >= 65 years]
 
-Here are the list of actions a person can do...
+***The list of actions for a person
 
 Action: GetMarried 
     Precond: LiveStatus = Alive && RelationshipStatus = Single || InARelatipship || Divorced || Widowed

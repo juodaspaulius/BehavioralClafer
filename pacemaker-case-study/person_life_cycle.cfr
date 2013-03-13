@@ -1,0 +1,27 @@
+// The life cycle of a person :))
+
+abstract Person
+  firstName: String [firstName.length != 0]
+  lastName: String  [lastName.length != 0]
+  age : integer [age must be >= 0]
+  xor RelationshipStatus
+    Single
+    InARelatipship
+    Married
+    Divorced
+    Widowed
+  xor LiveStatus
+    Alive
+    Dead
+  xor GroupAge
+    NewBorn [means age <= 1 year]
+    Child [1 year < age <= 7 years]
+    Teen [ 7 years < age < 18 years]
+    Adult [ age >= 18 years]
+    Old [ age >= 65 years]
+
+Question)
+1. What is the main focus: states or actions?
+2. 
+
+    

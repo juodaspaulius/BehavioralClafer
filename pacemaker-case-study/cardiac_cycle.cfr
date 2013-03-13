@@ -35,7 +35,9 @@ abstract Heart
     Contracted?
     [Contracted -> !HasBlood]
 
-Init: !Atria.Contracted && !Ventricles.HasBlood && !Ventricles.Contracted
+/*
+
+Init: SLValve.Closed && AVValve.Closed && !Atria.Contracted && !Ventricles.HasBlood && !Ventricles.Contracted
 
 Stage1: SLValve.Closed && AVValve.Open
 
@@ -48,6 +50,22 @@ Stage4: SLValve.Open && Ventricles.Contracted && !Ventricles.HasBlood
 Stage5: SLValve.Closed && AVValve.Closed && !Ventricles.Contracted
 
 [Stage1-->Stage2-->Stage3-->Stage4-->Stage5]
+*/
+
+abstract HeartStage1: Heart
+  [SLValve.Closed && AVValve.Open && !Atria.Contracted && !Ventricles.HasBlood && !Ventricles.Contracted]
+abstract HeartStage2: Heart
+  [SLValve.Closed && AVValve.Open && Atria.Contracted && Ventricles.HasBlood && !Ventricles.Contracted]
+abstract HeartStage3: Heart
+  [SLValve.Closed && AVValve.Closed && !Atria.Contracted && Ventricles.HasBlood && !Ventricles.Contracted]
+abstract HeartStage4: Heart
+  [SLValve.Open && AVValve.Closed && !Atria.Contracted && !Ventricles.HasBlood && Ventricles.Contracted]
+abstract HeartStage5: Heart
+  [SLValve.Closed && AVValve.Closed && !Atria.Contracted && !Ventricles.HasBlood && !Ventricles.Contracted]
+
+
+
+// Some instance
 
 BobsHeart: Heart
 

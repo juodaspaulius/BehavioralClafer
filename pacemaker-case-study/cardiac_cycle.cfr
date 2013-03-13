@@ -62,3 +62,4 @@ BobsHeartStage4: BobsHeart
 BobsHeartStage5: BobsHeart
   [SLValve.Closed && AVValve.Closed && !Atria.Contracted && !Ventricles.HasBlood && !Ventricles.Contracted]
 
+

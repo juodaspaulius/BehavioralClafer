@@ -20,7 +20,21 @@ abstract Person
     Adult [ age >= 18 years]
     Old [ age >= 65 years]
 
-Question)
+Here are the list of actions a person can do...
+
+Action: Marriage
+    Precond: LiveStatus = Alive && RelationshipStatus = Single || InARelatipship || Divorced || Widowed
+    [other ways of saying this is LiveStatus = Alive && RelationshipStatus != Married ]
+    Postcond: RelationshipStatus = Married
+
+Constraints
+- the person has to be alive in order to make an action, therefore a lot of the actions will have LiveStatus = Alive
+- 
+
+
+
+
+Questions
 1. What is the main focus: states or actions?
 2. 
 

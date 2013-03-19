@@ -2,7 +2,14 @@ abstract Building
   Elevator +
     Position -> int
     Call -> int
-    Open ?
+    xor Status
+      Stopped
+        xor Doors
+          Opened 
+          Closed
+      Moving
+        xor Doors
+          Closed
   Floors -> int
   [ Position >= 0
     Position < Floors
@@ -15,14 +22,18 @@ abstract Building
 /*
  * Elevator temporal constraints. 
  ** Whenever there is a call elevator will eventually arive at the called floor
- * G((Call=0) => (F Position=0))
+ * G((Call=0) => (F Position=0))  // G means "globally"; F means "in the future" 
  * G((Call=1) => (F Position=1))
  * G((Call=2) => (F Position=2))
  * G((Call=3) => (F Position=3))
  * G((Call=4) => (F Position=4))
  *
- ** Whenever 
+ ** At each transition, the elevator will move only one floor (increases or decreases current floor by 1).
+ * G((Call $exists) => (N Position = $old(Position) +/- 1))  
+ * // G means "globally"; N means "next step" 
  *
+ * 
+ **If the elevator is full of people, then eventually it will be empthy. 
  */
 
 ITU: Building

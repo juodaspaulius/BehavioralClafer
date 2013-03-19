@@ -14,7 +14,6 @@ abstract Person
     Divorced
     Widowed
   spouse : Person ?   //optional: only if a person is actually married
-  hasChildren
   kids : Person * //optional: only if a person actually has children
   xor LiveStatus
     Alive
@@ -26,7 +25,8 @@ abstract Person
     Adult
     Old
   [
-    kids.GroupAge.NewBorn // || this.children.GroupAge.Child || this.children.GroupAge.Teen 
+    (age > 24) => some kids
+    kids.age < 18
     age >= 0
     age <= 1 => GroupAge.NewBorn
     (1 < age && age <= 7) => GroupAge.Child

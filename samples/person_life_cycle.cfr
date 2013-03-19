@@ -1,12 +1,12 @@
 // The life cycle of a person :))
 
 abstract Person
-  firstName: String
-  lastName: String
+  firstName -> string
+  lastName -> string
   xor gender
     Male
     Female
-  age : integer [age >= 0]
+  age : integer
   xor RelationshipStatus
     Single
     InARelatipship
@@ -14,17 +14,26 @@ abstract Person
     Divorced
     Widowed
   spouse : Person ?   //optional: only if a person is actually married
-  hasChildren : boolean
-  noOfChildren : integer ? //optional: only if a person actually has children
+  hasChildren
+  kids : Person * //optional: only if a person actually has children
   xor LiveStatus
     Alive
     Dead
   xor GroupAge
-    NewBorn [age <= 1]
-    Child [1 < age && age <= 7]
-    Teen [7 < age && age < 18]
-    Adult [ age >= 18 && age < 65]
-    Old [ age >= 65]
+    NewBorn
+    Child
+    Teen 
+    Adult
+    Old
+  [
+    kids.GroupAge.NewBorn // || this.children.GroupAge.Child || this.children.GroupAge.Teen 
+    age >= 0
+    age <= 1 => GroupAge.NewBorn
+    (1 < age && age <= 7) => GroupAge.Child
+    (7 < age && age < 18) => GroupAge.Teen
+    (age >= 18 && age < 65) => GroupAge.Adult
+    (age >= 65) => GroupAge.Old
+  ]
 
 /*
  **The list of actions for a person
@@ -74,15 +83,16 @@ abstract Person
  */
 
 Bob: Person
-  [firstName: Bob
-  lastName: Stevens
-  gender : Male
+  [firstName= "Bob"
+  lastName= "Stevens"
+  gender.Male
   ]
 
 Alice: Person
-  [firstName: Alice
-  lastName: Papp
-  gender : Female
-  age : 25]
+  [
+  firstName= "Alice"
+  lastName= "Papp"
+  gender.Female
+  age = 25
   ]  
     

@@ -1,0 +1,24 @@
+abstract Building
+  Elevator *
+    Position -> int
+    Call -> int
+  Floors -> int
+  [ Position >= 0
+    Position < Floors
+    Call >= 0
+    Call < Floors
+    Floors < 50 // Tallest building Burj Khalifa has 163
+  ]
+
+/*
+ * Elevator temporal constraints. 
+ ** Whenever there is a call elevator will eventually arive at the called floor
+ * G((Call=0) => (F Position=0))
+ * G((Call=1) => (F Position=1))
+ * G((Call=2) => (F Position=2))
+ * G((Call=3) => (F Position=3))
+ * G((Call=4) => (F Position=4))
+ *
+ ** Whenever 
+ *
+ */

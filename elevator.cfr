@@ -1,22 +1,25 @@
 abstract Building
   Elevator +
     Position -> int
-    Call -> int
+    Call -> int ?
+    noPeople -> int
+    MAX_WEIGHT -> int // constant
+    MAX_PEOPLE -> int // constant
+    xor Doors
+      Opened
+      Closed
     xor Status
       Stopped
-        xor Doors
-          Opened 
-          Closed
-      Moving
-        xor Doors
-          Closed
+      Moving    
+
   Floors -> int
   [ Position >= 0
     Position < Floors
     Call >= 0
     Call < Floors
     Floors < 50 // Tallest building Burj Khalifa has 163
-    (Position=Call) <=> Open
+    noPeople >=0 and noPeople <= MAX_PEOPLE
+    (Position=Call) <=> Doors.Opened
   ]
 
 /*
@@ -28,12 +31,46 @@ abstract Building
  * G((Call=3) => (F Position=3))
  * G((Call=4) => (F Position=4))
  *
- ** At each transition, the elevator will move only one floor (increases or decreases current floor by 1).
- * G((Call $exists) => (N Position = $old(Position) +/- 1))  
+ *
+ ** If the elevator is moving, then its doors are closed (for safety reasons)
+ * G((Status.Moving) => (N Doors.Closed))  
  * // G means "globally"; N means "next step" 
  *
- * 
+ *
+ ** The doors of the elevator are closed until it stops.
+ * G((Doors.Closed) => (U Status.Stopped))  
+ * // G means "globally"; U means "until"
+ * // at position Status.Stopped, condition Doors.Closed does not have to hold anymore
+ *
+ *
+ ** Maybe this is a constraint? When the elevator is static (stopped), doors could be either closed or opened.
+ * G((Status.Stopped) => (N Doors.Opened || Doors.Closed))  // already enforced by structure
+ * // G means "globally"; N means "next step" 
+ *
+ *
+ ** At each transition, the elevator will move only one floor (increases or decreases current floor by 1).
+ * G(($exists Call) => (N Position = $old(Position) +/- 1))  
+ * // G means "globally"; N means "next step" 
+ * OR
+ * G((Status.Moving) => (N Position = $old(Position) +/- 1)
+ * // G means "globally"; N means "next step" 
+ *
+ *
  **If the elevator is full of people, then eventually it will be empthy. 
+ * G((noPeople = MAX_PEOPLE) => (F noPeople = 0))  // G means "globally"; F means "in the future" 
+ * // G means "globally"; F means "in the future" or "eventually along the subsequent path"
+ *
+ *
+ ** If the elevator stopped and there isn't a call to the elevator, then in the next step the elevator 
+ * is on the same floor.
+ * G((Status.Stopped && !$exists Call) => (N Position = $old(Position))
+ * // G means "globally"; N means "next step" 
+ *
+ *
+ * If the elevator stopped and there is a call, in the next step the elevator will start moving.
+ * G((Status.Stopped && $exists Call) => (N Status.Moving))
+ * // G means "globally"; N means "next step" 
+ *  
  */
 
 ITU: Building

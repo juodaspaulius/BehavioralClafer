@@ -1,13 +1,15 @@
 abstract Building
-  Elevator *
+  Elevator +
     Position -> int
     Call -> int
+    Open ?
   Floors -> int
   [ Position >= 0
     Position < Floors
     Call >= 0
     Call < Floors
     Floors < 50 // Tallest building Burj Khalifa has 163
+    (Position=Call) <=> Open
   ]
 
 /*
@@ -22,3 +24,6 @@ abstract Building
  ** Whenever 
  *
  */
+
+ITU: Building
+  [Floors = 6]

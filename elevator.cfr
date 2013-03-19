@@ -3,7 +3,6 @@ abstract Building
     Position -> int
     Call -> int ?
     People -> int
-    MAX_WEIGHT -> int // constant
     MAX_PEOPLE -> int // constant
     xor Doors
       Open
@@ -21,7 +20,7 @@ abstract Building
     People >=0 
     People <= MAX_PEOPLE
     MAX_PEOPLE > 0
-    (Position=Call) <=> Doors.Opened
+    (Position=Call) <=> Doors.Open
   ]
 
 /*
@@ -67,4 +66,6 @@ abstract Building
  */
 
 ITU: Building
-  [Floors = 6]
+  [Floors = 6
+    MAX_PEOPLE = 10
+  ]

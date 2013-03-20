@@ -1,0 +1,9 @@
+digraph {
+1 [label = "PM.ATimer = LRI, PM.S.APace"];
+2 [label = "PM.PostAEvent"];
+3 [label="PM.S.Wait"];
+1->2;
+2->3 [label="reset(PM.ATimer)"];
+3->3;
+3->1;
+}

@@ -1,0 +1,60 @@
+abstract PM //Pacemaker
+  heart -> Heart
+  ATimer -> int //Atria timer 
+  VTimer -> int //Ventricles timer
+  VSensor ?
+    On ?
+  ASensor ?
+    On ?
+  xor S //State or maybe should be called EventMarkers
+    ASense
+    VSense
+    APace
+    VPace
+    InhibitAPace
+    InhibitVPace
+  xor Mode
+    DDDR 
+    VDDR 
+    DDIR 
+    DOOR 
+    VOOR 
+    AOOR 
+    VVIR 
+    DDD 
+    VDD 
+    DDI 
+    VOO 
+    AOO 
+    DOO 
+    VVI 
+    AAI 
+    VVT 
+    AAT 
+    OVO 
+    OAO 
+    ODO 
+    OOO
+  [
+// VVI mode structural constraints
+    this.Mode.VVI => (this.VSensor)
+    
+// AAI mode structural constraints
+    this.Mode.AAI => (this.ASensor)
+  ]
+
+
+abstract Heart
+  xor ECGState //State
+    APulse
+    VPulse
+    Recovery    
+
+abstract Person
+  heart : Heart
+
+abstract PersonWithPM: Person
+  pm : PM
+  [pm.heart = this.heart]
+
+

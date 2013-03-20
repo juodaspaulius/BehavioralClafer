@@ -1,0 +1,9 @@
+digraph {
+  1 [label="{PM.VTimer=LRI,\n PM.S.VPace}"];
+  4 [label="{PM.S.PostVEvent}"]
+  3 [label="{PM.Wait}"];
+  1->4;
+  4->3 [label = "reset(PM.VTimer)"]
+  3->3;
+  3->1;
+}

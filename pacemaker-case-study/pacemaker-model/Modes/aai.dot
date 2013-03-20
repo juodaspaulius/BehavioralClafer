@@ -1,0 +1,14 @@
+digraph{
+  1 [label="{PM.ATimer > PM.Params.ARP}"];
+  2 [label="{PM.ATimer <= LRI, PM.S.ASense}"];
+  3 [label="{PM.ATimer > LRI, PM.S.APace}"];
+  4 [label="{PM.S.PostAEvent}"];
+  5 [label="{PM.S.Wait}"];
+
+  1 -> 2 
+  2 -> 4
+  3 -> 4  
+  4 -> 5 [label="reset(PM.ATimer)"]  
+  5 -> 5
+  5 -> 1
+}

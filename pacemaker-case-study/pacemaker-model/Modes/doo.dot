@@ -1,0 +1,18 @@
+digraph {
+  1 [label="{PM.S.APace}"];
+  7 [label="{PM.S.PostAEvent}"]
+  2 [label="{PM.S.Wait}"];
+  3 [label="{PM.ATimer > PM.Params.FixedAVD}"];
+  4 [label="{PM.S.VPace}"];
+  6 [label="{PM.ATimer>LRI}"];
+  5 [label="{PM.S.Wait}"];
+  1->7;
+  7->2 [label="reset(ATimer)"];
+  2->2
+  2->3
+  3->4
+  4->5
+  5->5
+  5->6
+  6->1
+}

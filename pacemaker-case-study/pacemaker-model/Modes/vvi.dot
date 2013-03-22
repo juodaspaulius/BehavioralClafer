@@ -1,16 +1,21 @@
 digraph{
-  1 [label="{PM.VTimer > PM.Params.LRI,\n PM.S.VPace}"];
-  2 [label="{PM.S.PostAEvent}"];
-  3 [label="{PM.S.Wait}"];
-  4 [label="{V.Timer>PM.Params.VRP}"];
-  5 [label="{PM.S.VSense, \n PM.Timer<PM.Params.LRI}"];
-  6 [label="PM.S.InhibitPace"];
-  1->2;
-  2->3 [label="reset(PM.VTimer)"];
-  3->4;
-  4->5;
-  4->1;
-  5->6;
-  6->2;
-}
+  splines=true;
+  sep="+25,25";
+overlap=scalexy;
+nodesep=0.6;
+	node [style=rounded shape=box];
 
+  1 [label="{PM.S.VPace}"];
+  2 [label="{PM.S.VRecovery}\n PM.VTimer=PM.Params.VRP"];
+  3 [label="{PM.S.VSense}"];
+  4 [label="{PM.S.SensingVPulse}"];
+  hidden [style=invis];
+
+  hidden -> 2;
+  1 -> 2 [label="reset(PM.VTimer)"];
+  3 -> 2 [label="reset(PM.VTimer)"];
+  2 -> 4 
+4 -> 1 [label="!H.VPulse &&\n PM.VTimer >= PM.Params.LRI"];
+4 -> 3 [label = "H.VPulse &&\n PM.VTimer < PM.Params.LRI"]
+
+}

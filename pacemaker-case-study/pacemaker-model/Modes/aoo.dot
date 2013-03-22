@@ -1,9 +1,14 @@
 digraph {
-1 [label = "PM.ATimer = LRI, PM.S.APace"];
-2 [label = "PM.PostAEvent"];
-3 [label="PM.S.Wait"];
-1->2;
-2->3 [label="reset(PM.ATimer)"];
-3->3;
-3->1;
+  splines=true;
+  sep="+25,25";
+overlap=scalexy;
+nodesep=0.6;
+	node [style=rounded shape=box];
+1 [label = "{PM.S.APace}"];
+2 [label = "{PM.ARecovery}\nPM.ATimer = PM.Params.LRI"];
+ hidden [style=invis];
+
+  hidden -> 2;
+2->1 
+  1->2 [label="reset(PM.ATimer)"];
 }

@@ -1,9 +1,14 @@
 digraph {
-  1 [label="{PM.VTimer=LRI,\n PM.S.VPace}"];
-  4 [label="{PM.S.PostVEvent}"]
-  3 [label="{PM.Wait}"];
-  1->4;
-  4->3 [label = "reset(PM.VTimer)"]
-  3->3;
-  3->1;
+  splines=true;
+  sep="+25,25";
+overlap=scalexy;
+nodesep=0.6;
+	node [style=rounded shape=box];
+1 [label = "{PM.S.VPace}"];
+2 [label = "{PM.VRecovery}\nPM.VTimer = PM.Params.LRI"];
+ hidden [style=invis];
+
+  hidden -> 2;
+2->1
+  1->2 [label="reset(PM.VTimer)"];
 }

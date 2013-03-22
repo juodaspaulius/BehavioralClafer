@@ -11,9 +11,27 @@ abstract PM //Pacemaker
     VSense
     APace
     VPace
-    InhibitAPace
-    InhibitVPace
+    ARecovery
+    VRecovery
+    SensingAPulse
+    SensingVPulse
   xor Mode
+    DDI 
+    VOO 
+    AOO 
+    DOO 
+    VVI 
+    AAI 
+
+/* Currently unused modes
+    DDD 
+    VDD 
+    VVT 
+    AAT 
+    OVO 
+    OAO 
+    ODO 
+    OOO
     DDDR 
     VDDR 
     DDIR 
@@ -21,31 +39,38 @@ abstract PM //Pacemaker
     VOOR 
     AOOR 
     VVIR 
-    DDD 
-    VDD 
-    DDI 
-    VOO 
-    AOO 
-    DOO 
-    VVI 
-    AAI 
-    VVT 
-    AAT 
-    OVO 
-    OAO 
-    ODO 
-    OOO
+*/
   [
+    this.S.APace => heart.S.APulse
+    this.S.VPace => heart.S.VPulse
+
 // VVI mode structural constraints
-    this.Mode.VVI => (this.VSensor)
+    this.Mode.VVI => (this.VSensor && !this.ASensor.On)
+    this.Mode.VVI => (this.S.VSense || this.S.VPace || this.S.VRecovery || this.S.SensingVPulse)
     
 // AAI mode structural constraints
-    this.Mode.AAI => (this.ASensor)
+    this.Mode.AAI => (this.ASensor && !this.VSensor.On)
+    this.Mode.AAI => (this.S.ASense || this.S.APace || this.S.ARecovery || this.S.SensingAPulse)
+
+// AOO mode structural constraints
+    this.Mode.AOO => (!this.VSensor.On && !this.ASensor.On)
+    this.Mode.AOO => ( this.S.APace || this.S.ARecovery) 
+
+// VOO mode structural constraints
+    this.Mode.VOO => (!this.VSensor.On && !this.ASensor.On)
+    this.Mode.VOO => (this.S.VPace || this.S.VRecovery) 
+
+// DOO mode structural constraints
+    this.Mode.DOO => (!this.VSensor.On && !this.ASensor.On)
+    this.Mode.DOO => (this.S.APace || this.S.ARecovery || this.S.VPace || this.S.VRecovery)
+    
+// DDI mode structural constraints
+    this.Mode.DDI => (this.ASensor && this.VSensor)
   ]
 
 
 abstract Heart
-  xor ECGState //State
+  xor S //ECGState
     APulse
     VPulse
     Recovery    

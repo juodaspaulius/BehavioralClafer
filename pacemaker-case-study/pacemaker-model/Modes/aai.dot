@@ -1,14 +1,21 @@
 digraph{
-  1 [label="{PM.ATimer > PM.Params.ARP}"];
-  2 [label="{PM.ATimer <= LRI, PM.S.ASense}"];
-  3 [label="{PM.ATimer > LRI, PM.S.APace}"];
-  4 [label="{PM.S.PostAEvent}"];
-  5 [label="{PM.S.Wait}"];
+  splines=true;
+  sep="+25,25";
+overlap=scalexy;
+nodesep=0.6;
+	node [style=rounded shape=box];
 
-  1 -> 2 
-  2 -> 4
-  3 -> 4  
-  4 -> 5 [label="reset(PM.ATimer)"]  
-  5 -> 5
-  5 -> 1
+  1 [label="{PM.S.APace}"];
+  2 [label="{PM.S.ARecovery}\n PM.ATimer=PM.Params.ARP"];
+  3 [label="{PM.S.ASense}"];
+  4 [label="{PM.S.SensingAPulse}"];
+  hidden [style=invis];
+
+  hidden -> 2;
+  1 -> 2 [label="reset(PM.ATimer)"];
+  3 -> 2 [label="reset(PM.ATimer)"];
+  2 -> 4 
+4 -> 1 [label="!H.APulse &&\n PM.ATimer >= PM.Params.LRI"];
+4 -> 3 [label = "H.APulse &&\n PM.ATimer < PM.Params.LRI"]
+
 }

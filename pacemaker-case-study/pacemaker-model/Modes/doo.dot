@@ -15,6 +15,6 @@ nodesep=0.6;
   1 -> 2 [label="reset(PM.ATimer)"];
   3 -> 4 [label="reset(PM.VTimer)"];
   2 -> 3 
-4 -> 1 [label="PM.ATimer < PM.Params.LRI"];
+4 -> 1;
 
 }

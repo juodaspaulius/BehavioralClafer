@@ -15,8 +15,21 @@ abstract PM //Pacemaker
     VRecovery
     SensingAPulse
     SensingVPulse
+    ASensingTimeout
+    VSensingTimeout
+  MF // ModeFeatures
+    ASensing ?
+    VSensing ?
+    APacing ?
+    VPacing ?
+    TrackedPacing ?
+    xor SensingResponse
+      Inhibit
+      Trigger
+      DualTracking
+      None
   xor Mode
-    DDI 
+    DDI
     VOO 
     AOO 
     DOO 
@@ -41,31 +54,76 @@ abstract PM //Pacemaker
     VVIR 
 */
   [
-    this.S.APace => heart.S.APulse
-    this.S.VPace => heart.S.VPulse
-
-// VVI mode structural constraints
-    this.Mode.VVI => (this.VSensor && !this.ASensor.On)
-    this.Mode.VVI => (this.S.VSense || this.S.VPace || this.S.VRecovery || this.S.SensingVPulse)
+    DDI => (MF.ASensing && MF.VSensing && MF.APacing && MF.VPacing && MF.TrackedPacing)
     
-// AAI mode structural constraints
-    this.Mode.AAI => (this.ASensor && !this.VSensor.On)
-    this.Mode.AAI => (this.S.ASense || this.S.APace || this.S.ARecovery || this.S.SensingAPulse)
-
-// AOO mode structural constraints
-    this.Mode.AOO => (!this.VSensor.On && !this.ASensor.On)
-    this.Mode.AOO => ( this.S.APace || this.S.ARecovery) 
-
-// VOO mode structural constraints
-    this.Mode.VOO => (!this.VSensor.On && !this.ASensor.On)
-    this.Mode.VOO => (this.S.VPace || this.S.VRecovery) 
-
-// DOO mode structural constraints
-    this.Mode.DOO => (!this.VSensor.On && !this.ASensor.On)
-    this.Mode.DOO => (this.S.APace || this.S.ARecovery || this.S.VPace || this.S.VRecovery)
+    AAI => (MF.ASensing && !MF.VSensing && MF.APacing && !MF.VPacing && !MF.TrackedPacing)
     
-// DDI mode structural constraints
-    this.Mode.DDI => (this.ASensor && this.VSensor)
+    VVI => (!MF.ASensing && MF.VSensing && !MF.APacing && MF.VPacing && !MF.TrackedPacing)
+
+    AOO => (!MF.ASensing && !MF.VSensing && MF.APacing && !MF.VPacing && !MF.TrackedPacing)
+
+    VOO => (!MF.ASensing && !MF.VSensing && !MF.APacing && MF.VPacing && !MF.TrackedPacing)
+    
+    DOO => (MF.ASensing && MF.VSensing && !MF.APacing && !MF.VPacing && MF.TrackedPacing)
+
+    (DDI || VVI || AAI) => SensingResponse.Inhibit
+    (AOO || DOO || VOO) => SensingResponse.None
+
+    S.APace => heart.S.APulse
+    S.VPace => heart.S.VPulse
+
+
+    !MF.ASensing => (!S.ASense || !S.SensingAPulse)
+    !MF.VSensing => (!S.VSense || !S.SensingVPulse)
+
+    !MF.APacing => (!S.APace)
+    !MF.VPacing => (!S.VPace)
+
+    (!MF.ASensing && !MF.APacing) => !S.ARecovery
+    (!MF.VSensing && !MF.VPacing) => !S.VRecovery
+
+    !MF.ASensing => !ASensor.On
+    !MF.VSensing => !VSensor.On
+
+    /* ==== Behavior =====
+     *      Definitions
+     *
+     * Follow operator (>>>)
+     * A >>> B (A is directly followed by B)
+     *
+     * Response operator (>>)
+     * A >> B (A is eventually followed by B)
+     *
+     * Response operator with cycle scope (@>>)
+     * A >> B (A is eventually followed by B but before next A occur)
+     *
+     * Response operator with before scope (>>)
+     * A >>{D} B (A is eventually followed by B but before next D occurs (if ever))
+     * 
+     *
+     *      Constraints
+     * 
+     * S.SensingAPulse >>> (S.ASense || S.ASensingTimeout)
+     * S.SensingVPulse >>> (S.VSense || S.VSensingTimeout)
+     * 
+     * (MF.ASensing & MF.APacing) => (S.ASensingTimeout >>> S.APace)
+     * (MF.VSensing & MF.VPacing) => (S.VSensingTimeout >>> S.VPace)
+     *
+     * MF.APacing => (S.APace >>> S.ARecovery)
+     * MF.VPacing => (S.VPace >>> S.VRecovery)
+     * 
+     * (MF.ASensing && MF.SensingResponse.Inhibit) => (S.ASense >>> S.ARecovery)
+     * (MF.VSensing && MF.SensingResponse.Inhibit) => (S.VSense >>> S.VRecovery)
+     *
+     * (MF.VPacing && MF.ASensing) => (S.VRecovery >>> S.SensingAPulse)
+     * (MF.APacing && MF.VSensing) => (S.ARecovery >>> S.SensingVPulse)
+     * 
+     *
+     *
+     */
+    
+
+
   ]
 
 

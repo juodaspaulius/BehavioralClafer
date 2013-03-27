@@ -95,7 +95,7 @@ abstract PM //Pacemaker
      * A >> B (A is eventually followed by B)
      *
      * Response operator with cycle scope (@>>)
-     * A >> B (A is eventually followed by B but before next A occur)
+     * A @>> B (A is eventually followed by B but before next A occur)
      *
      * Response operator with before scope (>>)
      * A >>{D} B (A is eventually followed by B but before next D occurs (if ever))

@@ -58,6 +58,7 @@ abstract Person
  *
  ***Constraints
  * 1) The person has to be alive in order to make an action, therefore a lot of the actions will have LiveStatus = Alive
+ * Universally(LiveStatus.Alive)
  * 
  * 2) For a live person, the age should only increase. 
  * So "Globally", the age for a Person P should be: 
@@ -77,6 +78,13 @@ abstract Person
  *             Alice.anniversaryAge = old(Alice.anniversaryAge) + 1
  * 
  * 
+ * ==== Behavior =====
+ *      Definitions
+ *
+ * Global or Universal or Always operator ($GLOBAL)
+ * $GLOBAL(A) (property A has to hold on the entire path from the current state) 
+ *
+ *
  * Questions
  * 1. What is the main focus: states or actions?
  * 2. [Bob1 --> Bob2 ---> Bob3]

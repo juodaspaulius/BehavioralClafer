@@ -62,6 +62,26 @@ abstract Building
  *  
  */
 
+/* Behaviour temporal constraints
+ * Globally or Always
+ * A is true 
+ * 1)Globally: Global or Universal or Always operator ($GLOBAL)
+ *      $GLOBAL(A) (property A has to hold on the entire path from the current state) 
+ * 2)Before R (property A has to hold before R -- this does not include R)
+ *      A $BEFORE R
+ * 3)After Q
+ *      A $AFTER Q
+ * 4)Between Q and R
+ *      A $BETWEEN Q $AND R
+ * 5)After Q until R
+ *      A $AFTER Q $UNTIL R   
+ * 6)After Q
+ * 
+ * we must design a way to create complex temporal constraints => complex behaviour
+ * AND, OR, XOR, SEQUENCE, SET
+ * NOT
+ */
+
 ITU: Building
   [Floors = 6
     MAX_PEOPLE = 10

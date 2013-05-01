@@ -8,7 +8,7 @@ open temporal_logics/ctl[State]
 sig ID {}
 
 sig PM {
-id : ID,
+	id : ID,
 	s : lone  PMStatus
 }{
  	one this[pm]

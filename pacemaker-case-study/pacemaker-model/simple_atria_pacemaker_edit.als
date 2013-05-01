@@ -23,7 +23,7 @@ sig State
 { pm : one PM }
 
 fact TransitionRelation {
- all s, s' : State | s' in nextState[s]
+-- all s, s' : State | s' in nextState[s]
 --	all s: State | one s.pm
 }
 
@@ -33,9 +33,11 @@ fact {
 
 assert MC{
 	CTL_MC[not_ctl[ AG[implies_ctl[pm.s.SensingAPulse, or_ctl[AX[pm.s.ASense],  AX[pm.s.ASensingTimeout]]  ] ] ]  ]
---	CTL_MC[not_ctl[ AG[implies_ctl[pm.s.ASensingTimeout, AX[pm.s.APace] ] ] ]  ]
+-- CTL_MC[not_ctl[ AG[implies_ctl[pm.s.ASensingTimeout, AX[pm.s.APace] ] ] ]  ]
 -- CTL_MC[not_ctl[ AG[implies_ctl[pm.s.APace, AX[pm.s.ARecovery] ] ] ]  ]
---	CTL_MC[not_ctl[ AG[implies_ctl[pm.s.ASense, AX[pm.s.ARecovery] ] ] ]  ]
+-- CTL_MC[not_ctl[ AG[implies_ctl[pm.s.ASense, AX[pm.s.ARecovery] ] ] ]  ]
 }
+
+
 
 check MC for 10 State, 10 PM, 4 ID, 10 PMStatus

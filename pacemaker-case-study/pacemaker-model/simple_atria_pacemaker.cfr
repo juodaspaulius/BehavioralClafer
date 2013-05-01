@@ -1,0 +1,7 @@
+abstract PM
+  xor S
+    ASensingTimeout
+    APace
+
+State
+  `PM

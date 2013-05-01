@@ -1,69 +1,52 @@
-/*
-All clafers: 6 | Abstract: 1 | Concrete: 5 | References: 0
-Constraints: 0
-Goals: 0
-Global scope: 1..*
-All names unique: False
-*/
 open util/integer
 open temporal_logics/ctl[State]
 
 // pred show {}
-// run  show for 1 but 1 c1_PM, 1 c2_S, 1 c3_ASensingTimeout, 1 c4_APace, 1 c5_State, 1 c6_PM
+// run show for 1 but 1 c1_PM, 1 c2_S, 1 c3_ASensingTimeout, 1 c4_APace, 1 c5_State, 1 c6_PM
 
 
 sig ID {}
 
-abstract sig c1_PM
-{
-	id : ID,
-	S : c2_S 
+sig PM {
+id : ID,
+	s : lone  PMStatus
+}{
+ 	one this[pm]
 }
 
-sig c2_S
-{ ASensingTimeout : lone c3_ASensingTimeout
-, APace : lone c4_APace
-, ASense : lone c37_ASense
-, ARecovery : lone c41_ARecovery
-, SensingAPulse : lone c43_SensingAPulse
- }
-{ one @S.this
-  let children = (ASense + APace + ARecovery + SensingAPulse + ASensingTimeout ) | one children }
 
-sig c3_ASensingTimeout
-{}
-{ one @ASensingTimeout.this }
+abstract sig PMStatus  {}
 
-sig c4_APace
-{}
-{ one @APace.this }
-
-sig c37_ASense
-{}
-{ one @ASense.this }
-
-sig c41_ARecovery
-{}
-{ one @ARecovery.this }
-
-sig c43_SensingAPulse
-{}
-{ one @SensingAPulse.this }
-
-sig c6_PM extends c1_PM
-{}
+one sig ASensingTimeout , APace, ASense, ARecovery, SensingAPulse extends PMStatus {} 
 
 sig State
-{ pm : one c6_PM }
+{ pm : one PM }
+
+fact TransitionRelation {
+ all s, s' : State | s' in nextState[s]
+--	all s: State | one s.pm
+}
 
 // Want to express implication:
 // AG(PM.S.ASensingTimeout => AX S.APace)
-
+/*
 pred senseAndPace [s, s': State] {
-	s.pm.id = s'.pm.id &&
-	one s.pm.S.ASensingTimeout && 
-	one s'.pm.S.APace 
-    -- CTL_MC[AG[implies_ctl[s ,  AX[s']  ] ] ]	
+s.pm.id = s'.pm.id &&
+one s.pm.S.ASensingTimeout &&
+one s'.pm.S.APace
+    -- CTL_MC[AG[implies_ctl[s , AX[s'] ] ] ]
+}
+*/
+
+fact {
+	no disj s, s': State | some s.pm & s'.pm
 }
 
-run senseAndPace -- for 50
+assert MC{
+	CTL_MC[not_ctl[ AG[implies_ctl[pm.s.SensingAPulse, or_ctl[AX[pm.s.ASense],  AX[pm.s.ASensingTimeout]]  ] ] ]  ]
+--	CTL_MC[not_ctl[ AG[implies_ctl[pm.s.ASensingTimeout, AX[pm.s.APace] ] ] ]  ]
+-- CTL_MC[not_ctl[ AG[implies_ctl[pm.s.APace, AX[pm.s.ARecovery] ] ] ]  ]
+--	CTL_MC[not_ctl[ AG[implies_ctl[pm.s.ASense, AX[pm.s.ARecovery] ] ] ]  ]
+}
+
+check MC for 10 State, 10 PM, 1 ID, 10 PMStatus

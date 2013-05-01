@@ -27,17 +27,6 @@ fact TransitionRelation {
 --	all s: State | one s.pm
 }
 
-// Want to express implication:
-// AG(PM.S.ASensingTimeout => AX S.APace)
-/*
-pred senseAndPace [s, s': State] {
-s.pm.id = s'.pm.id &&
-one s.pm.S.ASensingTimeout &&
-one s'.pm.S.APace
-    -- CTL_MC[AG[implies_ctl[s , AX[s'] ] ] ]
-}
-*/
-
 fact {
 	no disj s, s': State | some s.pm & s'.pm
 }
@@ -49,4 +38,4 @@ assert MC{
 --	CTL_MC[not_ctl[ AG[implies_ctl[pm.s.ASense, AX[pm.s.ARecovery] ] ] ]  ]
 }
 
-check MC for 10 State, 10 PM, 1 ID, 10 PMStatus
+check MC for 10 State, 10 PM, 4 ID, 10 PMStatus

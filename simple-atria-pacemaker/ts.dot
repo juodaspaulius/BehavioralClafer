@@ -1,0 +1,9 @@
+digraph APacemaker {
+  node [shape="circle"  fixedsize=true width="1.5cm" ];
+  SensingAPulse -> ASensingTimeout;
+  SensingAPulse -> ASense;
+  ASensingTimeout -> APace;
+  ASense -> ARecovery;
+  APace -> ARecovery;
+  ARecovery -> SensingAPulse;
+}

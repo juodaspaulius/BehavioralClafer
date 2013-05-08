@@ -1,0 +1,33 @@
+digraph{
+State0 [label="VOO,VPace"];
+State1 [label="DOO,VPace"];
+State2 [label="DOO,VPace"];
+State3 [label="VOO,VRecovery"];
+State4 [label="AOO,ARecovery"];
+State5 [label="AOO,APace"];
+State6 [label="VOO,VRecovery"];
+State7 [label="VOO,VRecovery"];
+State8 [label="AOO,ARecovery"];
+
+start0 [style="invisible"];
+start1 [style="invisible"];
+start2 [style="invisible"];
+start3 [style="invisible"];
+start4 [style="invisible"];
+
+start0->State4;
+ start1->State5;
+ start2->State6;
+start3-> State7;
+start4-> State8;
+State0->State3;
+ State1->State1;
+ State2->State2;
+ State3->State3;
+ State4->State7;
+ State4->State8;
+ State5->State4;
+ State6->State3;
+ State7->State7;
+ State8->State5;
+}

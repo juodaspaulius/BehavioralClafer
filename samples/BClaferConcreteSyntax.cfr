@@ -87,7 +87,18 @@
  * P precedes S,T = "1 cause-2 effect precedence chain"
  * S,T precedes P = "2 cause-1 effect precedence chain"
  *
- ******* 8)
+ ******* 8) Response Chain pattern - http://patterns.projects.cis.ksu.edu/documentation/patterns/response-chain.shtml
+ * S,T responds to P = "1 stimulus-2 response chain"
+ * P responds to S,T = "2 stimulus-1 response chain"
+ *
+ ******* 9) Constrained Chain pattern - http://patterns.projects.cis.ksu.edu/documentation/patterns/constrained.shtml
+ * S,T without Z responds to P = "1-2 response chain constrained by a single proposition"
+ *
+ *
+ ******* For patterns 7, 8, 9 we must design a way to create complex structures like sequences.
+ * complex temporal constraints => complex behaviour
+ * 
+ *
  * Questions
  * 1. 
  * 2. 

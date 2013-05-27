@@ -95,9 +95,11 @@
  * S,T without Z responds to P = "1-2 response chain constrained by a single proposition"
  *
  *
- ******* For patterns 7, 8, 9 we must design a way to create complex structures like sequences.
+ ******* For patterns 7, 8, 9 we must design a way to create complex structures like SET and SEQUENCE.
  * complex temporal constraints => complex behaviour
- * 
+ *
+ * Set = in a set, each element may occur only once
+ * Sequence = each element may be present more than once and all elements are ordered
  *
  * Questions
  * 1. 

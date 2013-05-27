@@ -83,7 +83,10 @@
  *
  *
  *
- ******* 7)
+ ******* 7) Precedence Chain pattern - http://patterns.projects.cis.ksu.edu/documentation/patterns/precedence-chain.shtml
+ * P precedes S,T = "1 cause-2 effect precedence chain"
+ * S,T precedes P = "2 cause-1 effect precedence chain"
+ *
  ******* 8)
  * Questions
  * 1. 

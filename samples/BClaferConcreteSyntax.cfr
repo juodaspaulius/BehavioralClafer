@@ -1,0 +1,16 @@
+/* Links:
+ * Scopes of patters - http://patterns.projects.cis.ksu.edu/documentation/patterns/scopes.shtml
+ * Spec Patterns website: http://patterns.projects.cis.ksu.edu/
+ *
+ * ==== Behavior =====
+ * Definitions
+ *
+ * Global or Universal or Always operator ($GLOBAL)
+ * $GLOBAL(A) (property A has to hold on the entire path from the current state)
+ *
+ *
+ * Questions
+ * 1. 
+ * 2. 
+ * 3.
+ */

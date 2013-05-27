@@ -2,12 +2,47 @@
  * Scopes of patters - http://patterns.projects.cis.ksu.edu/documentation/patterns/scopes.shtml
  * Spec Patterns website: http://patterns.projects.cis.ksu.edu/
  *
- * ==== Behavior =====
- * Definitions
+ * ==== Behavior definitions =====
+ ****** 1) Absence pattern: http://patterns.projects.cis.ksu.edu/documentation/patterns/absence.shtml
+ *
+ * P is false: Globally, Before R, After Q, Between Q and R, After Q until R 
+ * 
+ * Globally: $global(P == false)
+ * If not specified, the scope is global or the max scope corresponding to the indentation style. 
+ * So $global can be removed.
+ * 
+ * Before R: 
+ * After Q:
+ * Between Q and R:
+ * After Q until R:
  *
  * Global or Universal or Always operator ($GLOBAL)
  * $GLOBAL(A) (property A has to hold on the entire path from the current state)
  *
+ *
+ ****** 5) Precedence pattern: http://patterns.projects.cis.ksu.edu/documentation/patterns/precedence.shtml
+ * S precedes P
+ * 
+ * Globally: S $precedes P
+ * since we don't specify at all the scope, here the scope is global or the max scope corresponding to 
+ * the indentation style. 
+ * 
+ * Before R: S $precedes P $before R
+ * $PrecedesBefore(S,P,R) = "S precedes P before R happens (if R actually happens)"
+ *
+ * After Q: S $precedes P $after Q
+ * $PrecedesAfter(S,P,Q) = "S precedes P after Q happens (if Q actually occurs)"
+ *
+ * Between Q and R:
+ * S $precedes P $between [Q,R)
+ * S $precedes P $between Q and R
+ * S $precedes P $between [Q,R]
+ * $PrecedesBetween(S,P,Q,R) = "S precedes P between Q and R (with or without R? this needs to be decided"
+ * 
+ * After Q until R:
+ * S $precedes P $after_until [Q,R)
+ * S $precedes P $after Q $until R
+ * S $precedes P $after_until [Q,R] -- this also includes R
  *
  * Questions
  * 1. 

@@ -98,21 +98,28 @@
  ******* For patterns 7, 8, 9 we must design a way to create complex structures like SET and SEQUENCE.
  * complex temporal constraints => complex behaviour
  *
- * Set = each element may occur only once
- * Sequence = each element may be present more than once and all elements are ordered
+ *** Set = each element may occur only once
+ *** Sequence = each element may be present more than once and all elements are ordered
  *
  * $set[S,T]
  * P $precedes $set[S,T] = "P precedes S,T"
  * $set[S,T] $precedes P = "S,T precedes P"
  * $set[S,T] $respondsTo P = "S,T responds to P"
+ * P $respondsTo $set[S,T]= "P responds to S,T"
+ *
  *
  * $sequence[S,T]
  * $sequence[S,T,Z] $precedes P = "S precedes T,T precedes Z, Z precedes P"
- * $sequence[S,T,Z] $respondsTo P = "if P happens, then S happens, then T and finally Z as a response to P"
+ * $sequence[S,T,Z] $respondsTo P = "if P happens, then S happens, then T and finally Z occurs as a response to P"
  *
  *******
- * Questions
- * 1. 
- * 2. 
+ ******* Questions
+ * 1. Do we need to specify how many times something happens? 
+ * e.g. S happens 2 times, then P (only once) and afterwards Z
+ * 
+ * 2. With a timed ordered sequence, other examples of concrete syntax could also be changed:
+ * e.g. Between Q and R and After Q until R
+ * $time_sequence[Q,R]
+ *
  * 3.
  */

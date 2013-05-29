@@ -12,18 +12,20 @@
 \author{Paulius and Bogdan}
 \date{May 29, 2013}
 \bibliography{refs}
+\newcommand\Fontvi{\fontsize{14}{14}\selectfont}
 
 \begin{document}
   \begin{frame}
     \frametitle{Meeting agenda}
+    \Fontvi
     \begin{enumerate}
       \item New developments in translation to Alloy
-      \item Design choices for semantics
+      \item Design choices in the semantics of behavioral Clafer
         \begin{itemize}
-          \item Meaning of current structural constraints
-          \item Default fields: mutable vs immutable
+          \item Meaning of current structural(cross-tree) constraints
+          \item Default behavior of subclafers: mutable vs immutable
         \end{itemize}
-      \item{Design choices for concrete syntax}
+      \item{Design choices in the concrete syntax}
     \end{enumerate}
   \end{frame}
 
@@ -31,16 +33,18 @@
     \frametitle{Translation to Alloy}
     We reconsidered translation to Alloy. Issues using Amir's library:
     \begin{itemize}
-      \item{Need for global state.}
-      \item{Issues with identity.}
-      \item{Not compatible with current compiler Alloy output.}
+      \item{Need for global state}
+      \item{Issues with identity when cardinality is more than 1}
+      \item{Not compatible with current compiler Alloy output}
+      \item{Logical expression require use of library functions, instead of using Alloy operators}
+      \item{Suffers from state explosion}
     \end{itemize}
 
   \end{frame}
 
   \begin{frame}
     \frametitle{New solution}
-    New solution is based on Bounded Model Checking with Alloy paper \footfullcite{DBLP:journals/corr/abs-1207-2746}. Instead of global state we introduce local state concept:
+    New solution is still similar and based on Bounded Model Checking with Alloy paper \footfullcite{DBLP:journals/corr/abs-1207-2746}. Instead of global state we introduce local state concept:
     \begin{enumerate}
       \item{Define discrete Time ordered using \lstinline{util/ordering} module.}
       \item{Since Time set is finite we add a loop relation from last Time instance to any other one.}
@@ -52,26 +56,36 @@
 
 
   \begin{frame}[fragile]
-    \frametitle{Meaning of current structural constraints}
-    \begin{columns}[c]
-      \column{2in}
-      Restrict the first state.
+    \frametitle{Meaning of current cross-tree constraints}
+    Current cross-tree constraints may have two different semantics in behavioral Clafer.
 
+    \mbox{}
+
+    \begin{columns}[t]
+      \column{2in}
+      Restricts the first state
+      \begin{itemize}
+        \item Similar to LTL/CTL
+        \item Often meant to restrict all states, so models will need to be altered with global modalities
+      \end{itemize}
     \column{2in}
-    Restrict globally.
+    Restrict globally
     \begin{itemize}
-      \item{ad}
+      \item{Easy to restrict all states in the trace}
+      \item{Different semantics from LTL/CTL, so temporal constraints need new concrete syntax}
+      \item{Otherwise hard to reason about initial states}
       \end{itemize}
     \end{columns}    
 \end{frame}
 
   \begin{frame}[fragile]
     \frametitle{Subclafer mutability}
-    It can be difficult to implicitly imply which subclafers are mutable. Therefore we need some kind of assumption about default mutability and concrete syntax to express opposite. Should top level clafers be immutable?
-
-    \mbox{}
-
-    \begin{columns}[c]
+    It can be difficult to implicitly imply which subclafers are mutable. Therefore we need some kind of assumption about default mutability and concrete syntax to express opposite.
+    \begin{itemize}
+      \item Should top level clafers be immutable? 
+      \item Should we imply that subclafers are immutable or mutable by default?
+    \end{itemize}
+    \begin{columns}[t]
       \column{1.8in}
       All fields are immutable by default
 \begin{verbatim}

@@ -106,6 +106,76 @@ Person
 \end{columns}    
 \end{frame}
 
+
+	\begin{frame}
+    \frametitle{Design choices for concrete syntax}
+    	We need to embed LTL into Behavioral Clafer.Why? With LTL embeded into Behavioral Clafer we will be able to formally and concisely specify useful properties , e.g.
+    \begin{itemize}
+      \item{safety properties (something "bad" will not occur)}
+      \item{liveness properties (something "good" will happen)}
+      \item{fairness properties}
+    \end{itemize}
+	\end{frame}
+
+    \begin{frame}
+      \frametitle{LTL in Clafer}
+      Embedding LTL into Clafer means:
+\begin{itemize}
+  \item design a way to specify LTL formulas e.g. \$LTL\_Formula, [LTL\_Formula] etc.
+  \item unary and binary operators
+\end{itemize}
+
+LTL unary operators:
+\begin{itemize}
+  \item X - Next 
+  \item G - Globally 
+  \item F - Finally 
+\end{itemize}
+
+LTL binary operators:
+\begin{itemize}
+  \item U - Until 
+  \item R - Release
+  \item W - Week Until
+\end{itemize}
+\end{frame}
+
+    \begin{frame}
+      \frametitle{LTL in Clafer}
+A U B = "A has to hold at least until B, which holds at the current or a future position"
+
+A R B = "B has to be true until and including the point where A first becomes true. If A never becomes true, B must remain true forever." 
+
+Keywords for embedding LTL into Clafer:
+\[X \quad | \quad U  \quad | \quad  G \quad | \quad R \quad  |\quad F \quad | \quad W\]
+   \end{frame}
+
+   \begin{frame}[fragile]
+     \frametitle{Example}
+\begin{verbatim}
+abstract Person
+  name -> string
+  xor gender
+    male
+    female
+  age : integer
+  xor mood
+    sad
+    happy
+  xor status
+    alive
+    dead
+  [$LTL_Formula mood.sad -> F(mood.happy)
+  $LTL_Formula status.alive -> F(status.dead)
+  ]
+
+Bob: Person
+  [name= "George Stevens"
+  gender.male]
+\end{verbatim}
+\end{frame}
+
+
 \end{document}
 
 

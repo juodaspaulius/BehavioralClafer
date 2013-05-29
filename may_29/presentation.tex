@@ -52,7 +52,7 @@
 
 
   \begin{frame}[fragile]
-    \frametitle{Meaning of currect structural constraints}
+    \frametitle{Meaning of current structural constraints}
     \begin{columns}[c]
       \column{2in}
       Restrict the first state.
@@ -65,25 +65,32 @@
     \end{columns}    
 \end{frame}
 
-  %\begin{frame}[fragile]
-    %\frametitle{Mutability}
-    %\begin{columns}[c]
-      %\column{1.5in}
-    %\begin{verbatim}
-      %PM
-        %heart -> Heart
-      %Person
-        %name: String
-    %\end{verbatim}
-    %\column{1.5in}
-    %\begin{verbatim}
-      %CaseHandler
-        %current -> Case
-      %Person
-        %age: int
-    %\end{verbatim}
-    %\end{columns}    
-  %\end{frame}
+  \begin{frame}[fragile]
+    \frametitle{Subclafer mutability}
+    It can be difficult to implicitly imply which subclafers are mutable. Therefore we need some kind of assumption about default mutability and concrete syntax to express opposite. Should top level clafers be immutable?
+
+    \mbox{}
+
+    \begin{columns}[c]
+      \column{1.8in}
+      All fields are immutable by default
+\begin{verbatim}
+PM
+  heart -> Heart
+CaseHandler
+[mutable] current -> Case
+\end{verbatim}
+\column{1.8in}
+All fields are mutable by default
+\begin{verbatim}
+Person
+  name: String
+  [immutable name]
+Person
+  age: int
+\end{verbatim}
+\end{columns}    
+\end{frame}
 
 \end{document}
 

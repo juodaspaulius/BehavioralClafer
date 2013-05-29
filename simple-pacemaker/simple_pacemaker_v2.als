@@ -89,7 +89,12 @@ pred SafeAVPacing{
 
 pred SafeModeSwitching{
 	// Mode can only be changed during VRecovery or ARecovery
-  all s' : State | s' in pm.s.ARecovery or s' in pm.s.VRecovery or (s' in and_ctl[pm.mode.AOO,AX[pm.mode.AOO]] or s' in and_ctl[pm.mode.DOO,AX[pm.mode.DOO]] or s' in and_ctl[pm.mode.VOO,AX[pm.mode.VOO]] )
+//   all s' : State | s' in pm.s.ARecovery or s' in pm.s.VRecovery or 
+//		(s' in and_ctl[pm.mode.AOO,AX[pm.mode.AOO]] or s' in and_ctl[pm.mode.DOO,AX[pm.mode.DOO]] or s' in and_ctl[pm.mode.VOO,AX[pm.mode.VOO]] )
+
+	all s': State, m : PMMode  |  s' in pm.s.ARecovery or s' in pm.s.VRecovery or (s' in and_ctl[pm.mode.m,AX[pm.mode.m]] )
+
+//  let p = pm.mode |  all s' : State | s' in pm.s.ARecovery or s' in pm.s.VRecovery or  s' in AX[pm.mode & p]
 }
 
 pred Generate {}

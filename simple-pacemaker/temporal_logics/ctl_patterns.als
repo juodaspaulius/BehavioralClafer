@@ -33,7 +33,6 @@ fun Res_G[P1,S1:S]:S {AG[implies_ctl[P1, AF[S1]]] }
 // A[((P -> A[!R U (S & !R)]) | AG(!R)) W R]
 fun Res_B[P1,S1,R1:S]:S {AW[or_ctl[implies_ctl[P1,AU[not_ctl[R1],and_ctl[S1,not_ctl[R1]]]],AG[not_ctl[R1]]],R1]}
 
-
 // Precedence (P is preceded by S)
 // * Globally
 // A[!P W S]

@@ -1,0 +1,8 @@
+A {
+  B ? {}
+  C ? {}
+  // Structural constraint
+  [ some B ]
+  // Behavioral constraint. Fails right now. Uncomment to test it
+  // [[ B U C ]]
+}

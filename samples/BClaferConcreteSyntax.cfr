@@ -5,45 +5,45 @@
  * ==== Behavior definitions =====
  ****** 1) Absence pattern: http://patterns.projects.cis.ksu.edu/documentation/patterns/absence.shtml
  *
- * P is false: Globally, Before R, After Q, Between Q and R, After Q until R 
- * 
- * Globally: $global(P == false)
- * If not specified, the scope is global or the max scope corresponding to the indentation style. 
- * So $global can be removed.
- * 
- * Before R: 
+ * P is false: Globally, Before R, After Q, Between Q and R, After Q until R
+ *
+ * Globally: global(P == false)
+ * If not specified, the scope is global or the max scope corresponding to the indentation style.
+ * So global can be removed.
+ *
+ * Before R:
  * After Q:
  * Between Q and R:
  * After Q until R:
  *
  * Global or Universal or Always operator ($GLOBAL)
- * $GLOBAL(A) (property A has to hold on the entire path from the current state)
+ * GLOBAL(A) (property A has to hold on the entire path from the current state)
  *
  *
  ****** 5) Precedence pattern: http://patterns.projects.cis.ksu.edu/documentation/patterns/precedence.shtml
  * S precedes P = "some cause precedes each effect"
- * 
- * Globally: S $precedes P
- * since we don't specify the scope at all, here the scope is global or the max scope corresponding to 
- * the indentation style. 
- * 
- * Before R: S $precedes P $before R
- * $PrecedesBefore(S,P,R) = "S precedes P before R happens (if R actually happens)"
  *
- * After Q: S $precedes P $after Q
- * $PrecedesAfter(S,P,Q) = "S precedes P after Q happens (if Q actually occurs)"
+ * Globally: S precedes P
+ * since we don't specify the scope at all, here the scope is global or the max scope corresponding to
+ * the indentation style.
+ *
+ * Before R: S precedes P before R
+ * PrecedesBefore(S,P,R) = "S precedes P before R happens (if R actually happens)"
+ *
+ * After Q: S precedes P after Q
+ * PrecedesAfter(S,P,Q) = "S precedes P after Q happens (if Q actually occurs)"
  *
  * Between Q and R:
- * S $precedes P $between [Q,R)
- * S $precedes P $between Q and R
- * S $precedes P $between [Q,R]
- * $PrecedesBetween(S,P,Q,R) = "S precedes P between Q and R (with or without R? this needs to be decided"
- * 
+ * S precedes P between [Q,R)
+ * S precedes P between Q and R
+ * S precedes P between [Q,R]
+ * PrecedesBetween(S,P,Q,R) = "S precedes P between Q and R (with or without R? this needs to be decided"
+ *
  * After Q until R:
- * S $precedes P $after_until [Q,R)
- * S $precedes P $after Q $until R
- * S $precedes P $after_until [Q,R] -- this also includes R
- * $PrecedesAfterUntil(S,P,Q,R) = "S precedes P after Q until R (with or without R? this needs to be decided!)"
+ * S precedes P after_until [Q,R)
+ * S precedes P after Q until R
+ * S precedes P after_until [Q,R] -- this also includes R
+ * PrecedesAfterUntil(S,P,Q,R) = "S precedes P after Q until R (with or without R? this needs to be decided!)"
  *
  ******* 6) Response pattern: http://patterns.projects.cis.ksu.edu/documentation/patterns/ctl.shtml#Response
  * S responds to P = "some effect follows each cause"
@@ -52,27 +52,27 @@
  **Response pattern allows effects to occur without causes.
  **Precedence pattern allows causes to occur without subsequent effects.
  *
- * Globally: S $respondsTo P
- * since we don't specify the scope at all, here the scope is global or the max scope corresponding to 
- * the indentation style. 
- * 
- * Before R: S $respondsTo P $before R
- * $RespondsToBefore(S,P,R) = "S responds to P before R happens (if R actually happens)"
+ * Globally: S respondsTo P
+ * since we don't specify the scope at all, here the scope is global or the max scope corresponding to
+ * the indentation style.
  *
- * After Q: S $respondsTo P $after Q
- * $RespondsToAfter(S,P,Q) = "S responds to P after Q happens (if Q actually occurs)"
+ * Before R: S respondsTo P before R
+ * RespondsToBefore(S,P,R) = "S responds to P before R happens (if R actually happens)"
+ *
+ * After Q: S respondsTo P after Q
+ * RespondsToAfter(S,P,Q) = "S responds to P after Q happens (if Q actually occurs)"
  *
  * Between Q and R:
- * S $respondsTo P $between [Q,R)
- * S $respondsTo P $between Q and R
- * S $respondsTo P $between [Q,R]
- * $RespondsToBetween(S,P,Q,R) = "S responds to P between Q and R (with or without R? this needs to be decided"
- * 
+ * S respondsTo P between [Q,R)
+ * S respondsTo P between Q and R
+ * S respondsTo P between [Q,R]
+ * RespondsToBetween(S,P,Q,R) = "S responds to P between Q and R (with or without R? this needs to be decided"
+ *
  * After Q until R:
- * S $respondsTo P $after_until [Q,R)
- * S $respondsTo P $after Q $until R
- * S $respondsTo P $after_until [Q,R] -- this also includes R
- * $RespondsToAfterUntil(S,P,Q,R) = "S responds to P after Q until R (with or without R? this needs to be decided!)"
+ * S respondsTo P after_until [Q,R)
+ * S respondsTo P after Q until R
+ * S respondsTo P after_until [Q,R] -- this also includes R
+ * RespondsToAfterUntil(S,P,Q,R) = "S responds to P after Q until R (with or without R? this needs to be decided!)"
  *
  *
  *
@@ -101,25 +101,25 @@
  *** Set = each element may occur only once
  *** Sequence = each element may be present more than once and all elements are ordered
  *
- * $set[S,T]
- * P $precedes $set[S,T] = "P precedes S,T"
- * $set[S,T] $precedes P = "S,T precedes P"
- * $set[S,T] $respondsTo P = "S,T responds to P"
- * P $respondsTo $set[S,T]= "P responds to S,T"
+ * set[S,T]
+ * P precedes set[S,T] = "P precedes S,T"
+ * set[S,T] precedes P = "S,T precedes P"
+ * set[S,T] respondsTo P = "S,T responds to P"
+ * P respondsTo set[S,T]= "P responds to S,T"
  *
  *
- * $sequence[S,T]
- * $sequence[S,T,Z] $precedes P = "S precedes T,T precedes Z, Z precedes P"
- * $sequence[S,T,Z] $respondsTo P = "if P happens, then S happens, then T and finally Z occurs as a response to P"
+ * sequence[S,T]
+ * sequence[S,T,Z] precedes P = "S precedes T,T precedes Z, Z precedes P"
+ * sequence[S,T,Z] respondsTo P = "if P happens, then S happens, then T and finally Z occurs as a response to P"
  *
  *******
  ******* Questions
- * 1. Do we need to specify how many times something happens? 
+ * 1. Do we need to specify how many times something happens?
  * e.g. S happens 2 times, then P (only once) and afterwards Z
- * 
+ *
  * 2. With a timed ordered sequence, other examples of concrete syntax could also be changed:
  * e.g. Between Q and R and After Q until R
- * $time_sequence[Q,R]
+ * time_sequence[Q,R]
  *
  * 3.
  */

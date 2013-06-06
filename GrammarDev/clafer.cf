@@ -23,8 +23,9 @@ Goal.   	Goal ::= "<<" [Exp] ">>" ;
 
 -- Behavioral Clafer begin modif
 -- Decision regarding Behavioral Clafer : All Clafers are mutable by default
-
 --{-
+
+-- TO DO: some examples which show every behaviour operator in BClafer
 
 --	LTL unary operators:
 --	X - Next
@@ -60,11 +61,26 @@ LTLWeakUntil.	TempBinaryOp	::=	"W";
 --TempBinaryOp3.	TempBinaryOp	::=	LTLWeakUntil;
 
 
-
 BConstraint.	BConstraint ::= "[[" TempExp "]]";
------------TempExp.	TempExp ::= TempExp TempBinaryOp TempExp | TempUnaryOp TempExp | Exp;
+-----------TempExp.	TempExp ::= TempExp TempBinaryOp TempExp | TempUnaryOp TempExp | Exp | Constraint;
 BinaryTempExp.	TempExp		::=	TempExp TempBinaryOp TempExp;
-UnaryTempExp.	TempExp ::= TempUnaryOp "(" TempExp ")";
+UnaryTempExp.	TempExp		::= 	TempUnaryOp "(" TempExp ")";
+
+
+
+--BinaryTempExp. TempExp  ::= "[" TempExp "]" TempBinaryOp "[" TempExp "]";
+--UnaryTempExp. TempExp ::= TempUnaryOp "[" TempExp "]";
+
+
+-- [[ X [ X [ married ] ] ]]
+-- [[ X [ [neverMarried] U [ married ] ] ]]
+
+--[8:21:30 PM] T3 NECSIS (Michał Antkiewicz): [[    neverMarried  U  married  ]]
+--[8:24:14 PM] T3 NECSIS (Michał Antkiewicz): BinaryTempExp. TempExp  ::= "[" TempExp "]" TempBinaryOp "[" TempExp "]";
+--UnaryTempExp. TempExp ::= TempUnaryOp "[" TempExp "]";
+--[8:24:52 PM] T3 NECSIS (Michał Antkiewicz): [[ X [ [neverMarried] U [ married ] ] ]]
+
+
 
 
 {-TempExp3.	TempExp3	::=	TempUnaryOp "(" TempExp3 ")" | Exp;
@@ -87,6 +103,16 @@ TempExp.	TempExp		::=	TempExp1 TempBinaryOp TempExp2 | TempUnaryOp "(" TempExp3 
 --tempExpr := TempOp constr
 
 ---}
+
+
+{-
+[10:28:52 PM] Paulius: I added to github
+[10:28:54 PM] Paulius: a new folder
+[10:28:59 PM] Paulius: for grammar development
+[10:29:08 PM] Paulius: there is a makefile you can use to build parser
+[10:29:30 PM] Paulius: then you can invoke Testclafer < sometestmodel.cfr
+[10:29:36 PM] Paulius: it will tell if it parses
+-}
 -- Behavioral Clafer end modif
 
 

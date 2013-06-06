@@ -29,34 +29,44 @@ Goal.   	Goal ::= "<<" [Exp] ">>" ;
 
 --	LTL unary operators:
 --	X - Next
---	G - Globally
---	F - Finally
+--	G - Globally (Always)
+--	F - Finally (Eventually / In the future)
 LTLNext.	TempUnaryOp	::=	"X";
 LTLGlobally.	TempUnaryOp	::=	"G";
 LTLFinally.	TempUnaryOp	::=	"F";
 
-
-
 --	LTL binary operators:
 --	U - Until
 --	R - Release
---	W - WeakUntil
+--	W - Weak Until
 LTLUntil.	TempBinaryOp	::=	"U";
 LTLRelease.	TempBinaryOp	::=	"R";
 LTLWeakUntil.	TempBinaryOp	::=	"W";
 
----TempBinaryOp.	TempBinaryOp	::=	LTLUntil | LTLRelease | LTLWeakUntil;
---TempBinaryOp1.	TempBinaryOp	::=	LTLUntil;
---TempBinaryOp2.	TempBinaryOp	::=	LTLRelease;
---TempBinaryOp3.	TempBinaryOp	::=	LTLWeakUntil;
+BConstraint.	BConstraint	::=	"[[" TempExp "]]";
+--separator	TempExp		",";
+-- All elements of TempExp should be separated by "," ? Is ";" better? Should we use any separator at all?
+
+BinaryTempExp.	TempExp	::=	TempExp TempBinaryOp TempExp;
+UnaryTempExp.	TempExp1	::=	TempUnaryOp "(" TempExp ")";
+
+LTLUnaryExp.	TempExp1	::=	TempUnaryOp "(" ClaferId ")";
+LTLBinaryExp.	TempExp		::=	ClaferId	TempBinaryOp	ClaferId;
 
 
-BConstraint.	BConstraint ::= "[[" TempExp "]]";
------------TempExp.	TempExp ::= TempExp TempBinaryOp TempExp | TempUnaryOp TempExp | Exp | Constraint;
-BinaryTempExp.	TempExp		::=	TempExp TempBinaryOp TempExp;
-UnaryTempExp.	TempExp		::=	TempUnaryOp "(" TempExp ")";
+{-
+LTLNextExp.	TempExp2	::=	LTLNext "(" Exp ")";
+LTLGloballyExp.	TempExp2	::=	LTLGlobally "(" Exp ")";
+LTLFinallyExp.	TempExp2	::=	LTLFinally "(" Exp ")";
+-}
 
-
+{-
+The rule
+LTLNextExp.	TempExp2	::=	LTLNext "(" Exp ")"
+can be read:
+LTLNextExp forms a temporal expression of level 2 using LTLNext string ("X"), followed by (, an expression of
+type Exp and then )
+-}
 
 --BinaryTempExp. TempExp  ::= "[" TempExp "]" TempBinaryOp "[" TempExp "]";
 --UnaryTempExp. TempExp ::= TempUnaryOp "[" TempExp "]";
@@ -76,6 +86,8 @@ TempExp2.	TempExp2	::=	TempExp3 | Exp;
 TempExp1.	TempExp1	::=	TempExp2 | TempExp3 | Exp;
 TempExp.	TempExp		::=	TempExp1 TempBinaryOp TempExp2 | TempUnaryOp "(" TempExp3 ")";
 -}
+
+-----------TempExp.	TempExp ::= TempExp TempBinaryOp TempExp | TempUnaryOp TempExp | Exp | Constraint;
 
 
 --LTLBinaryExpUntil.	Exp	::=	Exp	LTLUntil	Exp1	;

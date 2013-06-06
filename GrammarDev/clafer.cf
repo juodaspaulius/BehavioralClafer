@@ -31,11 +31,6 @@ Goal.   	Goal ::= "<<" [Exp] ">>" ;
 --	X - Next
 --	G - Globally
 --	F - Finally
---LTLNext.	LTLNext		::=	"X";
---LTLGlobally.	LTLGlobally	::=	"G";
---LTLFinally.	LTLFinally	::=	"F";
---TempUnaryOp.	TempUnaryOp	::=	LTLNext | LTLGlobally | LTLFinally;
-
 LTLNext.	TempUnaryOp	::=	"X";
 LTLGlobally.	TempUnaryOp	::=	"G";
 LTLFinally.	TempUnaryOp	::=	"F";
@@ -46,11 +41,6 @@ LTLFinally.	TempUnaryOp	::=	"F";
 --	U - Until
 --	R - Release
 --	W - WeakUntil
-{-LTLUntil.	LTLUntil	::=	"U";
-LTLRelease. 	LTLRelease	::=	"R";
-LTLWeakUntil.	LTLWeakUntil	::=	"W";
--}
-
 LTLUntil.	TempBinaryOp	::=	"U";
 LTLRelease.	TempBinaryOp	::=	"R";
 LTLWeakUntil.	TempBinaryOp	::=	"W";
@@ -64,7 +54,7 @@ LTLWeakUntil.	TempBinaryOp	::=	"W";
 BConstraint.	BConstraint ::= "[[" TempExp "]]";
 -----------TempExp.	TempExp ::= TempExp TempBinaryOp TempExp | TempUnaryOp TempExp | Exp | Constraint;
 BinaryTempExp.	TempExp		::=	TempExp TempBinaryOp TempExp;
-UnaryTempExp.	TempExp		::= 	TempUnaryOp "(" TempExp ")";
+UnaryTempExp.	TempExp		::=	TempUnaryOp "(" TempExp ")";
 
 
 
@@ -75,10 +65,8 @@ UnaryTempExp.	TempExp		::= 	TempUnaryOp "(" TempExp ")";
 -- [[ X [ X [ married ] ] ]]
 -- [[ X [ [neverMarried] U [ married ] ] ]]
 
---[8:21:30 PM] T3 NECSIS (Michał Antkiewicz): [[    neverMarried  U  married  ]]
---[8:24:14 PM] T3 NECSIS (Michał Antkiewicz): BinaryTempExp. TempExp  ::= "[" TempExp "]" TempBinaryOp "[" TempExp "]";
---UnaryTempExp. TempExp ::= TempUnaryOp "[" TempExp "]";
---[8:24:52 PM] T3 NECSIS (Michał Antkiewicz): [[ X [ [neverMarried] U [ married ] ] ]]
+-- [[    neverMarried  U  married  ]]
+-- [[ X [ [neverMarried] U [ married ] ] ]]
 
 
 

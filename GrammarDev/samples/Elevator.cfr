@@ -23,45 +23,68 @@ abstract Building
     (Position=Call) <=> Doors.Open
     Status.Moving => Doors.Closed
   ]
+  [ G((Call=0) => (F Position=0))  // G means "globally"; F means "in the future" 
+    G((Call=1) => (F Position=1))
+    G((Call=2) => (F Position=2))
+    G((Call=3) => (F Position=3))
+    G((Call=4) => (F Position=4))
+  ]
+  //OR
+  [ G((Call = value) => (F Position = value)) ] // value is an int from 0 to Floors
+ 
+  // The doors of the elevator are closed until it stops.
+  [ G(Doors.Closed U Status.Stopped)    ]
+  // at position Status.Stopped, condition Doors.Closed does not have to hold anymore
+ 
+  // At each transition, the elevator will move only one floor (increases or decreases current floor by 1).
+  [ G(Call => X (Position = $old(Position) + 1)) or G(Call => X (Position = $old(Position) - 1))    ]
+  // OR
+  [  G(Status.Moving <=> (X Position = $old(Position) +1)) or G(Status.Moving <=> (X Position = $old(Position) - 1))       ]
+ 
+  //If the elevator has at least one member, then eventually it will be empthy. 
+  [             G((People > 0) => (F People = 0))]
 
-/*
- * Elevator temporal constraints. 
- * G means "globally"; F means "in the future" or "eventually along the subsequent path";  X means "next step"
- *
- ** Whenever there is a call elevator will eventually arive at the called floor
- * G((Call=0) => (F Position=0))  // G means "globally"; F means "in the future" 
- * G((Call=1) => (F Position=1))
- * G((Call=2) => (F Position=2))
- * G((Call=3) => (F Position=3))
- * G((Call=4) => (F Position=4))
- *
- *
- ** The doors of the elevator are closed until it stops.
- * G(Doors.Closed U Status.Stopped)  
- * // at position Status.Stopped, condition Doors.Closed does not have to hold anymore
- *
- *
- ** At each transition, the elevator will move only one floor (increases or decreases current floor by 1).
- * G(Call => (X Position = $old(Position) +/- 1))  
- * OR
- * G(Status.Moving <=> (X Position = $old(Position) +/- 1))
- *
- *
- **If the elevator has at least one member, then eventually it will be empthy. 
- * G((People > 0) => (F People = 0))  
- *
- *
- ** If the elevator stopped and there isn't a call to the elevator, then in the next step the elevator 
- * is on the same floor.
- * G((Status.Stopped && !Call) => (X Position = $old(Position))
- *
- *
- * If the elevator stopped and there is a call (to a different floor that the current one), 
- * in the next step the elevator will start moving.
- * G((Status.Stopped && (Call != Position)) => (X Status.Moving))
- *  
- */
+  //If the elevator stopped and there isn't a call to the elevator, then in the next step the elevator 
+  //is on the same floor.
+  [ G(      Status.Stopped && !Call => (X Position = $old(Position))                                ]
+ 
+  //If the elevator stopped and there is a call (to a different floor that the current one), 
+  //in the next step the elevator will start moving.
+  [    G((Status.Stopped && (Call != Position)) => X(Status.Moving)) ]
 
+ITU: Building
+  [Floors = 6
+    MAX_PEOPLE = 10
+  ]
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 /* Behaviour temporal constraints - TO Be changed
  * Globally or Always or Henceforth 
  * A is true 
@@ -114,8 +137,3 @@ abstract Building
  * 4)Between Q and R
  * 5)After Q until R
  */
-
-ITU: Building
-  [Floors = 6
-    MAX_PEOPLE = 10
-  ]

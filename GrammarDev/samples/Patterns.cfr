@@ -1,0 +1,126 @@
+Clafer1
+    xor type
+        Type1
+        Type2
+        Type3
+        Type4
+        
+Clafer2
+    clafer1 -> Clafer1
+    xor type
+        Type1
+        Type2
+        Type3
+    extra ?
+    phase
+	Phase1
+	Phase2
+	Phase3
+    F : int
+    D ?
+    E : int
+	
+    // Absence pattern (something is false)
+    
+    [ type.Type1 => Absence(clafer1.type.Type1)]
+    // OR
+    [ type.Type1 => False(clafer1.type.Type1)]
+    
+    [ if type.Type1 then False(clafer1.type.Type1) before X(F = 10)]
+    
+    [ if type.Type2 then False(clafer1.type.Type3) after (F = 100)]
+    
+    
+    //Precedence pattern S precedes P = "some cause precedes each effect"
+    // scope Globally - optional
+    [ F = 7 precedes phase.Phase2 ]
+    [ F = 7 precedes phase.Phase2 globally ] 
+    
+    //Question
+    // do we specify globally?
+    
+    [ (E > 15 && E < 25) precedes phase.Phase3 before clafer1.type.Type1 ]
+    
+    [ E <= 15 precedes phase.Phase3 after clafer1.type.Type3 ]
+    
+    [ (E >= 25 && E <=50) precedes phase.Phase2 between clafer1.type.Type1 and F < 50]
+    
+    [ E >= 25 precedes phase.Phase2 after clafer1.type.Type2 until F >= 500]
+    
+    
+    
+    
+    // Response pattern S responds to P = "some effect follows each cause"
+    
+    // scope Globally - optional
+    [ F <=5 respondsTo phase.Phase2 ]
+    [ F <=5 respondsTo phase.Phase2 globally ] 
+    
+    //Question
+    // do we specify globally?
+    
+    [ (E > 15 && E < 25) respondsTo phase.Phase3 before clafer1.type.Type1 ]
+    
+    [ E <= 15 respondsTo phase.Phase3 after clafer1.type.Type3 ]
+    
+    [ (E >= 25 && E <=50) respondsTo phase.Phase2 between clafer1.type.Type1 and F >= 50]
+    
+    [ E >= 25 respondsTo phase.Phase2 after clafer1.type.Type2 until F >= 500]
+    
+    
+ /****** 5) Precedence pattern: http://patterns.projects.cis.ksu.edu/documentation/patterns/precedence.shtml
+ * S precedes P = "some cause precedes each effect"
+ *
+ * Globally: S precedes P
+ * since we don't specify the scope at all, here the scope is global or the max scope corresponding to
+ * the indentation style.
+ *
+ * Before R: S precedes P before R
+ * PrecedesBefore(S,P,R) = "S precedes P before R happens (if R actually happens)"
+ *
+ * After Q: S precedes P after Q
+ * PrecedesAfter(S,P,Q) = "S precedes P after Q happens (if Q actually occurs)"
+ *
+ * Between Q and R:
+ * S precedes P between [Q,R)
+ * S precedes P between Q and R
+ * S precedes P between [Q,R]
+ * PrecedesBetween(S,P,Q,R) = "S precedes P between Q and R (with or without R? this needs to be decided"
+ *
+ * After Q until R:
+ * S precedes P after_until [Q,R)
+ * S precedes P after Q until R
+ * S precedes P after_until [Q,R] -- this also includes R
+ * PrecedesAfterUntil(S,P,Q,R) = "S precedes P after Q until R (with or without R? this needs to be decided!)"
+ *
+ */
+ 
+ /******* 6) Response pattern: http://patterns.projects.cis.ksu.edu/documentation/patterns/ctl.shtml#Response
+ * S responds to P = "some effect follows each cause"
+ *
+ **Precedence & Response patterns aren't equivalent.
+ **Response pattern allows effects to occur without causes.
+ **Precedence pattern allows causes to occur without subsequent effects.
+ *
+ * Globally: S respondsTo P
+ * since we don't specify the scope at all, here the scope is global or the max scope corresponding to
+ * the indentation style.
+ *
+ * Before R: S respondsTo P before R
+ * RespondsToBefore(S,P,R) = "S responds to P before R happens (if R actually happens)"
+ *
+ * After Q: S respondsTo P after Q
+ * RespondsToAfter(S,P,Q) = "S responds to P after Q happens (if Q actually occurs)"
+ *
+ * Between Q and R:
+ * S respondsTo P between [Q,R)
+ * S respondsTo P between Q and R
+ * S respondsTo P between [Q,R]
+ * RespondsToBetween(S,P,Q,R) = "S responds to P between Q and R (with or without R? this needs to be decided"
+ *
+ * After Q until R:
+ * S respondsTo P after_until [Q,R)
+ * S respondsTo P after Q until R
+ * S respondsTo P after_until [Q,R] -- this also includes R
+ * RespondsToAfterUntil(S,P,Q,R) = "S responds to P after Q until R (with or without R? this needs to be decided!)"
+ */

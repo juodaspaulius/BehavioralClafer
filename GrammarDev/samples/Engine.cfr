@@ -8,6 +8,7 @@ abstract Engine {
   currentPhaseId -> int
   completeCycles -> int //a complete cycle means we have 1,2,3,...,noPhases already executed
   percentOfCycleCompletion -> int
+  
   // Structural constraint
   [ some extraBattery
     noPhases >= 1 
@@ -15,32 +16,38 @@ abstract Engine {
     percentOfCycleCompletion = (100 / noPhases) * currentPhaseId
   ]
  
-  //if percentCharged < 5 % then raise an alarm, e.g. BatteryStatus.low
-  [[if percentCharged < 5 then X(battery.status = BatteryStatus.low)]]
+  // lines below -> behaviour 
+  
+  //if percentCharged < 5 % then the battery status is low
+  [ if percentCharged < 5 then X(battery.status = BatteryStatus.low) ]
   
   //if currentPhase is 1 then next phase is 2
-  [[ G(currentPhase = 1 => X(currentPhase = 1)) ]]
+  [ G(currentPhase = 1 => X(currentPhase = 2)) ]
   
   //if currentPhase is 2 then next phase is 3
-  [[ G(currentPhase = 2 => X(currentPhase = 3)) ]]
+  [ G(currentPhase = 2 => X(currentPhase = 3)) ]
   //OR
-  [[ if (currentPhase = 2) then X(currentPhase = 3)) ]]
+  [ if (currentPhase = 2) then X(currentPhase = 3)]
   
   //let's assume there are N phases (noPhases)
   //if currentPhase is N then next phase is 1
-  [[ G(currentPhase = noPhases => X(currentPhase = 1)) ]]
+  [ G(currentPhase = noPhases => X(currentPhase = 1)) ]
   
   //when we have 5 complete cycles the battery decreases by 25% percent
-  [[(battery.status = BatteryStatus.fullyCharged && percentCharged = 100) U (completeCycles=5)]]
+  [(battery.status = BatteryStatus.fullyCharged && percentCharged = 100) U (completeCycles = 5)]
   //OR
-  [[ (percentCharged = 100) U (completeCycles = 5)]]
+  [ percentCharged = 100 U completeCycles = 5 ]
   
   //if the battery is fully charged, then percentCharged = 100 %
-  [[if (battery.status = BatteryStatus.fullyCharged) then percentCharged = 100]]
+  [if (battery.status = BatteryStatus.fullyCharged) then percentCharged = 100 ]
   
+  //Question ???
+  //
   //if we arrive to phase 1 from last phase (noPhases), then completeCycles increseas by 1
   //basically completeCycles increseas by 1 when we get to phase 1 from last phase (with id = noPhases)
-  [[ currentPhaseId = 1 && old(currentPhaseId) = noPhases => completeCycles = $old(completeCycles) + 1]]
+  
+  [ currentPhaseId = 1 && old(currentPhaseId) = noPhases => completeCycles = $old(completeCycles) + 1 ]
+  
   // or maybe write this line with LTL in the past operator
   // Previous P, where P is another PTL formula
   // it evaluates to true if and only if P was true in the previous cycle
@@ -48,24 +55,13 @@ abstract Engine {
   // although there is no previous cycle. So we can have something like
   // Previous N => P(N)
   // Next N => X(N)
-  [[ currentPhaseId = 1 && P(currentPhaseId = noPhases) => completeCycles = $old(completeCycles) + 1]]
+  [ currentPhaseId = 1 && P(currentPhaseId = noPhases) => completeCycles = $old(completeCycles) + 1]
   
   //this shows that maybe we need other operators, like PREVIOUS operator (for Past Time LTL formulas)
   // and $old to specify values in the previous position within the trace
-  
-  
-  
+   
 }
 
-enum Phase
-  Generate
-  Load
-  Work
-  Transmit
+enum Phase = Generate | Load | Work | Transmit
 
-enum BatteryStatus
-  isCharging
-  fullyCharged
-  low
-  medium
-  empty
+enum BatteryStatus = isCharging | fullyCharged |   low |  medium |  empty

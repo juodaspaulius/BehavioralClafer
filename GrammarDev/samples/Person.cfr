@@ -1,0 +1,113 @@
+// The life cycle of a person :))
+
+abstract Person
+  firstName -> string
+  lastName -> string
+  xor gender
+    Male
+    Female
+  age : integer
+  xor RelationshipStatus
+    Single
+    InARelatipship
+    Married
+    Divorced
+    Widowed
+  spouse : Person ? //optional: only if a person is actually married
+  kids : Person * //optional: only if a person actually has children
+  xor LiveStatus
+    Alive
+    Dead
+  xor GroupAge
+    NewBorn
+    Child
+    Teen
+    Adult
+    Old
+  [
+    (age > 24) => some kids
+    kids.age < 18
+    age >= 0
+    age <= 1 => GroupAge.NewBorn
+    (1 < age && age <= 7) => GroupAge.Child
+    (7 < age && age < 18) => GroupAge.Teen
+    (age >= 18 && age < 65) => GroupAge.Adult
+    (age >= 65) => GroupAge.Old
+  ]
+  
+  
+Bob: Person
+  [firstName= "Bob"
+  lastName= "Stevens"
+  gender.Male
+  ]
+
+Alice: Person
+  [
+  firstName= "Alice"
+  lastName= "Papp"
+  gender.Female
+  age = 25
+  ] 
+  
+  
+  
+  
+  
+
+/*
+ **The list of actions for a person
+ *Action: GetMarried
+ * Precond: LiveStatus = Alive && RelationshipStatus = Single || InARelatipship || Divorced || Widowed
+ * [other way for Precond: LiveStatus = Alive && RelationshipStatus != Married ]
+ * Postcond: RelationshipStatus = Married
+ *
+ * Action: GetDivorced
+ * Precond: LiveStatus = Alive && RelationshipStatus = Married
+ * Postcond: RelationshipStatus = Divorced
+ *
+ *Action: Die
+ * Precond: LiveStatus = Alive
+ * Postcond: LiveStatus = Dead
+ *
+ *Action: GrowOlder
+ * Precond: LiveStatus = Alive
+ * Postcond: age >= old(age)
+ * [other way for Postcond: age = old(age) + 1]
+ *
+ *
+ ***Constraints
+ * 1) The person has to be alive in order to make an action, therefore a lot of the actions will have LiveStatus = Alive
+ * Universally(LiveStatus.Alive)
+ *
+ * 2) For a live person, the age should only increase.
+ * So "Globally", the age for a Person P should be:
+ * age = old(age) + delta ( 0 < delta < 200 ==== no one lives now much more than 200 years)
+ *
+ * 3) When a person is dead, the age should not increase at all.
+ * So "Globally", if P has LiveStatus = Dead, then age = old(age).
+ *
+ * 4) If a person is married, there "exists" a spouse (who has an age >=18).
+ *
+ * 5) If a person is married, then "eventually" they will celebrate anniversary.
+ * Action: CelebrateAnniversary
+ * Precond: Bob.LiveStatus = Alive && Alice.LiveStatus = Alive &&
+ * Bob.RelationshipStatus = Married && Alice.RelationshipStatus = Married
+ * Bob.wife = Alice && Alice.husband = Bob
+ * Postcond: Bob.anniversaryAge = old(Bob.anniversaryAge) + 1 &&
+ * Alice.anniversaryAge = old(Alice.anniversaryAge) + 1
+ *
+ *
+ * ==== Behavior =====
+ * Definitions
+ *
+ * Global or Universal or Always operator ($GLOBAL)
+ * $GLOBAL(A) (property A has to hold on the entire path from the current state)
+ *
+ *
+ * Questions
+ * 1. What is the main focus: states or actions?
+ * 2. [Bob1 --> Bob2 ---> Bob3]
+ */
+
+

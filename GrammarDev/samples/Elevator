@@ -1,0 +1,121 @@
+abstract Building
+  Elevator +
+    Position -> int
+    Call -> int ?
+    People -> int
+    MAX_PEOPLE -> int // constant
+    xor Doors
+      Open
+      Closed
+    xor Status
+      Stopped
+      Moving    
+
+  Floors -> int
+  [ Position >= 0
+    Position < Floors
+    Call >= 0
+    Call < Floors
+    Floors < 50 // Tallest building Burj Khalifa has 163
+    People >=0 
+    People <= MAX_PEOPLE
+    MAX_PEOPLE > 0
+    (Position=Call) <=> Doors.Open
+    Status.Moving => Doors.Closed
+  ]
+
+/*
+ * Elevator temporal constraints. 
+ * G means "globally"; F means "in the future" or "eventually along the subsequent path";  X means "next step"
+ *
+ ** Whenever there is a call elevator will eventually arive at the called floor
+ * G((Call=0) => (F Position=0))  // G means "globally"; F means "in the future" 
+ * G((Call=1) => (F Position=1))
+ * G((Call=2) => (F Position=2))
+ * G((Call=3) => (F Position=3))
+ * G((Call=4) => (F Position=4))
+ *
+ *
+ ** The doors of the elevator are closed until it stops.
+ * G(Doors.Closed U Status.Stopped)  
+ * // at position Status.Stopped, condition Doors.Closed does not have to hold anymore
+ *
+ *
+ ** At each transition, the elevator will move only one floor (increases or decreases current floor by 1).
+ * G(Call => (X Position = $old(Position) +/- 1))  
+ * OR
+ * G(Status.Moving <=> (X Position = $old(Position) +/- 1))
+ *
+ *
+ **If the elevator has at least one member, then eventually it will be empthy. 
+ * G((People > 0) => (F People = 0))  
+ *
+ *
+ ** If the elevator stopped and there isn't a call to the elevator, then in the next step the elevator 
+ * is on the same floor.
+ * G((Status.Stopped && !Call) => (X Position = $old(Position))
+ *
+ *
+ * If the elevator stopped and there is a call (to a different floor that the current one), 
+ * in the next step the elevator will start moving.
+ * G((Status.Stopped && (Call != Position)) => (X Status.Moving))
+ *  
+ */
+
+/* Behaviour temporal constraints - TO Be changed
+ * Globally or Always or Henceforth 
+ * A is true 
+ * 1)Globally: Global or Universal or Always operator ($GLOBAL)
+ *      $GLOBAL(A) (property A has to hold on the entire path from the current state) 
+ * 2)Before R (property A has to hold before R -- this does not include R)
+ *      A $BEFORE R
+ * 3)After Q
+ *      A $AFTER Q
+ * 4)Between Q and R
+ *      A $BETWEEX Q $AND R
+ * 5)After Q until R
+ *      A $AFTER Q $UNTIL R   
+ * 6)Eventually
+ *      A $EVENTUALLY R 
+ * 
+ * we must design a way to create complex temporal constraints => complex behaviour
+ * AND, OR, XOR, SEQUENCE, SET
+ * NOT
+ * 
+ **** Examples for 'Globally or Always or Henceforth'
+ * 1)Whenever there is a call elevator will eventually arive at the called floor
+ * ////G((Call=0) => (F Position=0)) 
+ * Call=no $EVENTUALLY Position=no //where 0 <= no <= number of floor
+ *
+ * 2)When a person is dead, the age should not increase at all.
+ * So "Globally", if P has LiveStatus = Dead, then age = old(age).
+ * $GLOBAL(LiveStatus.Dead => age=old(age)
+ * age=old(age) $AFTER LiveStatus.Dead
+ *
+ * 3)The doors of the elevator are closed until it stops.
+ * G(Doors.Closed U Status.Stopped)  
+ * // at position Status.Stopped, condition Doors.Closed does not have to hold anymore
+ * Doors.Closed $BEFORE Status.Stopped  //OR
+ * Status.Moving && Doors.Closed $BEFORE Status.Stopped
+ * 
+ * 4)At each transition, the elevator will move only one floor (increases or decreases current floor by 1).
+ * G(Call => (X Position = $old(Position) +/- 1))  
+ * OR G(Status.Moving <=> (X Position = $old(Position) +/- 1))
+ * Status.Moving >> Position = $old(Position) +/- 1 
+ * 
+ * 
+ * The response operator
+ * A responds to B
+ * 1)Globally  
+ *      A >> B (A is eventually or immediately followed by B; several A can happen)
+ * 2)Before R
+ *      A >>{R} B (A is eventually followed by B but before next R occurs (if ever))
+ * 3)After Q
+ * 4)Between Q and R
+ * 5)After Q until R
+ */
+
+ITU: Building
+  [Floors = 6
+    MAX_PEOPLE = 10
+  ]

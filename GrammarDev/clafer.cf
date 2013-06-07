@@ -47,12 +47,20 @@ BConstraint.	BConstraint	::=	"[[" TempExp "]]";
 --separator	TempExp		",";
 -- All elements of TempExp should be separated by "," ? Is ";" better? Should we use any separator at all?
 
-BinaryTempExp.	TempExp	::=	TempExp TempBinaryOp TempExp;
+BinaryTempExp.	TempExp		::=	TempExp TempBinaryOp TempExp;
 UnaryTempExp.	TempExp1	::=	TempUnaryOp "(" TempExp ")";
 
+
+LTLUnaryExp.	LTLExp		::=	UnaryOp "(" LTLExp1 ")";
+LTLBinaryExp.	LTLExp1		::=	LTLExp TempBinaryOp LTLExp;
+LTLAPExp.	LTLExp1		::=	Exp1;
+
 {-
-LTLUnaryExp.	TempExp1	::=	TempUnaryOp "(" ClaferId ")";
-LTLBinaryExp.	TempExp		::=	ClaferId	TempBinaryOp	ClaferId;
+TempExp.	TempExp		::=	TempUnaryOp "(" Exp ")";
+TempExp.	Temp
+
+LTLUnaryExp.	TempExp1	::=	TempUnaryOp "(" Exp ")";
+LTLBinaryExp.	TempExp		::=	Exp TempBinaryOp Exp;
 -}
 
 {-
@@ -107,12 +115,10 @@ TempExp.	TempExp		::=	TempExp1 TempBinaryOp TempExp2 | TempUnaryOp "(" TempExp3 
 
 
 {-
-[10:28:52 PM] Paulius: I added to github
-[10:28:54 PM] Paulius: a new folder
-[10:28:59 PM] Paulius: for grammar development
-[10:29:08 PM] Paulius: there is a makefile you can use to build parser
-[10:29:30 PM] Paulius: then you can invoke Testclafer < sometestmodel.cfr
-[10:29:36 PM] Paulius: it will tell if it parses
+I added to github a new folder for grammar development
+there is a makefile you can use to build parser.
+Then you can invoke Testclafer < sometestmodel.cfr
+It will tell if it parses
 -}
 -- Behavioral Clafer end modif
 

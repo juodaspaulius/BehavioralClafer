@@ -21,32 +21,101 @@ Constraint.     Constraint ::= "[" [Exp] "]" ;
 SoftConstraint. SoftConstraint ::= "(" [Exp] ")";
 Goal.   	Goal ::= "<<" [Exp] ">>" ;
 
--- Behavioral Clafer BEGIN ------------------
+-- Behavioral Clafer begin modif
+-- Decision regarding Behavioral Clafer : All Clafers are mutable by default
+--{-
 
-LTLConstraint.	Element	::=	"[[" LTLExp "]]";
--- BConstraint.	BConstraint	::=	PatternExp ;
+-- TO DO: some examples which show every behaviour operator in BClafer
 
--- LTL BEGIN
--- precedence order: <AP>, !, X, G, F, W, U, R, &&, ||, => 
+--	LTL unary operators:
+--	X - Next
+--	G - Globally (Always)
+--	F - Finally (Eventually / In the future)
+LTLNext.	TempUnaryOp	::=	"X";
+LTLGlobally.	TempUnaryOp	::=	"G";
+LTLFinally.	TempUnaryOp	::=	"F";
 
-LTLImplies.     LTLExp   ::=   LTLExp "=>" LTLExp1;
-LTLOr.          LTLExp1  ::=   LTLExp1 "||" LTLExp2;
-LTLAnd.         LTLExp2  ::=   LTLExp2 "&&" LTLExp3;
-LTLRelease.	    LTLExp3	 ::=   LTLExp3 "R" LTLExp4;
-LTLUntil.	    LTLExp4	 ::=   LTLExp4 "U" LTLExp5;
-LTLWeakUntil.	LTLExp5	 ::=   LTLExp5 "W" LTLExp6;
-LTLFinally.	    LTLExp6	 ::=   "F" LTLExp7;
-LTLGlobally.	LTLExp7	 ::=   "G" LTLExp8;
-LTLNext.	    LTLExp8	 ::=   "X" LTLExp9;
-LTLNot.         LTLExp9  ::=   "!" LTLExp10;
+--	LTL binary operators:
+--	U - Until
+--	R - Release
+--	W - Weak Until
+LTLUntil.	TempBinaryOp	::=	"U";
+LTLRelease.	TempBinaryOp	::=	"R";
+LTLWeakUntil.	TempBinaryOp	::=	"W";
 
-_.              LTLExp10  ::= "(" LTLExp ")";
-LTLAPExp.       LTLExp10  ::= "<" Name ">";
+BConstraint.	BConstraint	::=	"[[" TempExp "]]";
+--separator	TempExp		",";
+-- All elements of TempExp should be separated by "," ? Is ";" better? Should we use any separator at all?
+
+BinaryTempExp.	TempExp	::=	TempExp TempBinaryOp TempExp;
+UnaryTempExp.	TempExp1	::=	TempUnaryOp "(" TempExp ")";
+
+{-
+LTLUnaryExp.	TempExp1	::=	TempUnaryOp "(" ClaferId ")";
+LTLBinaryExp.	TempExp		::=	ClaferId	TempBinaryOp	ClaferId;
+-}
+
+{-
+LTLNextExp.	TempExp2	::=	LTLNext "(" Exp ")";
+LTLGloballyExp.	TempExp2	::=	LTLGlobally "(" Exp ")";
+LTLFinallyExp.	TempExp2	::=	LTLFinally "(" Exp ")";
+-}
+
+{-
+The rule
+LTLNextExp.	TempExp2	::=	LTLNext "(" Exp ")"
+can be read:
+LTLNextExp forms a temporal expression of level 2 using LTLNext string ("X"), followed by (, an expression of
+type Exp and then )
+-}
+
+--BinaryTempExp. TempExp  ::= "[" TempExp "]" TempBinaryOp "[" TempExp "]";
+--UnaryTempExp. TempExp ::= TempUnaryOp "[" TempExp "]";
 
 
--- LTL END
+-- [[ X [ X [ married ] ] ]]
+-- [[ X [ [neverMarried] U [ married ] ] ]]
 
--- Behavioral Clafer END ----------------------
+-- [[    neverMarried  U  married  ]]
+-- [[ X [ [neverMarried] U [ married ] ] ]]
+
+
+
+
+{-TempExp3.	TempExp3	::=	TempUnaryOp "(" TempExp3 ")" | Exp;
+TempExp2.	TempExp2	::=	TempExp3 | Exp;
+TempExp1.	TempExp1	::=	TempExp2 | TempExp3 | Exp;
+TempExp.	TempExp		::=	TempExp1 TempBinaryOp TempExp2 | TempUnaryOp "(" TempExp3 ")";
+-}
+
+-----------TempExp.	TempExp ::= TempExp TempBinaryOp TempExp | TempUnaryOp TempExp | Exp | Constraint;
+
+
+--LTLBinaryExpUntil.	Exp	::=	Exp	LTLUntil	Exp1	;
+--LTLBinaryExpRelease.	Exp	::=	Exp	LTLRelease	Exp1	;
+--LTLBinaryExpWeakUntil. 	Exp	::=	Exp	LTLWeakUntil	Exp1	;
+
+--maybe coercions?
+
+-- [[ E [ some mood.sad ] -> F [ mood.happy ] ]]
+
+--const := '[' Expr ']'
+--tempconstr := '[[' TempExpr ']]'
+--tempExpr := TempOp constr
+
+---}
+
+
+{-
+[10:28:52 PM] Paulius: I added to github
+[10:28:54 PM] Paulius: a new folder
+[10:28:59 PM] Paulius: for grammar development
+[10:29:08 PM] Paulius: there is a makefile you can use to build parser
+[10:29:30 PM] Paulius: then you can invoke Testclafer < sometestmodel.cfr
+[10:29:36 PM] Paulius: it will tell if it parses
+-}
+-- Behavioral Clafer end modif
+
 
 AbstractEmpty.  Abstract ::= ;
 Abstract.       Abstract ::= "abstract" ;
@@ -161,7 +230,6 @@ separator  nonempty ModId       "\\" ;
 
 coercions Exp 13 ;
 coercions SetExp 6 ;
-coercions LTLExp 10;
 
 position token PosInteger (digit+) ;
 position token PosDouble (digit+ '.' digit+ ('e' '-'? digit+)?) ;

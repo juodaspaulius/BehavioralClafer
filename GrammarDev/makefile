@@ -9,3 +9,8 @@ clean:
 	-rm -f Docclafer.* Lexclafer.* Parclafer.* Skelclafer.* Printclafer.* Testclafer.* Absclafer.* ErrM.* Testclafer.hi Testclafer.o
 
 
+ltl:
+	bnfc ltl.cf
+	happy -gca Parltl.y
+	alex -g Lexltl.x
+	ghc --make Testltl.hs -o Testltl

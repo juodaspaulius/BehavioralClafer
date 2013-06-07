@@ -50,9 +50,10 @@ BConstraint.	BConstraint	::=	"[[" TempExp "]]";
 BinaryTempExp.	TempExp	::=	TempExp TempBinaryOp TempExp;
 UnaryTempExp.	TempExp1	::=	TempUnaryOp "(" TempExp ")";
 
+{-
 LTLUnaryExp.	TempExp1	::=	TempUnaryOp "(" ClaferId ")";
 LTLBinaryExp.	TempExp		::=	ClaferId	TempBinaryOp	ClaferId;
-
+-}
 
 {-
 LTLNextExp.	TempExp2	::=	LTLNext "(" Exp ")";

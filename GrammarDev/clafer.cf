@@ -63,21 +63,21 @@ LTLGlobally.	LTLExp7	 ::=   "G" LTLExp8;
 LTLNext.	LTLExp8	 ::=   "X" LTLExp9;
 LTLNot.         LTLExp9	 ::=   "!" LTLExp10;
 
-{-
-LTLInt.           LTLExp10 ::= PosInteger ;
-LTLDouble.        LTLExp11 ::= PosDouble ;
-LTLStr.           LTLExp12 ::= PosString ;
-LTLSetExp.        LTLExp13 ::= SetExp ;
--}
-
-
-
-LTLExpAtom1.		LTLExp11  ::= "(" Exp ")";
-LTLExpAtom2.		LTLExp11  ::= "(" SetExp ")";
-LTLExpAtom3.		LTLExp11  ::= Exp;
-
-_.              LTLExp10  ::= "(" LTLExp ")";
+_.         	LTLExp10  ::= "(" LTLExp ")";
 LTLAtom.	LTLExp10  ::= Name;
+
+LTLInt.         LTLExp11 ::= PosInteger ;
+LTLDouble.      LTLExp11 ::= PosDouble ;
+LTLStr.         LTLExp11 ::= PosString ;
+LTLExp.		LTLExp ::= "(" Exp ")";
+
+--_.		LTLExp ::= "(" QuantExp ")";
+
+--LTLExp.		LTLExp ::= Exp;
+
+
+--_.              LTLExp10  ::= "(" LTLExp ")";
+--LTLAtom1.	LTLExp10  ::= Name;
 
 
 
@@ -119,9 +119,11 @@ TmpScopeAfterUntil.	TmpScope ::= "after" ScopeParam "until" ScopeParam;
 TmpPrecedes.	TmpPatExp ::= Exp "precedes" Exp TmpScope;
 TmpRespondsTo. 	TmpPatExp ::= Exp "respondsTo" Exp TmpScope;
 TmpRespondsTo. 	TmpPatExp ::= Exp "responds" "to" Exp TmpScope;
+
 --Question
 -- Do we need to change the previous rule to look like the following?
 -- TmpRespondsTo. 	TmpPatExp ::= Exp "responds" "to" Exp TmpScope;
+
 TmpRespondsTo. 	TmpPatExp ::= Exp "respondsTo" Exp TmpScope;
 
 

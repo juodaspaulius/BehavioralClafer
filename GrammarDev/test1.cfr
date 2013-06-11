@@ -13,6 +13,7 @@ A {
   // Structural constraint
   
   //these are working
+  
   [ no B ]
   [ G ( A => F B ) ]
   [ G ( A => F (((B))) ) ]
@@ -28,9 +29,25 @@ A {
   [#C>=5]
   [#A > 10 && #A< 5]
   
-  //not working
-  [ G ( A => F ( some D) ]
+  [ G ( (#A > 5) => F (D)) ]
   
+  [ A W B => X((C)) ]
+  [ A R (B => D)]
+  
+  [ A R (B => D)]
+  
+  //what do you think about the next example? 
+  //it works, but is it clear enough?
+  [A W X B]
+  
+  //not working
+  //[ ((((A)))) R (B => D)]
+  
+  //not working
+  //[ G ( A => F ( some D) ]
+ 
+  //not working
+  //[ G ( A => F (max sum D) ]
   
   
   //not working

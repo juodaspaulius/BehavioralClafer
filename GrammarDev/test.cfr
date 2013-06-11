@@ -8,16 +8,39 @@ A {
   }
   C ? 
   D ?
+  V -> integer
   
   // Structural constraint
+  
+  //these are working
   [ no B ] 
   [ G ( A => F B ) ]
+  [ G ( A => F (((B))) ) ]
+  [ G ( A => F (B => C))]
+  [ G ( A => F (B => C))]
+  [ G ( A => F (B && C))]
+  [ G ( A => F (B || C))]
+  [ G ( A => F (B && !           C))]
+  [ G (A && B => F C)]
+  [ G (A && B => F (((C)))        )]
+  [ G (A R (C => F (B)))]
+  [ G (A W (F ((B))   ))]
+  [#C>=5]
+  [#A > 10 && #A< 5]
   
   //not working
-  //[ G ( A => F ((#B > 3) => C))]
+  //[ G ( A => F ( some D) ]
+  
+  
+  
+  //not working
+  //[ G ( B => F (#C > 2))]
+  
+  //not working
+  //[ G ( some A => F (lone B => one C))]
   
   //Precedence Pattern
-  [ #A > 1 && C precedes some B]
+  /*[ #A > 1 && C precedes some B]
   [ A precedes B]
   [ A precedes B globally]
   [ A precedes B before C         ]
@@ -31,16 +54,17 @@ A {
   [ one A precedes B between (if (#C>=5) then E.Y else D)         and (all disj a:D | #a>2 )]
   [ A precedes B between (C) and (D)]
   [ some A precedes some B between C and D]
-  
+  */
   
   //Precedence Chain Pattern
-  [ #A > 1 && C precedes some B && lone D && E.Y]
+  /*[ #A > 1 && C precedes some B && lone D && E.Y]
   /*for B,C below we have (ESetExp (UnionCom (ClaferId (Path [ModIdIdent (PosIdent ((61,19),"B"))])) (ClaferId (Path [ModIdIdent (PosIdent ((61,21),"C"))])))) (TmpScopeBefore (ScopeParam (QuantExp QuantLone (ESetExp (ClaferId (Path [ModIdIdent (PosIdent ((61,35),"D"))]*/
-  [ A precedes B,C]
+  
+  /*[ A precedes B,C]
   [ A precedes B,C globally]
   [ A precedes B,D before C         ]
   [          A     precedes B,C after D]
-  
+  */
   //here I need to change
   
   /*[ B precedes A,C between C and D]
@@ -56,12 +80,12 @@ A {
   
   
   //Respose Pattern
-  [ A respondsTo B]
+  /*[ A respondsTo B]
   [ A responds         to B globally]
   [ A respondsTo B globally]
   [ A           responds      to B before C         ]
   [          A     responds          to B after D]
   [ A respondsTo B between C and D]
   [ A responds to B,C before lone D]
-  
+  */
 }

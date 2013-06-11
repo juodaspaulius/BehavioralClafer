@@ -34,6 +34,7 @@ StructConstraint.	ConstraintExp ::= Exp;
 -- LTL BEGIN
 -- precedence order: <AP>, !, X, G, F, W, U, R, &&, ||, => 
 
+{-
 LTLImplies.     LTLExp   ::=   LTLExp "=>" LTLExp1;
 LTLOr.          LTLExp1  ::=   LTLExp1 "||" LTLExp2;
 LTLAnd.         LTLExp2  ::=   LTLExp2 "&&" LTLExp3;
@@ -43,10 +44,57 @@ LTLWeakUntil.	LTLExp5	 ::=   LTLExp5 "W" LTLExp6;
 LTLFinally.	LTLExp6	 ::=   "F" LTLExp7;
 LTLGlobally.	LTLExp7	 ::=   "G" LTLExp8;
 LTLNext.	LTLExp8	 ::=   "X" LTLExp9;
-LTLNot.         LTLExp9  ::=   "!" LTLExp10;
+LTLNot.         LTLExp9	 ::=   "!" LTLExp10;
 
 _.              LTLExp10  ::= "(" LTLExp ")";
-LTLAPExp.       LTLExp10  ::= Name;
+LTLAtom.	LTLExp10  ::= Name;
+-}
+
+
+
+LTLImplies.     LTLExp   ::=   LTLExp "=>" LTLExp1;
+LTLOr.          LTLExp1  ::=   LTLExp1 "||" LTLExp2;
+LTLAnd.         LTLExp2  ::=   LTLExp2 "&&" LTLExp3;
+LTLRelease.	LTLExp3	 ::=   LTLExp3 "R" LTLExp4;
+LTLUntil.	LTLExp4	 ::=   LTLExp4 "U" LTLExp5;
+LTLWeakUntil.	LTLExp5	 ::=   LTLExp5 "W" LTLExp6;
+LTLFinally.	LTLExp6	 ::=   "F" LTLExp7;
+LTLGlobally.	LTLExp7	 ::=   "G" LTLExp8;
+LTLNext.	LTLExp8	 ::=   "X" LTLExp9;
+LTLNot.         LTLExp9	 ::=   "!" LTLExp10;
+
+{-
+LTLInt.           LTLExp10 ::= PosInteger ;
+LTLDouble.        LTLExp11 ::= PosDouble ;
+LTLStr.           LTLExp12 ::= PosString ;
+LTLSetExp.        LTLExp13 ::= SetExp ;
+-}
+
+
+
+LTLExpAtom1.		LTLExp11  ::= "(" Exp ")";
+LTLExpAtom2.		LTLExp11  ::= "(" SetExp ")";
+LTLExpAtom3.		LTLExp11  ::= Exp;
+
+_.              LTLExp10  ::= "(" LTLExp ")";
+LTLAtom.	LTLExp10  ::= Name;
+
+
+
+
+--LTLExp.		LTLExp11 ::= "(" SetExp ")";
+--LTLExp.		LTLExp11 ::= "(" Exp ")";
+
+--LTLAtom1.	LTLExp12 ::= "(" Name ")";
+--LTLAtom2.	LTLExp13 ::= Name;
+--_.              LTLExp14 ::= "(" LTLExp ")";
+
+--LTLAtom.	LTLAtom ::= Name;
+--LTLExp.		LTLExp	::= 
+
+--LTLAPExp1.       LTLExp10  ::= SetExp;
+--LTLAPExp2.       LTLExp11  ::= Name;
+--LTLAPExp.       LTLExp10  ::= Exp;
 
 -- _.      	LTLAtom ::= "<" Exp1 ">";
 -- _.           LTLAtom ::= Name;
@@ -175,7 +223,7 @@ ClaferId.       SetExp6 ::= Name ;
 
 Decl.           Decl ::= [LocId] ":" SetExp ;
 
-QuantNo.        Quant ::=  No ;
+QuantNo.        Quant ::=  "no" ;
 QuantLone.      Quant ::= "lone" ;
 QuantOne.       Quant ::= "one" ;
 QuantSome.      Quant ::= "some" ;
@@ -198,7 +246,7 @@ coercions Exp 13 ;
 coercions SetExp 6 ;
 coercions LTLExp 10;
 
-position token No ('n' 'o');
+--position token No ('n' 'o');
 position token PosInteger (digit+) ;
 position token PosDouble (digit+ '.' digit+ ('e' '-'? digit+)?) ;
 position token PosString '"' ((char - ["\"\\"]) | ('\\' ["\"\\nt"]))* '"' ;

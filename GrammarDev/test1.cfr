@@ -29,7 +29,7 @@ A {
   [#A > 10 && #A< 5]
   
   //not working
-  //[ G ( A => F ( some D) ]
+  [ G ( A => F ( some D) ]
   
   
   

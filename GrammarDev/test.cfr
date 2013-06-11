@@ -9,7 +9,6 @@ A {
   C ? 
   // Structural constraint
   [ no B ] 
-  [ G ( A => F B ) ]
-  /*[ G ( A => F (#B > 3 => C))] */
-  [ #A > 1 && C precedes some B]
+  [ G ( A => F B ) 
+  (#A > 1 && C) precedes (some B)]
 }

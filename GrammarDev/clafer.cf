@@ -21,14 +21,15 @@ Constraint.     Constraint ::= "[" ConstraintExp "]" ;
 SoftConstraint. SoftConstraint ::= "(" [Exp] ")";
 Goal.   	Goal ::= "<<" [Exp] ">>" ;
 
-PatternConstraint.  ConstraintExp ::= TmpPatExp;
-LTLConstraint.  ConstraintExp ::= LTLExp;
-StructConstraint.  ConstraintExp ::= Exp;
-
 -- Behavioral Clafer BEGIN ------------------
 
 -- LTLConstraint.	Element	::=	"[[" LTLExp "]]";
 -- BConstraint.	BConstraint	::=	PatternExp ;
+
+PatternConstraint.	ConstraintExp ::= TmpPatExp;
+LTLConstraint.		ConstraintExp ::= LTLExp;
+StructConstraint.	ConstraintExp ::= Exp;
+
 
 -- LTL BEGIN
 -- precedence order: <AP>, !, X, G, F, W, U, R, &&, ||, => 
@@ -36,29 +37,48 @@ StructConstraint.  ConstraintExp ::= Exp;
 LTLImplies.     LTLExp   ::=   LTLExp "=>" LTLExp1;
 LTLOr.          LTLExp1  ::=   LTLExp1 "||" LTLExp2;
 LTLAnd.         LTLExp2  ::=   LTLExp2 "&&" LTLExp3;
-LTLRelease.	    LTLExp3	 ::=   LTLExp3 "R" LTLExp4;
-LTLUntil.	    LTLExp4	 ::=   LTLExp4 "U" LTLExp5;
+LTLRelease.	LTLExp3	 ::=   LTLExp3 "R" LTLExp4;
+LTLUntil.	LTLExp4	 ::=   LTLExp4 "U" LTLExp5;
 LTLWeakUntil.	LTLExp5	 ::=   LTLExp5 "W" LTLExp6;
-LTLFinally.	    LTLExp6	 ::=   "F" LTLExp7;
+LTLFinally.	LTLExp6	 ::=   "F" LTLExp7;
 LTLGlobally.	LTLExp7	 ::=   "G" LTLExp8;
-LTLNext.	    LTLExp8	 ::=   "X" LTLExp9;
+LTLNext.	LTLExp8	 ::=   "X" LTLExp9;
 LTLNot.         LTLExp9  ::=   "!" LTLExp10;
 
 _.              LTLExp10  ::= "(" LTLExp ")";
 LTLAPExp.       LTLExp10  ::= Name;
 
--- _.              LTLAtom ::= "<" Exp1 ">";
--- _.              LTLAtom ::= Name;
+-- _.      	LTLAtom ::= "<" Exp1 ">";
+-- _.           LTLAtom ::= Name;
 -- LTL END
 
--- Temporal Patterns
+-- The scope's parameters for all Temporal Patterns are basically an expression 
 ScopeParam.         ScopeParam ::= Exp;
-TmpScopeBefore.     TmpScope  ::= "before" ScopeParam;
-TmpScopeDefault.    TmpScope  ::= ;
---TmpDefaultScope.    TmpScope  ::= ;
-TmpPrecedes.    TmpPatExp ::= Exp "precedes" Exp TmpScope;
+--ScopeParam.         ScopeParam ::= (Exp);
 
-coercions TmpScope 1;
+TmpScopeGlobally.	TmpScope ::= "globally";
+TmpScopeGlobally.	TmpScope ::= ;
+TmpScopeBefore.	TmpScope  ::= "before" ScopeParam;
+TmpScopeAfter.	TmpScope  ::= "after" ScopeParam;
+TmpScopeBetweenAnd.	TmpScope ::= "between" ScopeParam "and" ScopeParam;
+TmpScopeAfterUntil.	TmpScope ::= "after" ScopeParam "until" ScopeParam;
+
+--Question: here maybe we can use something like this?
+-- 	_.	TmpScope ::= ;   or 	coercions TmpScope 1;
+-- instead of:	TmpScopeGlobally.	TmpScope ::= ;
+
+-- List of Temporal Patterns
+TmpPrecedes.	TmpPatExp ::= Exp "precedes" Exp TmpScope;
+TmpRespondsTo. 	TmpPatExp ::= Exp "respondsTo" Exp TmpScope;
+TmpRespondsTo. 	TmpPatExp ::= Exp "responds" "to" Exp TmpScope;
+--Question
+-- Do we need to change the previous rule to look like the following?
+-- TmpRespondsTo. 	TmpPatExp ::= Exp "responds" "to" Exp TmpScope;
+TmpRespondsTo. 	TmpPatExp ::= Exp "respondsTo" Exp TmpScope;
+
+
+
+
 
 -- End of temporal Patterns
 -- Behavioral Clafer END ----------------------
@@ -123,7 +143,7 @@ EXor.           Exp4  ::= Exp4 "xor" Exp5 ;
 EAnd.           Exp5  ::= Exp5 "&&"  Exp6 ;
 ENeg.           Exp6  ::= "!" Exp7 ;
 ELt.            Exp7  ::= Exp7 "<"  Exp8 ;
-EGt.            Exp7  ::= Exp7 ">"  Exp8 ;
+EGt.            Exp7  ::= Exp7 ">"   Exp8 ;
 EEq.            Exp7  ::= Exp7 "="  Exp8 ;
 ELte.           Exp7  ::= Exp7 "<=" Exp8 ;
 EGte.           Exp7  ::= Exp7 ">=" Exp8 ;
@@ -184,3 +204,4 @@ position token PosDouble (digit+ '.' digit+ ('e' '-'? digit+)?) ;
 position token PosString '"' ((char - ["\"\\"]) | ('\\' ["\"\\nt"]))* '"' ;
 position token PosIdent (letter (letter|digit|'_'|'\'')*) ;
 
+--position token 

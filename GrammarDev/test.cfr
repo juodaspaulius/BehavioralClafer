@@ -1,8 +1,15 @@
+<<max A>>
 A {
-  B ? {}
-  C ? {}
+  <<max B>>
+  B ? {}  
+  `E 5 {
+    Y
+    [E]
+  }
+  C ? 
   // Structural constraint
-  [ some B ] 
-  // Temporal constraint
-  [[ G ( < A> => F <B> ) ]]
+  [ no B ] 
+  [ G ( A => F B ) ]
+  /*[ G ( A => F (#B > 3 => C))] */
+  [ #A > 1 && C precedes some B]
 }

@@ -17,13 +17,17 @@ EnumDecl.       Declaration ::= "enum" PosIdent "=" [EnumId] ;
 ElementDecl.    Declaration ::= Element ;
 
 Clafer.         Clafer ::= Abstract GCard PosIdent Super Card Init Elements ;
-Constraint.     Constraint ::= "[" [Exp] "]" ;
+Constraint.     Constraint ::= "[" ConstraintExp "]" ;
 SoftConstraint. SoftConstraint ::= "(" [Exp] ")";
 Goal.   	Goal ::= "<<" [Exp] ">>" ;
 
+PatternConstraint.  ConstraintExp ::= TmpPatExp;
+LTLConstraint.  ConstraintExp ::= LTLExp;
+StructConstraint.  ConstraintExp ::= Exp;
+
 -- Behavioral Clafer BEGIN ------------------
 
-LTLConstraint.	Element	::=	"[[" LTLExp "]]";
+-- LTLConstraint.	Element	::=	"[[" LTLExp "]]";
 -- BConstraint.	BConstraint	::=	PatternExp ;
 
 -- LTL BEGIN
@@ -41,11 +45,22 @@ LTLNext.	    LTLExp8	 ::=   "X" LTLExp9;
 LTLNot.         LTLExp9  ::=   "!" LTLExp10;
 
 _.              LTLExp10  ::= "(" LTLExp ")";
-LTLAPExp.       LTLExp10  ::= "<" Name ">";
+LTLAPExp.       LTLExp10  ::= Name;
 
-
+-- _.              LTLAtom ::= "<" Exp1 ">";
+-- _.              LTLAtom ::= Name;
 -- LTL END
 
+-- Temporal Patterns
+ScopeParam.         ScopeParam ::= Exp;
+TmpScopeBefore.     TmpScope  ::= "before" ScopeParam;
+TmpScopeDefault.    TmpScope  ::= ;
+--TmpDefaultScope.    TmpScope  ::= ;
+TmpPrecedes.    TmpPatExp ::= Exp "precedes" Exp TmpScope;
+
+coercions TmpScope 1;
+
+-- End of temporal Patterns
 -- Behavioral Clafer END ----------------------
 
 AbstractEmpty.  Abstract ::= ;
@@ -140,7 +155,7 @@ ClaferId.       SetExp6 ::= Name ;
 
 Decl.           Decl ::= [LocId] ":" SetExp ;
 
-QuantNo.        Quant ::= "no" ;
+QuantNo.        Quant ::=  No ;
 QuantLone.      Quant ::= "lone" ;
 QuantOne.       Quant ::= "one" ;
 QuantSome.      Quant ::= "some" ;
@@ -163,7 +178,9 @@ coercions Exp 13 ;
 coercions SetExp 6 ;
 coercions LTLExp 10;
 
+position token No ('n' 'o');
 position token PosInteger (digit+) ;
 position token PosDouble (digit+ '.' digit+ ('e' '-'? digit+)?) ;
 position token PosString '"' ((char - ["\"\\"]) | ('\\' ["\"\\nt"]))* '"' ;
 position token PosIdent (letter (letter|digit|'_'|'\'')*) ;
+

@@ -23,13 +23,9 @@ Goal.   	Goal ::= "<<" [Exp] ">>" ;
 
 -- Behavioral Clafer BEGIN ------------------
 
--- LTLConstraint.	Element	::=	"[[" LTLExp "]]";
--- BConstraint.	BConstraint	::=	PatternExp ;
-
-PatternConstraint.	ConstraintExp ::= TmpPatExp;
-LTLConstraint.		ConstraintExp ::= LTLExp;
 StructConstraint.	ConstraintExp ::= Exp;
-
+LTLConstraint.		ConstraintExp ::= LTLExp;
+PatternConstraint.	ConstraintExp ::= TmpPatExp;
 
 -- LTL BEGIN
 -- precedence order: <AP>, !, X, G, F, W, U, R, &&, ||, =>, <=> 
@@ -86,48 +82,45 @@ LTLDeclQuant.      	LTLExp   ::= Quant        Decl "|" LTLExp ;
 -- LTLEGMax.	LTLExp1  ::= "max" LTLExp2 ;
 -- LTLEGMin.	LTLExp1  ::= "min" LTLExp2 ;
 
-LTLIff.		LTLExp1 ::= LTLExp "<=>" LTLExp2 ;
+LTLIff.		    LTLExp1 ::= LTLExp1 "<=>" LTLExp2 ;
 
-LTLImplies.     LTLExp2 ::= LTLExp "=>" LTLExp1;
-LTLOr.          LTLExp1 ::= LTLExp1 "||" LTLExp2;
-LTLAnd.         LTLExp2 ::= LTLExp2 "&&" LTLExp3;
-LTLRelease.	LTLExp3	::= LTLExp3 "R" LTLExp4;
-LTLUntil.	LTLExp4	::= LTLExp4 "U" LTLExp5;
-LTLWeakUntil.	LTLExp5	::= LTLExp5 "W" LTLExp6;
-LTLFinally.	LTLExp6	::= "F" LTLExp7;
-LTLGlobally.	LTLExp7	::= "G" LTLExp8;
-LTLNext.	LTLExp8	::= "X" LTLExp9;
-LTLNot.         LTLExp9	::= "!" LTLExp10;
+LTLImplies.     LTLExp2 ::= LTLExp2 "=>" LTLExp3;
+LTLOr.          LTLExp3 ::= LTLExp3 "||" LTLExp4;
+LTLAnd.         LTLExp4 ::= LTLExp4 "&&" LTLExp5;
+LTLRelease.	    LTLExp5	::= LTLExp5 "R" LTLExp6;
+LTLUntil.	    LTLExp6	::= LTLExp6 "U" LTLExp7;
+LTLWeakUntil.	LTLExp7	::= LTLExp7 "W" LTLExp8;
+LTLFinally.	    LTLExp8	::= "F" LTLExp9;
+LTLGlobally.	LTLExp9	::= "G" LTLExp10;
+LTLNext.	    LTLExp10	::= "X" LTLExp11;
+LTLNot.         LTLExp11	::= "!" LTLExp12;
 
-LTLELt.		LTLExp10  ::= LTLExp10 "<"  LTLExp11 ;
-LTLEGt.         LTLExp10  ::= LTLExp10 ">"  LTLExp11 ;
-LTLEEq.         LTLExp10  ::= LTLExp10 "="  LTLExp11 ;
-LTLELte.        LTLExp10  ::= LTLExp10 "<=" LTLExp11 ;
-LTLEGte.        LTLExp10  ::= LTLExp10 ">=" LTLExp11 ;
-LTLENeq.        LTLExp10  ::= LTLExp10 "!=" LTLExp11 ;
-LTLEIn.         LTLExp10  ::= LTLExp10 "in" LTLExp11 ;
-LTLENin.        LTLExp10  ::= LTLExp10 "not" "in" LTLExp11 ;
+LTLELt.		    LTLExp12  ::= LTLExp12 "<"  LTLExp13 ;
+LTLEGt.         LTLExp12  ::= LTLExp12 ">"  LTLExp13 ;
+LTLEEq.         LTLExp12  ::= LTLExp12 "="  LTLExp13 ;
+LTLELte.        LTLExp12  ::= LTLExp12 "<=" LTLExp13 ;
+LTLEGte.        LTLExp12  ::= LTLExp12 ">=" LTLExp13 ;
+LTLENeq.        LTLExp12  ::= LTLExp12 "!=" LTLExp13 ;
+LTLEIn.         LTLExp12  ::= LTLExp12 "in" LTLExp13 ;
+LTLENin.        LTLExp12  ::= LTLExp12 "not" "in" LTLExp13 ;
 
-LTLQuantExp.	LTLExp11  ::= Quant LTLExp12 ;
-LTLEAdd.        LTLExp11  ::= LTLExp11 "+" LTLExp12 ;
-LTLESub.        LTLExp11  ::= LTLExp11 "-" LTLExp12 ;
-LTLEMul.        LTLExp12  ::= LTLExp12 "*" LTLExp13 ;
-LTLEDiv.        LTLExp12  ::= LTLExp12 "/" LTLExp13 ;
+LTLQuantExp.	LTLExp13 ::= Quant LTLExp14 ;
+LTLEAdd.        LTLExp13  ::= LTLExp13 "+" LTLExp14 ;
+LTLESub.        LTLExp13  ::= LTLExp13 "-" LTLExp14 ;
+LTLEMul.        LTLExp14  ::= LTLExp14 "*" LTLExp15 ;
+LTLEDiv.        LTLExp14  ::= LTLExp14 "/" LTLExp15 ;
 
-LTLECSetExp.	LTLExp13  ::= "#" LTLExp12 ;
-LTLEMinExp.     LTLExp13  ::= "-" LTLExp12 ;
-LTLEImpliesElse. LTLExp12  ::= "if" LTLExp12 "then" LTLExp12 "else" LTLExp13 ;
-LTLEInt.	LTLExp13  ::= PosInteger ;
-LTLEDouble.     LTLExp13  ::= PosDouble ;
-LTLEStr.        LTLExp13  ::= PosString ;
-LTLESetExp.     LTLExp13  ::= SetExp ;
+LTLECSetExp.	LTLExp15  ::= "#" LTLExp16 ;
+LTLEMinExp.     LTLExp15  ::= "-" LTLExp16 ;
+LTLEImpliesElse.LTLExp16  ::= "if" LTLExp16 "then" LTLExp16 "else" LTLExp17 ;
+LTLEInt.	    LTLExp17  ::= PosInteger ;
+LTLEDouble.     LTLExp17  ::= PosDouble ;
+LTLEStr.        LTLExp17  ::= PosString ;
+LTLESetExp.     LTLExp17  ::= SetExp ;
 
 -- Question
 -- Do we need sum for an LTL expression?
 -- LTLESumSetExp.     LTLExp13  ::= "sum" LTLExp12;
-
-
-
 
 
 
@@ -289,12 +282,14 @@ separator           Declaration ""  ;
 separator  nonempty EnumId      "|" ;
 separator           Element     ""  ;
 separator           Exp         ""  ;
+separator           ConstraintExp ""  ;
 separator  nonempty LocId       ";" ;
 separator  nonempty ModId       "\\" ;
 
 coercions Exp 13 ;
 coercions SetExp 6 ;
-coercions LTLExp 13;
+coercions LTLExp 17;
+coercions ConstraintExp 1;
 
 --position token No ('n' 'o');
 position token PosInteger (digit+) ;

@@ -17,7 +17,7 @@ EnumDecl.       Declaration ::= "enum" PosIdent "=" [EnumId] ;
 ElementDecl.    Declaration ::= Element ;
 
 Clafer.         Clafer ::= Abstract GCard PosIdent Super Card Init Elements ;
-Constraint.     Constraint ::= "[" ConstraintExp "]" ;
+Constraint.     Constraint ::= "[" [ConstraintExp] "]" ;
 SoftConstraint. SoftConstraint ::= "(" [Exp] ")";
 Goal.   	Goal ::= "<<" [Exp] ">>" ;
 

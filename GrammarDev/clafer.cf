@@ -60,6 +60,8 @@ LTLUntil.	LTLExp4	 ::=   LTLExp4 "U" LTLExp5;
 LTLWeakUntil.	LTLExp5	 ::=   LTLExp5 "W" LTLExp6;
 LTLFinally.	LTLExp6	 ::=   "F" LTLExp7;
 LTLGlobally.	LTLExp7	 ::=   "G" LTLExp8;
+_.		LTLExp7	 ::=   "G" "(" Exp ")";
+
 LTLNext.	LTLExp8	 ::=   "X" LTLExp9;
 LTLNot.         LTLExp9	 ::=   "!" LTLExp10;
 
@@ -71,19 +73,9 @@ LTLDouble.      LTLExp11 ::= PosDouble ;
 LTLStr.         LTLExp11 ::= PosString ;
 LTLExp.		LTLExp ::= "(" Exp ")";
 
---_.		LTLExp ::= "(" QuantExp ")";
-
---LTLExp.		LTLExp ::= Exp;
-
-
---_.              LTLExp10  ::= "(" LTLExp ")";
---LTLAtom1.	LTLExp10  ::= Name;
 
 
 
-
---LTLExp.		LTLExp11 ::= "(" SetExp ")";
---LTLExp.		LTLExp11 ::= "(" Exp ")";
 
 --LTLAtom1.	LTLExp12 ::= "(" Name ")";
 --LTLAtom2.	LTLExp13 ::= Name;

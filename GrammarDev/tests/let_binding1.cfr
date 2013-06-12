@@ -1,0 +1,22 @@
+<<max A>>
+A {
+  <<max B>>
+  B ? {}
+  `E 5 {
+    Y
+    [E]
+  }
+  param : int
+  C ?
+    
+  // Structural constraint
+  //[#A > 10 && #A< 5]
+    
+  
+  // Behavioral constraints
+  
+  [ G (let x : A.param | (A.B => X(A.param = x+1)) ) ]
+  
+  
+  [ F (A.param = 5) ]
+}

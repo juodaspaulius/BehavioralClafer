@@ -16,8 +16,8 @@ A {
   [ no B ]
   
   // Behavioral constraints
-  
   // LTL 1
+
   [ G ( A => F B ) ]
   [ G ( A => F (((B))) ) ]
   [ G ( A => F (B => C))]
@@ -40,6 +40,7 @@ A {
   [ A R (B => D)]
   
   [ A R (B => D)]
+
   
   //what do you think about the next example? 
   //it works, but is it clear enough?
@@ -49,9 +50,9 @@ A {
   
   //not working
   [ ((((A)))) R (B => D)]
-  
+
   //not working
-  //[ G ( A => F ( some D) ]
+  [ G ( A => F ( some D)) ]
  
   //not working
   //[ G ( A => F (max sum D) ]

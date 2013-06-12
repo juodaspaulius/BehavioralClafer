@@ -1,0 +1,15 @@
+A {
+  B ?
+    param : int
+  C ?
+    param : int
+  param : int
+  D ?
+    
+  // Behavioral constraints
+  
+  [ G (let x : A.param, y : B.param | (A.param <= x + 10) U (B.param = y+2) ) ]
+  
+  
+  //[ F (A.param = 5) ]
+}

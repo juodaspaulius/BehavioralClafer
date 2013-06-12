@@ -30,48 +30,6 @@ PatternConstraint.	ConstraintExp ::= TmpPatExp;
 -- LTL BEGIN
 -- precedence order: <AP>, !, X, G, F, W, U, R, &&, ||, =>, <=> 
 
---LTL Version 1
-{-
-
-LTLImplies.     LTLExp   ::=   LTLExp "=>" LTLExp1;
-LTLOr.          LTLExp1  ::=   LTLExp1 "||" LTLExp2;
-LTLAnd.         LTLExp2  ::=   LTLExp2 "&&" LTLExp3;
-LTLRelease.	LTLExp3	 ::=   LTLExp3 "R" LTLExp4;
-LTLUntil.	LTLExp4	 ::=   LTLExp4 "U" LTLExp5;
-LTLWeakUntil.	LTLExp5	 ::=   LTLExp5 "W" LTLExp6;
-LTLFinally.	LTLExp6	 ::=   "F" LTLExp7;
-LTLGlobally.	LTLExp7	 ::=   "G" LTLExp8;
-LTLNext.	LTLExp8	 ::=   "X" LTLExp9;
-LTLNot.         LTLExp9	 ::=   "!" LTLExp10;
-_.              LTLExp10  ::= "(" LTLExp ")";
-LTLAtom.	LTLExp10  ::= Name;
-
--}
-
---LTL Version 2
-{-
-
-LTLImplies.     LTLExp   ::=   LTLExp "=>" LTLExp1;
-LTLOr.          LTLExp1  ::=   LTLExp1 "||" LTLExp2;
-LTLAnd.         LTLExp2  ::=   LTLExp2 "&&" LTLExp3;
-LTLRelease.	LTLExp3	 ::=   LTLExp3 "R" LTLExp4;
-LTLUntil.	LTLExp4	 ::=   LTLExp4 "U" LTLExp5;
-LTLWeakUntil.	LTLExp5	 ::=   LTLExp5 "W" LTLExp6;
-LTLFinally.	LTLExp6	 ::=   "F" LTLExp7;
-LTLGlobally.	LTLExp7	 ::=   "G" LTLExp8;
-LTLNext.	LTLExp8	 ::=   "X" LTLExp9;
-LTLNot.         LTLExp9	 ::=   "!" LTLExp10;
-_.         	LTLExp10  ::= "(" LTLExp ")";
-LTLAtom.	LTLExp10  ::= Name;
-LTLExp.		LTLExp ::= "(" Exp ")";
-
--}
-
-
---LTL Version 3
-
--- precedence order: <AP>, !, X, G, F, W, U, R, &&, ||, =>, <=> 
-
 LTLDeclAllDisj.		LTLExp   ::= "all" "disj" Decl "|" LTLExp ;
 LTLDeclAll.		LTLExp   ::= "all"        Decl "|" LTLExp ;
 LTLDeclQuantDisj.	LTLExp   ::= Quant "disj" Decl "|" LTLExp ;
@@ -123,27 +81,11 @@ LTLESetExp.     LTLExp17  ::= SetExp ;
 -- LTLESumSetExp.     LTLExp13  ::= "sum" LTLExp12;
 
 
-
-
---LTLAtom1.	LTLExp12 ::= "(" Name ")";
---LTLAtom2.	LTLExp13 ::= Name;
---_.              LTLExp14 ::= "(" LTLExp ")";
-
---LTLAtom.	LTLAtom ::= Name;
---LTLExp.		LTLExp	::= 
-
---LTLAPExp1.       LTLExp10  ::= SetExp;
---LTLAPExp2.       LTLExp11  ::= Name;
---LTLAPExp.       LTLExp10  ::= Exp;
-
--- _.      	LTLAtom ::= "<" Exp1 ">";
--- _.           LTLAtom ::= Name;
 -- LTL END
 
 
 -- The scope's parameters for all Temporal Patterns are basically an expression 
 ScopeParam.         ScopeParam ::= Exp;
---ScopeParam.         ScopeParam ::= (Exp);
 
 TmpScopeGlobally.	TmpScope ::= "globally";
 TmpScopeGlobally.	TmpScope ::= ;
@@ -166,9 +108,6 @@ TmpRespondsTo. 	TmpPatExp ::= Exp "responds" "to" Exp TmpScope;
 -- TmpRespondsTo. 	TmpPatExp ::= Exp "responds" "to" Exp TmpScope;
 
 TmpRespondsTo. 	TmpPatExp ::= Exp "respondsTo" Exp TmpScope;
-
-
-
 
 
 -- End of temporal Patterns

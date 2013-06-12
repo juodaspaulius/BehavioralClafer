@@ -1,10 +1,7 @@
 A {
-  B {
-  
-  }
+  B { }
   C 4
   D ?
-  [G (#A>4 && (some B) && (lone C) ]
+  [F (#A > 4 && some B && lone C) ]
 }
   
-

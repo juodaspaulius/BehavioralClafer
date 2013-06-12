@@ -17,105 +17,162 @@ EnumDecl.       Declaration ::= "enum" PosIdent "=" [EnumId] ;
 ElementDecl.    Declaration ::= Element ;
 
 Clafer.         Clafer ::= Abstract GCard PosIdent Super Card Init Elements ;
-Constraint.     Constraint ::= "[" [Exp] "]" ;
+Constraint.     Constraint ::= "[" [ConstraintExp] "]" ;
 SoftConstraint. SoftConstraint ::= "(" [Exp] ")";
 Goal.   	Goal ::= "<<" [Exp] ">>" ;
 
--- Behavioral Clafer begin modif
--- Decision regarding Behavioral Clafer : All Clafers are mutable by default
---{-
+-- Behavioral Clafer BEGIN ------------------
 
--- TO DO: some examples which show every behaviour operator in BClafer
+StructConstraint.	ConstraintExp ::= Exp;
+LTLConstraint.		ConstraintExp ::= LTLExp;
+PatternConstraint.	ConstraintExp ::= TmpPatExp;
 
---	LTL unary operators:
---	X - Next
---	G - Globally (Always)
---	F - Finally (Eventually / In the future)
-LTLNext.	TempUnaryOp	::=	"X";
-LTLGlobally.	TempUnaryOp	::=	"G";
-LTLFinally.	TempUnaryOp	::=	"F";
+-- LTL BEGIN
+-- precedence order: <AP>, !, X, G, F, W, U, R, &&, ||, =>, <=> 
 
---	LTL binary operators:
---	U - Until
---	R - Release
---	W - Weak Until
-LTLUntil.	TempBinaryOp	::=	"U";
-LTLRelease.	TempBinaryOp	::=	"R";
-LTLWeakUntil.	TempBinaryOp	::=	"W";
-
-BConstraint.	BConstraint	::=	"[[" TempExp "]]";
---separator	TempExp		",";
--- All elements of TempExp should be separated by "," ? Is ";" better? Should we use any separator at all?
-
-BinaryTempExp.	TempExp	::=	TempExp TempBinaryOp TempExp;
-UnaryTempExp.	TempExp1	::=	TempUnaryOp "(" TempExp ")";
-
+--LTL Version 1
 {-
-LTLUnaryExp.	TempExp1	::=	TempUnaryOp "(" ClaferId ")";
-LTLBinaryExp.	TempExp		::=	ClaferId	TempBinaryOp	ClaferId;
+
+LTLImplies.     LTLExp   ::=   LTLExp "=>" LTLExp1;
+LTLOr.          LTLExp1  ::=   LTLExp1 "||" LTLExp2;
+LTLAnd.         LTLExp2  ::=   LTLExp2 "&&" LTLExp3;
+LTLRelease.	LTLExp3	 ::=   LTLExp3 "R" LTLExp4;
+LTLUntil.	LTLExp4	 ::=   LTLExp4 "U" LTLExp5;
+LTLWeakUntil.	LTLExp5	 ::=   LTLExp5 "W" LTLExp6;
+LTLFinally.	LTLExp6	 ::=   "F" LTLExp7;
+LTLGlobally.	LTLExp7	 ::=   "G" LTLExp8;
+LTLNext.	LTLExp8	 ::=   "X" LTLExp9;
+LTLNot.         LTLExp9	 ::=   "!" LTLExp10;
+_.              LTLExp10  ::= "(" LTLExp ")";
+LTLAtom.	LTLExp10  ::= Name;
+
 -}
 
+--LTL Version 2
 {-
-LTLNextExp.	TempExp2	::=	LTLNext "(" Exp ")";
-LTLGloballyExp.	TempExp2	::=	LTLGlobally "(" Exp ")";
-LTLFinallyExp.	TempExp2	::=	LTLFinally "(" Exp ")";
+
+LTLImplies.     LTLExp   ::=   LTLExp "=>" LTLExp1;
+LTLOr.          LTLExp1  ::=   LTLExp1 "||" LTLExp2;
+LTLAnd.         LTLExp2  ::=   LTLExp2 "&&" LTLExp3;
+LTLRelease.	LTLExp3	 ::=   LTLExp3 "R" LTLExp4;
+LTLUntil.	LTLExp4	 ::=   LTLExp4 "U" LTLExp5;
+LTLWeakUntil.	LTLExp5	 ::=   LTLExp5 "W" LTLExp6;
+LTLFinally.	LTLExp6	 ::=   "F" LTLExp7;
+LTLGlobally.	LTLExp7	 ::=   "G" LTLExp8;
+LTLNext.	LTLExp8	 ::=   "X" LTLExp9;
+LTLNot.         LTLExp9	 ::=   "!" LTLExp10;
+_.         	LTLExp10  ::= "(" LTLExp ")";
+LTLAtom.	LTLExp10  ::= Name;
+LTLExp.		LTLExp ::= "(" Exp ")";
+
 -}
 
-{-
-The rule
-LTLNextExp.	TempExp2	::=	LTLNext "(" Exp ")"
-can be read:
-LTLNextExp forms a temporal expression of level 2 using LTLNext string ("X"), followed by (, an expression of
-type Exp and then )
--}
 
---BinaryTempExp. TempExp  ::= "[" TempExp "]" TempBinaryOp "[" TempExp "]";
---UnaryTempExp. TempExp ::= TempUnaryOp "[" TempExp "]";
+--LTL Version 3
+
+-- precedence order: <AP>, !, X, G, F, W, U, R, &&, ||, =>, <=> 
+
+LTLDeclAllDisj.		LTLExp   ::= "all" "disj" Decl "|" LTLExp ;
+LTLDeclAll.		LTLExp   ::= "all"        Decl "|" LTLExp ;
+LTLDeclQuantDisj.	LTLExp   ::= Quant "disj" Decl "|" LTLExp ;
+LTLDeclQuant.      	LTLExp   ::= Quant        Decl "|" LTLExp ;
+
+-- Question
+-- Do we need max and min for LTL expressions?
+-- LTLEGMax.	LTLExp1  ::= "max" LTLExp2 ;
+-- LTLEGMin.	LTLExp1  ::= "min" LTLExp2 ;
+
+LTLIff.		    LTLExp1 ::= LTLExp1 "<=>" LTLExp2 ;
+
+LTLImplies.     LTLExp2 ::= LTLExp2 "=>" LTLExp3;
+LTLOr.          LTLExp3 ::= LTLExp3 "||" LTLExp4;
+LTLAnd.         LTLExp4 ::= LTLExp4 "&&" LTLExp5;
+LTLRelease.	    LTLExp5	::= LTLExp5 "R" LTLExp6;
+LTLUntil.	    LTLExp6	::= LTLExp6 "U" LTLExp7;
+LTLWeakUntil.	LTLExp7	::= LTLExp7 "W" LTLExp8;
+LTLFinally.	    LTLExp8	::= "F" LTLExp9;
+LTLGlobally.	LTLExp9	::= "G" LTLExp10;
+LTLNext.	    LTLExp10	::= "X" LTLExp11;
+LTLNot.         LTLExp11	::= "!" LTLExp12;
+
+LTLELt.		    LTLExp12  ::= LTLExp12 "<"  LTLExp13 ;
+LTLEGt.         LTLExp12  ::= LTLExp12 ">"  LTLExp13 ;
+LTLEEq.         LTLExp12  ::= LTLExp12 "="  LTLExp13 ;
+LTLELte.        LTLExp12  ::= LTLExp12 "<=" LTLExp13 ;
+LTLEGte.        LTLExp12  ::= LTLExp12 ">=" LTLExp13 ;
+LTLENeq.        LTLExp12  ::= LTLExp12 "!=" LTLExp13 ;
+LTLEIn.         LTLExp12  ::= LTLExp12 "in" LTLExp13 ;
+LTLENin.        LTLExp12  ::= LTLExp12 "not" "in" LTLExp13 ;
+
+LTLQuantExp.	LTLExp13 ::= Quant LTLExp14 ;
+LTLEAdd.        LTLExp13  ::= LTLExp13 "+" LTLExp14 ;
+LTLESub.        LTLExp13  ::= LTLExp13 "-" LTLExp14 ;
+LTLEMul.        LTLExp14  ::= LTLExp14 "*" LTLExp15 ;
+LTLEDiv.        LTLExp14  ::= LTLExp14 "/" LTLExp15 ;
+
+LTLECSetExp.	LTLExp15  ::= "#" LTLExp16 ;
+LTLEMinExp.     LTLExp15  ::= "-" LTLExp16 ;
+LTLEImpliesElse.LTLExp16  ::= "if" LTLExp16 "then" LTLExp16 "else" LTLExp17 ;
+LTLEInt.	    LTLExp17  ::= PosInteger ;
+LTLEDouble.     LTLExp17  ::= PosDouble ;
+LTLEStr.        LTLExp17  ::= PosString ;
+LTLESetExp.     LTLExp17  ::= SetExp ;
+
+-- Question
+-- Do we need sum for an LTL expression?
+-- LTLESumSetExp.     LTLExp13  ::= "sum" LTLExp12;
 
 
--- [[ X [ X [ married ] ] ]]
--- [[ X [ [neverMarried] U [ married ] ] ]]
-
--- [[    neverMarried  U  married  ]]
--- [[ X [ [neverMarried] U [ married ] ] ]]
 
 
+--LTLAtom1.	LTLExp12 ::= "(" Name ")";
+--LTLAtom2.	LTLExp13 ::= Name;
+--_.              LTLExp14 ::= "(" LTLExp ")";
+
+--LTLAtom.	LTLAtom ::= Name;
+--LTLExp.		LTLExp	::= 
+
+--LTLAPExp1.       LTLExp10  ::= SetExp;
+--LTLAPExp2.       LTLExp11  ::= Name;
+--LTLAPExp.       LTLExp10  ::= Exp;
+
+-- _.      	LTLAtom ::= "<" Exp1 ">";
+-- _.           LTLAtom ::= Name;
+-- LTL END
 
 
-{-TempExp3.	TempExp3	::=	TempUnaryOp "(" TempExp3 ")" | Exp;
-TempExp2.	TempExp2	::=	TempExp3 | Exp;
-TempExp1.	TempExp1	::=	TempExp2 | TempExp3 | Exp;
-TempExp.	TempExp		::=	TempExp1 TempBinaryOp TempExp2 | TempUnaryOp "(" TempExp3 ")";
--}
+-- The scope's parameters for all Temporal Patterns are basically an expression 
+ScopeParam.         ScopeParam ::= Exp;
+--ScopeParam.         ScopeParam ::= (Exp);
 
------------TempExp.	TempExp ::= TempExp TempBinaryOp TempExp | TempUnaryOp TempExp | Exp | Constraint;
+TmpScopeGlobally.	TmpScope ::= "globally";
+TmpScopeGlobally.	TmpScope ::= ;
+TmpScopeBefore.	TmpScope  ::= "before" ScopeParam;
+TmpScopeAfter.	TmpScope  ::= "after" ScopeParam;
+TmpScopeBetweenAnd.	TmpScope ::= "between" ScopeParam "and" ScopeParam;
+TmpScopeAfterUntil.	TmpScope ::= "after" ScopeParam "until" ScopeParam;
+
+--Question: here maybe we can use something like this?
+-- 	_.	TmpScope ::= ;   or 	coercions TmpScope 1;
+-- instead of:	TmpScopeGlobally.	TmpScope ::= ;
+
+-- List of Temporal Patterns
+TmpPrecedes.	TmpPatExp ::= Exp "precedes" Exp TmpScope;
+TmpRespondsTo. 	TmpPatExp ::= Exp "respondsTo" Exp TmpScope;
+TmpRespondsTo. 	TmpPatExp ::= Exp "responds" "to" Exp TmpScope;
+
+--Question
+-- Do we need to change the previous rule to look like the following?
+-- TmpRespondsTo. 	TmpPatExp ::= Exp "responds" "to" Exp TmpScope;
+
+TmpRespondsTo. 	TmpPatExp ::= Exp "respondsTo" Exp TmpScope;
 
 
---LTLBinaryExpUntil.	Exp	::=	Exp	LTLUntil	Exp1	;
---LTLBinaryExpRelease.	Exp	::=	Exp	LTLRelease	Exp1	;
---LTLBinaryExpWeakUntil. 	Exp	::=	Exp	LTLWeakUntil	Exp1	;
-
---maybe coercions?
-
--- [[ E [ some mood.sad ] -> F [ mood.happy ] ]]
-
---const := '[' Expr ']'
---tempconstr := '[[' TempExpr ']]'
---tempExpr := TempOp constr
-
----}
 
 
-{-
-[10:28:52 PM] Paulius: I added to github
-[10:28:54 PM] Paulius: a new folder
-[10:28:59 PM] Paulius: for grammar development
-[10:29:08 PM] Paulius: there is a makefile you can use to build parser
-[10:29:30 PM] Paulius: then you can invoke Testclafer < sometestmodel.cfr
-[10:29:36 PM] Paulius: it will tell if it parses
--}
--- Behavioral Clafer end modif
 
+-- End of temporal Patterns
+-- Behavioral Clafer END ----------------------
 
 AbstractEmpty.  Abstract ::= ;
 Abstract.       Abstract ::= "abstract" ;
@@ -177,7 +234,7 @@ EXor.           Exp4  ::= Exp4 "xor" Exp5 ;
 EAnd.           Exp5  ::= Exp5 "&&"  Exp6 ;
 ENeg.           Exp6  ::= "!" Exp7 ;
 ELt.            Exp7  ::= Exp7 "<"  Exp8 ;
-EGt.            Exp7  ::= Exp7 ">"  Exp8 ;
+EGt.            Exp7  ::= Exp7 ">"   Exp8 ;
 EEq.            Exp7  ::= Exp7 "="  Exp8 ;
 ELte.           Exp7  ::= Exp7 "<=" Exp8 ;
 EGte.           Exp7  ::= Exp7 ">=" Exp8 ;
@@ -209,7 +266,7 @@ ClaferId.       SetExp6 ::= Name ;
 
 Decl.           Decl ::= [LocId] ":" SetExp ;
 
-QuantNo.        Quant ::= "no" ;
+QuantNo.        Quant ::=  "no" ;
 QuantLone.      Quant ::= "lone" ;
 QuantOne.       Quant ::= "one" ;
 QuantSome.      Quant ::= "some" ;
@@ -225,13 +282,22 @@ separator           Declaration ""  ;
 separator  nonempty EnumId      "|" ;
 separator           Element     ""  ;
 separator           Exp         ""  ;
+separator           ConstraintExp ""  ;
 separator  nonempty LocId       ";" ;
 separator  nonempty ModId       "\\" ;
 
 coercions Exp 13 ;
 coercions SetExp 6 ;
+coercions LTLExp 17;
+coercions ConstraintExp 1;
 
+--position token No ('n' 'o');
 position token PosInteger (digit+) ;
 position token PosDouble (digit+ '.' digit+ ('e' '-'? digit+)?) ;
 position token PosString '"' ((char - ["\"\\"]) | ('\\' ["\"\\nt"]))* '"' ;
 position token PosIdent (letter (letter|digit|'_'|'\'')*) ;
+
+--position token 
+
+--Question
+-- Do we need to put tokens for every keyword in the syntax?

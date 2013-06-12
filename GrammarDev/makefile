@@ -11,11 +11,11 @@ alt:
 	alex -g Lexclafer2.x
 	ghc --make Testclafer2.hs -o Testclafer2
 
-test:
-	./Testclafer < test.cfr
+test: 
+	./runtests.sh
 
 testalt:
-	./Testclafer2 < test.cfr
+	./runtests.sh Testclafer2
 
 
 clean:

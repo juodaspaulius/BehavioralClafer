@@ -1,0 +1,29 @@
+<<max A>>
+A {
+  <<max B>>
+  B ? {}
+  `E 5 {
+    Y
+    [E]
+  }
+  C ?
+  D ?
+  V -> integer
+  
+  // Structural constraint
+  [ no B ]
+  [#C>=5]
+  [#A > 10 && #A< 5]
+
+  // Behavioural constraint
+  // Respose Pattern
+  
+  [ A respondsTo B]
+  [ A responds to B globally]
+  [ A respondsTo B globally]
+  [ A responds to B before C ]
+  [ A responds to B after D]
+  [ A respondsTo B between C and D]
+  [ A responds to B,C before lone D]
+  
+}

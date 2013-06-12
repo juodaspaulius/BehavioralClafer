@@ -1,0 +1,43 @@
+<<max A>>
+A {
+  <<max B>>
+  B ? {}
+  `E 5 {
+    Y
+    [E]
+  }
+  C ?
+  D ?
+  V -> integer
+  
+  // Structural constraint
+  [ no B ]
+  [#C>=5]
+  [#A > 10 && #A< 5]
+
+  // Behavioural constraint
+  //Precedence Pattern
+  
+  [ #A > 1 && C precedes some B]
+  
+  [ A precedes B]
+  [ A precedes B globally]
+  [ A precedes B before C ]
+  [ A precedes B after D]
+  [ A precedes B between C and D]
+  
+  [ some A precedes one B]
+  
+  [ some A precedes lone B globally]
+  
+  [ lone A precedes some B before lone C ]
+  
+  [ #A=5 precedes #B=3 after (max sum D)]
+  
+  [ one A precedes B between (if (#C>=5) then E.Y else D) and (all disj a:D | #a>2 )]
+  
+  [ A precedes B between (C) and (D)]
+  
+  [ some A precedes some B between C and D]
+
+}

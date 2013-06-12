@@ -32,6 +32,10 @@ A {
   
   [ G ( (#A > 5) => F (D)) ]
   
+  [ G ( #A > 5 => F D) ]
+  
+  [ G ( #A > 5 => F D) ]
+  
   [ A W B => X((C)) ]
   [ A R (B => D)]
   
@@ -44,7 +48,7 @@ A {
   
   
   //not working
-  //[ ((((A)))) R (B => D)]
+  [ ((((A)))) R (B => D)]
   
   //not working
   //[ G ( A => F ( some D) ]
@@ -53,10 +57,8 @@ A {
   //[ G ( A => F (max sum D) ]
   
   
-  //not working
-  //[ G ( B => F (#C > 2))]
+  [ G ( B => F (#C > 2))]
   
-  //not working
-  //[ G ( some A => F (lone B => one C))]
+  [ G ( some A => F (lone B => one C))]
 
 }

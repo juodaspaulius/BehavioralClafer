@@ -32,9 +32,11 @@ StructConstraint.	ConstraintExp ::= Exp;
 
 
 -- LTL BEGIN
--- precedence order: <AP>, !, X, G, F, W, U, R, &&, ||, => 
+-- precedence order: <AP>, !, X, G, F, W, U, R, &&, ||, =>, <=> 
 
+--LTL Version 1
 {-
+
 LTLImplies.     LTLExp   ::=   LTLExp "=>" LTLExp1;
 LTLOr.          LTLExp1  ::=   LTLExp1 "||" LTLExp2;
 LTLAnd.         LTLExp2  ::=   LTLExp2 "&&" LTLExp3;
@@ -45,33 +47,86 @@ LTLFinally.	LTLExp6	 ::=   "F" LTLExp7;
 LTLGlobally.	LTLExp7	 ::=   "G" LTLExp8;
 LTLNext.	LTLExp8	 ::=   "X" LTLExp9;
 LTLNot.         LTLExp9	 ::=   "!" LTLExp10;
-
 _.              LTLExp10  ::= "(" LTLExp ")";
 LTLAtom.	LTLExp10  ::= Name;
+
+-}
+
+--LTL Version 2
+{-
+
+LTLImplies.     LTLExp   ::=   LTLExp "=>" LTLExp1;
+LTLOr.          LTLExp1  ::=   LTLExp1 "||" LTLExp2;
+LTLAnd.         LTLExp2  ::=   LTLExp2 "&&" LTLExp3;
+LTLRelease.	LTLExp3	 ::=   LTLExp3 "R" LTLExp4;
+LTLUntil.	LTLExp4	 ::=   LTLExp4 "U" LTLExp5;
+LTLWeakUntil.	LTLExp5	 ::=   LTLExp5 "W" LTLExp6;
+LTLFinally.	LTLExp6	 ::=   "F" LTLExp7;
+LTLGlobally.	LTLExp7	 ::=   "G" LTLExp8;
+LTLNext.	LTLExp8	 ::=   "X" LTLExp9;
+LTLNot.         LTLExp9	 ::=   "!" LTLExp10;
+_.         	LTLExp10  ::= "(" LTLExp ")";
+LTLAtom.	LTLExp10  ::= Name;
+LTLExp.		LTLExp ::= "(" Exp ")";
+
 -}
 
 
+--LTL Version 3
 
-LTLImplies.     LTLExp   ::=   LTLExp "=>" LTLExp1;
-LTLOr.          LTLExp1  ::=   LTLExp1 "||" LTLExp2;
-LTLAnd.         LTLExp2  ::=   LTLExp2 "&&" LTLExp3;
-LTLRelease.	LTLExp3	 ::=   LTLExp3 "R" LTLExp4;
-LTLUntil.	LTLExp4	 ::=   LTLExp4 "U" LTLExp5;
-LTLWeakUntil.	LTLExp5	 ::=   LTLExp5 "W" LTLExp6;
-LTLFinally.	LTLExp6	 ::=   "F" LTLExp7;
-LTLGlobally.	LTLExp7	 ::=   "G" LTLExp8;
-_.		LTLExp7	 ::=   "G" "(" Exp ")";
+-- precedence order: <AP>, !, X, G, F, W, U, R, &&, ||, =>, <=> 
 
-LTLNext.	LTLExp8	 ::=   "X" LTLExp9;
-LTLNot.         LTLExp9	 ::=   "!" LTLExp10;
+LTLDeclAllDisj.		LTLExp   ::= "all" "disj" Decl "|" LTLExp ;
+LTLDeclAll.		LTLExp   ::= "all"        Decl "|" LTLExp ;
+LTLDeclQuantDisj.	LTLExp   ::= Quant "disj" Decl "|" LTLExp ;
+LTLDeclQuant.      	LTLExp   ::= Quant        Decl "|" LTLExp ;
 
-_.         	LTLExp10  ::= "(" LTLExp ")";
-LTLAtom.	LTLExp10  ::= Name;
+-- Question
+-- Do we need max and min for LTL expressions?
+-- LTLEGMax.	LTLExp1  ::= "max" LTLExp2 ;
+-- LTLEGMin.	LTLExp1  ::= "min" LTLExp2 ;
 
-LTLInt.         LTLExp11 ::= PosInteger ;
-LTLDouble.      LTLExp11 ::= PosDouble ;
-LTLStr.         LTLExp11 ::= PosString ;
-LTLExp.		LTLExp ::= "(" Exp ")";
+LTLIff.		LTLExp1 ::= LTLExp "<=>" LTLExp2 ;
+
+LTLImplies.     LTLExp2 ::= LTLExp "=>" LTLExp1;
+LTLOr.          LTLExp1 ::= LTLExp1 "||" LTLExp2;
+LTLAnd.         LTLExp2 ::= LTLExp2 "&&" LTLExp3;
+LTLRelease.	LTLExp3	::= LTLExp3 "R" LTLExp4;
+LTLUntil.	LTLExp4	::= LTLExp4 "U" LTLExp5;
+LTLWeakUntil.	LTLExp5	::= LTLExp5 "W" LTLExp6;
+LTLFinally.	LTLExp6	::= "F" LTLExp7;
+LTLGlobally.	LTLExp7	::= "G" LTLExp8;
+LTLNext.	LTLExp8	::= "X" LTLExp9;
+LTLNot.         LTLExp9	::= "!" LTLExp10;
+
+LTLELt.		LTLExp10  ::= LTLExp10 "<"  LTLExp11 ;
+LTLEGt.         LTLExp10  ::= LTLExp10 ">"  LTLExp11 ;
+LTLEEq.         LTLExp10  ::= LTLExp10 "="  LTLExp11 ;
+LTLELte.        LTLExp10  ::= LTLExp10 "<=" LTLExp11 ;
+LTLEGte.        LTLExp10  ::= LTLExp10 ">=" LTLExp11 ;
+LTLENeq.        LTLExp10  ::= LTLExp10 "!=" LTLExp11 ;
+LTLEIn.         LTLExp10  ::= LTLExp10 "in" LTLExp11 ;
+LTLENin.        LTLExp10  ::= LTLExp10 "not" "in" LTLExp11 ;
+
+LTLQuantExp.	LTLExp11  ::= Quant LTLExp12 ;
+LTLEAdd.        LTLExp11  ::= LTLExp11 "+" LTLExp12 ;
+LTLESub.        LTLExp11  ::= LTLExp11 "-" LTLExp12 ;
+LTLEMul.        LTLExp12  ::= LTLExp12 "*" LTLExp13 ;
+LTLEDiv.        LTLExp12  ::= LTLExp12 "/" LTLExp13 ;
+
+LTLECSetExp.	LTLExp13  ::= "#" LTLExp12 ;
+LTLEMinExp.     LTLExp13  ::= "-" LTLExp12 ;
+LTLEImpliesElse. LTLExp12  ::= "if" LTLExp12 "then" LTLExp12 "else" LTLExp13 ;
+LTLEInt.	LTLExp13  ::= PosInteger ;
+LTLEDouble.     LTLExp13  ::= PosDouble ;
+LTLEStr.        LTLExp13  ::= PosString ;
+LTLESetExp.     LTLExp13  ::= SetExp ;
+
+-- Question
+-- Do we need sum for an LTL expression?
+-- LTLESumSetExp.     LTLExp13  ::= "sum" LTLExp12;
+
+
 
 
 
@@ -91,6 +146,7 @@ LTLExp.		LTLExp ::= "(" Exp ")";
 -- _.      	LTLAtom ::= "<" Exp1 ">";
 -- _.           LTLAtom ::= Name;
 -- LTL END
+
 
 -- The scope's parameters for all Temporal Patterns are basically an expression 
 ScopeParam.         ScopeParam ::= Exp;
@@ -238,7 +294,7 @@ separator  nonempty ModId       "\\" ;
 
 coercions Exp 13 ;
 coercions SetExp 6 ;
-coercions LTLExp 10;
+coercions LTLExp 13;
 
 --position token No ('n' 'o');
 position token PosInteger (digit+) ;
@@ -247,3 +303,6 @@ position token PosString '"' ((char - ["\"\\"]) | ('\\' ["\"\\nt"]))* '"' ;
 position token PosIdent (letter (letter|digit|'_'|'\'')*) ;
 
 --position token 
+
+--Question
+-- Do we need to put tokens for every keyword in the syntax?

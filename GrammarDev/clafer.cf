@@ -37,17 +37,23 @@ LTLDeclQuant.      	LTLExp   ::= Quant        Decl "|" LTLExp ;
 
 -- Question
 -- Is the next rule written ok? It does what we need for the let / binding variable to state value scenario?
---LTLDeclLet.		LTLExp	 ::= "let" PosIdent "=" LTLExp "|" SetExp ;
---LTLDeclLet.		LTLExp	 ::= "let" PosIdent "=" Exp "|" SetExp ;
-
 -- In the next rule should we use : or = ???
-LTLDeclLet.		LTLExp::= "let" PosIdent ":" Exp "|" LTLExp11 ;
-
+--LTLDeclLet1.		LTLExp	 ::= "let" PosIdent "=" Exp "|" LTLExp11 ;
+--LTLDeclLet2.		LTLExp	 ::= "let" PosIdent "=" Exp "|" SetExp ;
+ 
 -- the next 3 rules don't work
 -- I wanted something like what we have in let_binding2.cfr test file
---LTLDeclLetBinding.	LTLDeclLetBinding ::= PosIdent ":" Exp;
---LTLDeclLet.		LTLExp::= "let" [LTLDeclLetBinding] "|" LTLExp11 ;
--- separator nonempty LTLDeclLetBinding ","  ;
+LTLDeclLetBinding.	LTLDeclLetBinding ::= PosIdent ":" Exp;
+LTLDeclLet.		LTLExp::= "let" [LTLDeclLetBinding] "|" LTLExp11 ;
+
+--LTLDeclLet1.		LTLExp::= "let" [LTLDeclLetBinding] "|" Exp1 ;
+--LTLDeclLet1.		LTLExp::= "let" [LTLDeclLetBinding] "|" LTLExp11 ;
+--LTLDeclLet2.		LTLExp::= "let" [LTLDeclLetBinding] "|" SetExp ;
+
+separator nonempty LTLDeclLetBinding ""  ;
+
+--separator nonempty LTLDeclLetBinding "$"  ;
+
 
 -- Question
 -- Do we need max and min for LTL expressions?

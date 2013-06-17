@@ -23,10 +23,21 @@ Goal.		Goal ::= "<<" [Exp] ">>" ;
 
 
 -- Temporal Patterns 
-TmpPrecedesExp.      ConstExp ::= Exp "precedes" Exp;
+TmpPrecedesExp.		ConstExp ::= Exp "precedes" Exp;
 
 -- Non pattern constraint
-NonPatternsExp.      ConstExp ::= Exp;
+NonPatternsExp.		ConstExp ::= Exp;
+
+-- Immutable constraint
+ImmutableConstr.	ConstExp ::= Immutable;
+
+-- Question
+-- Is the next rule written ok? It does what we need for the let / binding variable to state value scenario?
+-- In the next rule should we use : or = ???
+DeclLetBindingValue.	DeclLetBinding ::= PosIdent "=" Exp ;
+DeclLetBindingSet.	DeclLetBinding ::= PosIdent ":" SetExp ;
+DeclLet.		Exp::= "let" [DeclLetBinding] "|" Exp ;
+separator nonempty DeclLetBinding "" ;
 
 
 AbstractEmpty.  Abstract ::= ;
@@ -155,6 +166,9 @@ coercions SetExp 6 ;
 
 --QuantNo.        Quant ::=  No ;
 --position token No ('n' 'o');
+
+
+position token Immutable ('i' 'm' 'm' 'u' 't' 'a' 'b' 'l' 'e') ;
 
 position token PosInteger (digit+) ;
 position token PosDouble (digit+ '.' digit+ ('e' '-'? digit+)?) ;

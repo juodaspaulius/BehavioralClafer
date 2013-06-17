@@ -11,6 +11,7 @@ A {
   
   [ let x = A.param | A.B => X A.param > x   ]
   
+  //at each step the value of param only increases
   [ let x = A.param | X (A.param > x)   ]
   
   [ G (let x = A.param | X A.param > x)   ]

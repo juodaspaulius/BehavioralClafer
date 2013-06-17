@@ -28,10 +28,10 @@ Goal.		Goal ::= "<<" [Exp] ">>" ;
 -- Scopes of Temporal Patterns - BEGIN
 TmpScopeGlobally.	TmpScope ::= "globally" ;
 TmpScopeGlobally.	TmpScope ::=  ;
-TmpScopeBefore.		TmpScope1 ::= "before" Exp ;
-TmpScopeAfter.		TmpScope1 ::= "after" Exp ;
-TmpScopeBetweenAnd.	TmpScope2 ::= "between" Exp "and" Exp ;
-TmpScopeAfterUntil.	TmpScope2 ::= "after" Exp "until" Exp ;
+TmpScopeBefore.		TmpScope ::= "before" Exp ;
+TmpScopeAfter.		TmpScope ::= "after" Exp ;
+TmpScopeBetweenAnd.	TmpScope ::= "between" Exp "and" Exp ;
+TmpScopeAfterUntil.	TmpScope ::= "after" Exp "until" Exp ;
 
 --Question: here maybe we can use something like this?
 -- 	_.	TmpScope ::= ;   or 	coercions TmpScope 1;
@@ -46,8 +46,8 @@ TmpRespondsTo.	ConstrExp ::= Exp "respondsTo" Exp TmpScope;
 TmpRespondsTo.	ConstrExp ::= Exp "responds" "to" Exp TmpScope;
 
 TmpAbsence.	ConstrExp ::= Exp "is" "false" TmpScope ;
-TmpExistence.	ConstrExp ::= Exp16 "is" "true" TmpScope ;
-TmpBoundedExistence.	ConstrExp1 ::= Exp "is" "true" PosInteger "times" TmpScope ;
+TmpExistence.	ConstrExp ::= Exp "is" "true" TmpScope ;
+TmpBoundedExistence.	ConstrExp ::= Exp "is" "true" PosInteger "times" TmpScope ;
 
 -- Non pattern constraint
 NonPatternsExp.		ConstrExp ::= Exp;

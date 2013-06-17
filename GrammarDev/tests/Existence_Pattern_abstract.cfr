@@ -1,9 +1,5 @@
 A {
   B ? {}
-  `E 5 {
-    Y
-    [E]
-  }
   C ?
   D
     param : int 
@@ -17,15 +13,17 @@ A {
   // Behavioural constraint
   // Existence Pattern
   
-  //[ #A > 1 && C is true globally]
+  [ #A > 1 && C is true globally]
   
-  //[ D is true globally]
+  [ D is true globally]
 
-  //[ D is true]
+  [ D is true]
   
-  [ V <= 5 is true before D.param < 25]
+  [ percent <= 5 is true before D.param < 25 ]
   
-  [ V >= 5  && V <= 8 is true between D.param >= 25 && D.param <= 50]
+  [ percent <= 5 is true before (D.param < 25) ]
   
-  [ V > 8 is true after D.param > 50 ]
+  [ percent > 5  && percent <= 8 is true between D.param >= 25 and D.param <= 50]
+  
+  [ percent > 8 is true after D.param > 50 ]
 }

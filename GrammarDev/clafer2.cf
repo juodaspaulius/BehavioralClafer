@@ -19,10 +19,12 @@ ElementDecl.    Declaration ::= Element ;
 Clafer.         Clafer ::= Abstract GCard PosIdent Super Card Init Elements ;
 Constraint.     Constraint ::= "[" [ConstExp] "]" ;
 SoftConstraint. SoftConstraint ::= "(" [Exp] ")";
-Goal.   	    Goal ::= "<<" [Exp] ">>" ;
+Goal.		Goal ::= "<<" [Exp] ">>" ;
+
 
 -- Temporal Patterns 
 TmpPrecedesExp.      ConstExp ::= Exp "precedes" Exp;
+
 -- Non pattern constraint
 NonPatternsExp.      ConstExp ::= Exp;
 
@@ -31,6 +33,7 @@ AbstractEmpty.  Abstract ::= ;
 Abstract.       Abstract ::= "abstract" ;
 
 -- ElementsEmpty causes parsing problems
+-- Why does this happen???
 ElementsEmpty.  Elements ::= ;
 ElementsList.   Elements ::= "{" [Element] "}" ;
 
@@ -127,7 +130,7 @@ ClaferId.       SetExp6 ::= Name ;
 
 Decl.           Decl ::= [LocId] ":" SetExp ;
 
-QuantNo.        Quant ::=  No ;
+QuantNo.        Quant ::=  "no" ;
 QuantLone.      Quant ::= "lone" ;
 QuantOne.       Quant ::= "one" ;
 QuantSome.      Quant ::= "some" ;
@@ -150,7 +153,9 @@ separator  nonempty ModId       "\\" ;
 coercions Exp 16 ;
 coercions SetExp 6 ;
 
-position token No ('n' 'o');
+--QuantNo.        Quant ::=  No ;
+--position token No ('n' 'o');
+
 position token PosInteger (digit+) ;
 position token PosDouble (digit+ '.' digit+ ('e' '-'? digit+)?) ;
 position token PosString '"' ((char - ["\"\\"]) | ('\\' ["\"\\nt"]))* '"' ;

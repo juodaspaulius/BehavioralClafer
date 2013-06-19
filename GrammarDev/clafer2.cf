@@ -99,9 +99,9 @@ DeclBindingSet.		DeclBindingSet	::= PosIdent ":" SetExp ;
 DeclBindSet1.		SetExp		::= "{" [DeclBindingSet] "|" Exp "}" ;
 separator nonempty DeclBindingSet "," ;
 
-
 DeclBindSet2.		SetExp		::= "{" [Decl] "|" Exp "}" ;
 separator nonempty Decl "," ;
+
 
 AbstractEmpty.  Abstract ::= ;
 Abstract.       Abstract ::= "abstract" ;

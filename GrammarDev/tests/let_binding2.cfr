@@ -17,7 +17,9 @@ A {
   //this should throw an error, since it shoulbe be written like this - LET operator with set comprehensions
   // [ let a = A | a.param && X a.param2  ]
   
-  [ let a : A | a.param && X a.param2  ]
+  //[ let a : A | a.param && X a.param2  ]
+  
+  [ {a : A | a.param && X a.param2                }  ]
   
   
 }

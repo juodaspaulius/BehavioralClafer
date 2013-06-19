@@ -78,7 +78,7 @@ separator nonempty DeclLetBinding "" ;
 -}
 
 -- version 2 for Let scenario
-
+{-
 DeclLetBindingValue.	DeclLetBindingValue	::= PosIdent "=" Exp ;
 DeclLetBindingSet.	DeclLetBindingSet	::= PosIdent ":" SetExp ;
 
@@ -87,16 +87,21 @@ separator nonempty DeclLetBindingValue "," ;
 
 DeclLetBindSet.		Exp16		::= "let" [DeclLetBindingSet] "|" Exp ;
 separator nonempty DeclLetBindingSet "," ;
-
+-}
 -- both versions of LET scenario work, but which one is better???
 
 
+DeclLetBindingValue.	DeclLetBindingValue	::= PosIdent "=" Exp ;
+DeclLetBindValue.	Exp16	::= "let" [DeclLetBindingValue] "|" Exp ;
+separator nonempty DeclLetBindingValue "," ;
+
+DeclBindingSet.		DeclBindingSet	::= PosIdent ":" SetExp ;
+DeclBindSet1.		SetExp		::= "{" [DeclBindingSet] "|" Exp "}" ;
+separator nonempty DeclBindingSet "," ;
 
 
-
-
-
-
+DeclBindSet2.		SetExp		::= "{" [Decl] "|" Exp "}" ;
+separator nonempty Decl "," ;
 
 AbstractEmpty.  Abstract ::= ;
 Abstract.       Abstract ::= "abstract" ;

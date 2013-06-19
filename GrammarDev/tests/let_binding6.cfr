@@ -1,0 +1,31 @@
+abstract Person
+
+Parent : Person *
+  kids -> Kid +
+  [this in kids.parents]
+
+Kid : Person * 
+  parents -> Parent 2
+  behaves_well ?
+  //[this.behaves_well && X this.behaves_well]
+  
+WellBehavedKids -> Kid 5
+  //We create a set of good kids (all of them behave well in the first and the next state of the execution)
+  //we could have also written it like this 
+  //[# (let k: WellBehavedKids | k.behaves_well && X k.behaves_well) = 5]
+  [# {k: WellBehavedKids | k.behaves_well && X k.behaves_well} = 5]
+  
+
+Classroom_A
+  kids -> Kid *
+  [ # {x;y : this.kids | x.behaves_well && X x.behaves_well && !y.behaves_well && ! (X y.behaves_well)} = 5 ]
+
+  
+/*
+Here it does not work
+You should be able to write both
+[# { k , y: set1 | ..........  } >=3]
+and 
+[# { k : set1, z:set2 |....  } >= int]
+*/
+

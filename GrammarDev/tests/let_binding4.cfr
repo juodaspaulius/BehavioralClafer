@@ -2,11 +2,15 @@ Person	1..5
   name : String
     [immutable]
   
-Kids : Person
+Kid : Person
   behavesWell ?
   
-KidsGroup1 ->> Kids *
+KidsGroup1 -> Kid *
   // at any moment there are at least 2 kids that behave well now and they behave well in the next step
-  [# (let k : KidsGroup1 | k.behavesWell && X k.behavesWell) >= 2 ]
   
+  [# { k : KidsGroup1 | k.behavesWell && X k.behavesWell  } >= 2 ]
   
+  // we could also write it like this
+  //[# (let k : KidsGroup1 | k.behavesWell && X k.behavesWell) >= 2 ]
+  
+  //which one is better???

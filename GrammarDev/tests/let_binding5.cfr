@@ -10,21 +10,24 @@ Kid : Person *
   //[this.behave_well && X this.behave_well]
   
 WellBehavedKids -> Kid 5
-  //We create a set of good kids (behave well in the first states of the execution)
-  [# (let k: WellBehavedKids | k.behave_well && X k.behave_well) = 4]
+  //We create a set of good kids (all of them behave well in the first and the next state of the execution)
+  //we could have also written it like this 
+  //[# (let k: WellBehavedKids | k.behave_well && X k.behave_well) = 5]
+  [# {k: WellBehavedKids | k.behave_well && X k.behave_well} = 5]
   
 
 Classroom_A
   kids -> Kid *
-  [ # (let k: this.kids | k.behave_well && X k.behave_well) = 5 ]
+  //[ # (let k: this.kids | k.behave_well && X k.behave_well) = 5 ]
+  [ # {k: this.kids | k.behave_well && X k.behave_well} = 5 ]
 
-/*
-Classroom_B
+Classroom_B //at least 3 kids in Classroom_B behave well
   kids -> Kid *
   [# { k : this.kids | behave_well  } >=3]
-*/
 
 
 Classroom_C
   kids -> Kid *
   [all k : this.kids | k.behave_well && X k.behave_well]
+  
+  

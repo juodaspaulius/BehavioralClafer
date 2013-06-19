@@ -1,0 +1,29 @@
+A {
+  B ? {}
+  C ?
+  D
+    param : int 
+  percent -> integer
+  
+  // Structural constraint
+  [ no B ]
+  [#C>=5]
+  [#A > 10 && #A< 5]
+
+  // Behavioural constraint
+  // Existence Pattern
+  
+  [ #A > 1 && C is true globally]
+  
+  [ D is true globally]
+
+  [ D is true]
+  
+  [ percent <= 5 is true before D.param < 25 ]
+  
+  [ percent <= 5 is true before (D.param < 25) ]
+  
+  [ percent > 5  && percent <= 8 is true between D.param >= 25 and D.param <= 50]
+  
+  [ percent > 8 is true after D.param > 50 ]
+}

@@ -4,14 +4,18 @@ A {
   C ?
     param : int
   param : int
+  param2 : int ?
   D ?
     
   // Behavioral constraints
   
-  [ G (let x : A.param  y : B.param | (A.D => X(A.param <= x + 10) && F(B.param = y+2) )) ]
+  [ G (let x : A.param  y : B.param | A.D => X(A.param <= x + 10) && F(B.param = y+2) ) ]
   
-  //[ G (let x = A.param | (A.param <= x + 10) ++ B.param) ]
+  //this is possible
+  [ let a = A | a.param && X a.param2  ]
+  
+  //this should throw an error
+  [ let a : A | a.param && X a.param2  ]
   
   
-  //[ F (A.param = 5) ]
 }

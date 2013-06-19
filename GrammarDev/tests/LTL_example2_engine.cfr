@@ -42,15 +42,14 @@ abstract Engine {
   
   //if the battery is fully charged, then percentCharged = 100 %
   //not working
-  [if (battery.status = BatteryStatus.fullyCharged) then (percentCharged = 100) ]
+  //[if (battery.status = BatteryStatus.fullyCharged) then (percentCharged = 100) ]
   
-  //Question ???
-  //
   //if we arrive to phase 1 from last phase (noPhases), then completeCycles increseas by 1
   //basically completeCycles increseas by 1 when we get to phase 1 from last phase (with id = noPhases)
+  [ G (let x = currentPhaseId y = completeCycles | x = noPhases && X(currentPhaseId = 1) => completeCycles = y + 1)]
   
-  [ currentPhaseId = 1 && old(currentPhaseId) = noPhases => completeCycles = $old(completeCycles) + 1 ]
-  
+  //the previous constraint can be written also like this
+  [ let x = currentPhaseId y = completeCycles | x = noPhases && X(currentPhaseId = 1) => completeCycles = y + 1]
   
   // or maybe write this line with LTL in the past operator
   // Previous P, where P is another PTL formula
@@ -59,7 +58,7 @@ abstract Engine {
   // although there is no previous cycle. So we can have something like
   // Previous N => P(N)
   // Next N => X(N)
-  [ currentPhaseId = 1 && P(currentPhaseId = noPhases) => completeCycles = $old(completeCycles) + 1]
+  //[ currentPhaseId = 1 && P(currentPhaseId = noPhases) => completeCycles = $old(completeCycles) + 1]
   
   //this shows that maybe we need other operators, like PREVIOUS operator (for Past Time LTL formulas)
   // and $old to specify values in the previous position within the trace

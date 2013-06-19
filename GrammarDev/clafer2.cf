@@ -17,20 +17,92 @@ EnumDecl.       Declaration ::= "enum" PosIdent "=" [EnumId] ;
 ElementDecl.    Declaration ::= Element ;
 
 Clafer.         Clafer ::= Abstract GCard PosIdent Super Card Init Elements ;
-Constraint.     Constraint ::= "[" [ConstExp] "]" ;
+Constraint.     Constraint ::= "[" [ConstrExp] "]" ;
 SoftConstraint. SoftConstraint ::= "(" [Exp] ")";
-Goal.   	    Goal ::= "<<" [Exp] ">>" ;
+Goal.		Goal ::= "<<" [Exp] ">>" ;
 
--- Temporal Patterns 
-TmpPrecedesExp.      ConstExp ::= Exp "precedes" Exp;
+-- The scope's parameters for all Temporal Patterns are basically an expression 
+-- ScopeParam.         ScopeParam ::= Exp;
+-- TmpScopeBefore.		TmpScope ::= "before" ScopeParam;
+
+-- Scopes of Temporal Patterns - BEGIN
+TmpScopeGlobally.	TmpScope ::= "globally" ;
+TmpScopeGlobally.	TmpScope ::=  ;
+TmpScopeBefore.		TmpScope ::= "before" Exp ;
+TmpScopeAfter.		TmpScope ::= "after" Exp ;
+TmpScopeBetweenAnd.	TmpScope ::= "between" Exp "and" Exp ;
+TmpScopeAfterUntil.	TmpScope ::= "after" Exp "until" Exp ;
+
+--Question: here maybe we can use something like this?
+-- 	_.	TmpScope ::= ;   or 	coercions TmpScope 1;
+-- instead of:	TmpScopeGlobally.	TmpScope ::= ;
+
+-- Scopes of Temporal Patterns - END
+
+
+-- List of Temporal Patterns - BEGIN
+TmpPrecedes.	ConstrExp ::= Exp "precedes" Exp TmpScope;
+TmpRespondsTo.	ConstrExp ::= Exp "respondsTo" Exp TmpScope;
+TmpRespondsTo.	ConstrExp ::= Exp "responds" "to" Exp TmpScope;
+
+TmpAbsence.	ConstrExp ::= Exp "is" "false" TmpScope ;
+TmpExistence.	ConstrExp ::= Exp "is" "true" TmpScope ;
+TmpBoundedExistence.	ConstrExp ::= Exp "is" "true" PosInteger "times" TmpScope ;
+
 -- Non pattern constraint
-NonPatternsExp.      ConstExp ::= Exp;
+NonPatternsExp.		ConstrExp ::= Exp;
+
+
+--Question
+-- Do we need to change the previous rule to look like the following?
+-- TmpRespondsTo. 	ConstrExp ::= Exp "responds" "to" Exp TmpScope;
+
+-- List of Temporal Patterns - END
+
+
+
+
+-- Immutable constraint
+ImmutableConstr.	ConstrExp ::= Immutable;
+
+-- Question
+-- Are the next rules written ok? They do what we need for the let / binding variable to state value scenario?
+
+
+{-
+-- version 1 for LET scenario
+DeclLetBindingValue.	DeclLetBinding	::= PosIdent "=" Exp ;
+DeclLetBindingSet.	DeclLetBinding	::= PosIdent ":" SetExp ;
+DeclLet.		Exp		::= "let" [DeclLetBinding] "|" Exp ;
+separator nonempty DeclLetBinding "" ;
+-}
+
+-- version 2 for Let scenario
+
+DeclLetBindingValue.	DeclLetBindingValue	::= PosIdent "=" Exp ;
+DeclLetBindingSet.	DeclLetBindingSet	::= PosIdent ":" SetExp ;
+
+DeclLetBindValue.	Exp16		::= "let" [DeclLetBindingValue] "|" Exp ;
+separator nonempty DeclLetBindingValue "" ;
+
+DeclLetBindSet.		SetExp6		::= "let" [DeclLetBindingSet] "|" SetExp ;
+separator nonempty DeclLetBindingSet "" ;
+
+-- both versions work, but which one is better???
+
+
+
+
+
+
+
 
 
 AbstractEmpty.  Abstract ::= ;
 Abstract.       Abstract ::= "abstract" ;
 
 -- ElementsEmpty causes parsing problems
+-- Why does this happen???
 ElementsEmpty.  Elements ::= ;
 ElementsList.   Elements ::= "{" [Element] "}" ;
 
@@ -127,7 +199,7 @@ ClaferId.       SetExp6 ::= Name ;
 
 Decl.           Decl ::= [LocId] ":" SetExp ;
 
-QuantNo.        Quant ::=  No ;
+QuantNo.        Quant ::= "no" ;
 QuantLone.      Quant ::= "lone" ;
 QuantOne.       Quant ::= "one" ;
 QuantSome.      Quant ::= "some" ;
@@ -143,14 +215,23 @@ separator           Declaration ""  ;
 separator  nonempty EnumId      "|" ;
 separator           Element     ""  ;
 separator           Exp         ""  ;
-separator           ConstExp         ""  ;
+separator           ConstrExp         ""  ;
 separator  nonempty LocId       ";" ;
 separator  nonempty ModId       "\\" ;
 
 coercions Exp 16 ;
 coercions SetExp 6 ;
 
-position token No ('n' 'o');
+--QuantNo.        Quant ::=  No ;
+--position token No ('n' 'o');
+
+
+
+-- This is the same as the following rule?
+--position token Immutable ('i' 'm' 'm' 'u' 't' 'a' 'b' 'l' 'e') ;
+
+position token Immutable {"immutable"} ;
+
 position token PosInteger (digit+) ;
 position token PosDouble (digit+ '.' digit+ ('e' '-'? digit+)?) ;
 position token PosString '"' ((char - ["\"\\"]) | ('\\' ["\"\\nt"]))* '"' ;

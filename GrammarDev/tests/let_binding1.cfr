@@ -15,8 +15,12 @@ A {
   
   // Behavioral constraints
   
-  [ G (let x : A.param | (A.B => X(A.param = x+1)) ) ]
+  [ G (let x = A.param | (A.B => X(A.param = x+1)) ) ]
+  
+  [ let x = A.param | A.B => X(A.param = x+3)   ]
+  
+  [ A.B => (let z = A.param | A.C => F A.param = z + 5)]
   
   
-  [ F (A.param = 5) ]
+
 }

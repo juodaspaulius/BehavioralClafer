@@ -1,0 +1,12 @@
+abstract Person
+  name : String
+    [immutable]
+  age : integer
+    [ this >= 0 ]
+  parents -> Person 0..2
+  [ immutable parents]
+
+
+Bob : Person
+  [ age = 36 ]
+  [ name = "Bob"]

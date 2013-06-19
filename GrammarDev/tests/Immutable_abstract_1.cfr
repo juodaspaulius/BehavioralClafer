@@ -1,0 +1,9 @@
+A {
+  B ? {}
+  C 2..5
+    param : integer
+      [immutable]
+  param -> integer
+  [ immutable param]
+  
+  }

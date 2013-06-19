@@ -8,3 +8,5 @@ Kids : Person
 KidsGroup1 ->> Kids *
   // at any moment there are at least 2 kids that behave well now and they behave well in the next step
   [# (let k : KidsGroup1 | k.behavesWell && X k.behavesWell) >= 2 ]
+  
+  

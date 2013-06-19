@@ -14,7 +14,9 @@ A {
   //this is possible
   [ let a = A | a.param && X a.param2  ]
   
-  //this should throw an error
+  //this should throw an error, since it shoulbe be written like this - LET operator with set comprehensions
+  // [ let a = A | a.param && X a.param2  ]
+  
   [ let a : A | a.param && X a.param2  ]
   
   

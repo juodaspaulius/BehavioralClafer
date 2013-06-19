@@ -17,7 +17,9 @@ A {
   
   [ G (let x = A.param | (A.B => X(A.param = x+1)) ) ]
   
-  [ let x = A.param | A.B => X(A.param = x+3)   ]
+  //or
+  
+  [ let x = A.param | A.B => X(A.param = x+1)   ]
   
   [ A.B => (let z = A.param | A.C => F A.param = z + 5)]
   

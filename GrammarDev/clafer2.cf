@@ -103,6 +103,15 @@ DeclBindSet2.		SetExp		::= "{" [Decl] "|" Exp "}" ;
 separator nonempty Decl "," ;
 
 
+
+{-
+DeclarationSet.		DeclarationSet ::= [PosIdent] ":" SetExp ;
+DeclBindSet2.		SetExp		::= "{" [DeclarationSet] "|" Exp "}" ;
+separator nonempty DeclarationSet "," ;
+-}
+
+
+
 AbstractEmpty.  Abstract ::= ;
 Abstract.       Abstract ::= "abstract" ;
 

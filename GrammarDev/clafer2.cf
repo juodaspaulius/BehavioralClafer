@@ -83,10 +83,10 @@ DeclLetBindingValue.	DeclLetBindingValue	::= PosIdent "=" Exp ;
 DeclLetBindingSet.	DeclLetBindingSet	::= PosIdent ":" SetExp ;
 
 DeclLetBindValue.	Exp16		::= "let" [DeclLetBindingValue] "|" Exp ;
-separator nonempty DeclLetBindingValue "" ;
+separator nonempty DeclLetBindingValue "," ;
 
 DeclLetBindSet.		SetExp6		::= "let" [DeclLetBindingSet] "|" SetExp ;
-separator nonempty DeclLetBindingSet "" ;
+separator nonempty DeclLetBindingSet "," ;
 
 -- both versions work, but which one is better???
 

@@ -7,8 +7,23 @@ Parent : Person *
 Kid : Person * 
   parents -> Parent 2
   behave_well ?
+  //[this.behave_well && X this.behave_well]
   
-Kids -> Kid 4
+WellBehavedKids -> Kid 5
   //We create a set of good kids (behave well in the first states of the execution)
-  [# (let k: Kid | k.behave_well && X k.behave_well) = 4]
+  [# (let k: WellBehavedKids | k.behave_well && X k.behave_well) = 4]
+  
 
+Classroom_A
+  kids -> Kid *
+  [ # (let k: this.kids | k.behave_well && X k.behave_well) = 5 ]
+
+/*
+Classroom_B
+  kids -> Kid *
+  [# { k : this.kids | behave_well  } >=3]
+*/
+
+Classroom_C
+  kids -> Kid *
+  [all k : this.kids | k.behave_well && X k.behave_well]

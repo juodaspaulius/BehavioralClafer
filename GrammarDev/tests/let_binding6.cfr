@@ -24,8 +24,8 @@ Classroom_A
 /*
 Here it does not work
 You should be able to write both
-[# { k , y: set1 | ..........  } >=3]
+[# { k , y: set1 | ..........  } >= value ]
 and 
-[# { k : set1, z:set2 |....  } >= int]
+[# { k : set1, z:set2 |........  } >= value ]
 */
 

@@ -1,0 +1,17 @@
+1) Add Time signature:
+sig Time {loop: lone Time}
+
+2) Add ordering module dependency with Time parameter:
+open util/ordering[Time]
+
+3) Add fact that loop starts in last instance of Time
+fact Loop {loop in last->Time}
+
+4) Adding Time to mutable fields:
+r_field: c_field -> Time
+
+4.1) Set up constraints for fields with "lone" cardinality:
+all t: Time | lone r_field.t
+
+4.2) In c_field facts adjust instance constraint
+one @r_field.Time.this

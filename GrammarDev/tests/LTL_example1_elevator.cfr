@@ -59,7 +59,7 @@ abstract Building
   //If the elevator stopped and there isn't a call to the elevator, then in the next step the elevator 
   //is on the same floor.
   //[ G(      Status.Stopped && !Call => (X Position = $old(Position))                                ]
-  [ G(  let x : Position |  Status.Stopped  => X (Position = x)) ]    
+  [ G ( let x = Elevator.Position |  Status.Stopped  => X (Position = x) ) ]    
  
  
  
@@ -73,6 +73,8 @@ ITU: Building
   [Floors = 6
     MAX_PEOPLE = 10
   ]
+
+  
 
   
   

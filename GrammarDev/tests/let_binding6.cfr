@@ -11,8 +11,6 @@ Kid : Person *
   
 WellBehavedKids -> Kid 5
   //We create a set of good kids (all of them behave well in the first and the next state of the execution)
-  //we could have also written it like this 
-  //[# (let k: WellBehavedKids | k.behaves_well && X k.behaves_well) = 5]
   [# {k: WellBehavedKids | k.behaves_well && X k.behaves_well} = 5]
   
 
@@ -22,9 +20,8 @@ Classroom_A
 
   
 /*
-Here it does not work
 You should be able to write both
-[# { k , y: set1 | ..........  } >= value ]
+[# { k ; y: set1 | ..........  } >= value ]
 and 
 [# { k : set1, z:set2 |........  } >= value ]
 */

@@ -46,10 +46,10 @@ abstract Engine {
   
   //if we arrive to phase 1 from last phase (noPhases), then completeCycles increseas by 1
   //basically completeCycles increseas by 1 when we get to phase 1 from last phase (with id = noPhases)
-  [ G (let x = currentPhaseId y = completeCycles | x = noPhases && X(currentPhaseId = 1) => completeCycles = y + 1)]
+  [ G (let x = currentPhaseId , y = completeCycles | x = noPhases && X(currentPhaseId = 1) => completeCycles = y + 1)]
   
   //the previous constraint can be written also like this
-  [ let x = currentPhaseId y = completeCycles | x = noPhases && X(currentPhaseId = 1) => completeCycles = y + 1]
+  [ let x = currentPhaseId , y = completeCycles | x = noPhases && X(currentPhaseId = 1) => completeCycles = y + 1]
   
   // or maybe write this line with LTL in the past operator
   // Previous P, where P is another PTL formula
@@ -68,3 +68,7 @@ abstract Engine {
 enum Phase = Generate | Load | Work | Transmit
 
 enum BatteryStatus = isCharging | fullyCharged |   low |  medium |  empty
+
+
+
+

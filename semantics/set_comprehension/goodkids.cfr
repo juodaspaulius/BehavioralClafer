@@ -1,0 +1,13 @@
+abstract Person
+
+Parent : Person *
+  kids -> Kid +
+  [this in kids.parents]
+
+Kid : Person * 
+  parents -> Parent 2
+  behave_well ?
+  
+// We create a set of good kids (behave well in the first states of the execution)
+// # (let k: kids | k.behave_well && X k.behave_well) = 4
+//

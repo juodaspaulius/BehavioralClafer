@@ -44,7 +44,7 @@ LTLDeclQuant.      	LTLExp   ::= Quant        Decl "|" LTLExp ;
 -- the next 3 rules don't work
 -- I wanted something like what we have in let_binding2.cfr test file
 LTLDeclLetBinding.	LTLDeclLetBinding ::= PosIdent ":" Exp;
-LTLDeclLet.		LTLExp::= "let" [LTLDeclLetBinding] "|" LTLExp11 ;
+LTLDeclLet.		LTLExp::= "let" [LTLDeclLetBinding] "|" LTLExp ;
 
 --LTLDeclLet1.		LTLExp::= "let" [LTLDeclLetBinding] "|" Exp1 ;
 --LTLDeclLet1.		LTLExp::= "let" [LTLDeclLetBinding] "|" LTLExp11 ;
@@ -95,7 +95,7 @@ LTLEInt.	    LTLExp17  ::= PosInteger ;
 LTLEDouble.     LTLExp17  ::= PosDouble ;
 LTLEStr.        LTLExp17  ::= PosString ;
 LTLESetExp.     LTLExp17  ::= SetExp ;
-
+LTLExp17 ::= "(" LTLExp ")"
 -- Question
 -- Do we need sum for an LTL expression?
 -- LTLESumSetExp.     LTLExp13  ::= "sum" LTLExp12;

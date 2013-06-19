@@ -24,6 +24,7 @@ Classroom_B
   [# { k : this.kids | behave_well  } >=3]
 */
 
+
 Classroom_C
   kids -> Kid *
   [all k : this.kids | k.behave_well && X k.behave_well]

@@ -85,10 +85,10 @@ DeclLetBindingSet.	DeclLetBindingSet	::= PosIdent ":" SetExp ;
 DeclLetBindValue.	Exp16		::= "let" [DeclLetBindingValue] "|" Exp ;
 separator nonempty DeclLetBindingValue "," ;
 
-DeclLetBindSet.		SetExp6		::= "let" [DeclLetBindingSet] "|" SetExp ;
+DeclLetBindSet.		Exp16		::= "let" [DeclLetBindingSet] "|" Exp ;
 separator nonempty DeclLetBindingSet "," ;
 
--- both versions work, but which one is better???
+-- both versions of LET scenario work, but which one is better???
 
 
 

@@ -9,7 +9,7 @@ A {
     
   // Behavioral constraints
   
-  [ G (let x : A.param, y : B.param | A.D => X(A.param <= x + 10) && F(B.param = y+2) ) ]
+  [ G (let x = A.param, y = B.param | A.D => X(A.param <= x + 10) && F(B.param = y+2) ) ]
   
   //this is possible
   [ let a = A | a.param && X a.param2  ]

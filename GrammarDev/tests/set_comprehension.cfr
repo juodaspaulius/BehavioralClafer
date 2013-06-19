@@ -1,0 +1,9 @@
+abstract A {
+  AA ? 
+  AB ?
+}
+B: A {
+  C -> B + {}
+  C1 -> B {}
+  [ C1 in { c: C | c.AB R c.AA } ]
+}

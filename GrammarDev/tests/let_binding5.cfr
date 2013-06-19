@@ -8,7 +8,7 @@ Kid : Person *
   parents -> Parent 2
   behave_well ?
   //[this.behave_well && X this.behave_well]
-  
+
 WellBehavedKids -> Kid 5
   //We create a set of good kids (all of them behave well in the first and the next state of the execution)
   //we could have also written it like this 

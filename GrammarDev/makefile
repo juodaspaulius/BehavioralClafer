@@ -15,7 +15,7 @@ test:
 	./runtests.sh
 
 testalt:
-	./runtests.sh Testclafer2
+	./runtests.sh ./Testclafer2
 
 
 clean:

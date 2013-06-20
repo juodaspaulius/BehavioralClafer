@@ -1,0 +1,30 @@
+<<max A>>
+A {
+  <<max B>>
+  B ? {}
+  `E 5 {
+    Y
+    [E]
+  }
+  C ?
+  D ?
+  V -> integer
+  
+  // Structural constraint
+  [#A > 10 && #A< 5]
+  
+  // Behavioural constraint
+  // Response Chain Pattern
+  // Here we have the 1 stimulus - 2 response chain pattern
+  // S,T responds to P
+  
+  // B,C responds to D globally
+  [  (B responds to D ) && (C responds to D globally)  ]
+  
+  // A,C responds to B after D
+  [ (A responds to B after D) && (C responds to B after D)]
+  
+  // some B, one D responds to lone C after V >=100
+  [ (some B responds to lone C after V >=100) && (one D responds to lone C after V >=100)]
+  
+}

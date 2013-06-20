@@ -1,0 +1,37 @@
+<<max A>>
+A {
+  <<max B>>
+  B ? {}
+  `E 5 {
+    Y
+    [E]
+  }
+  C ?
+  D ?
+  V -> integer
+  
+  // Structural constraint
+  [ no B ]
+  [#C>=5]
+  [#A > 10 && #A< 5]
+  
+  // Behavioural constraint
+  // Precedence Chain Pattern
+  // Here we have the 2 cause-1 effect precedence chain pattern
+  // S, T precedes P 
+  
+  // B,D precedes C before V>=10
+  [  (B precedes C before V>=10) && (D precedes C before V>=10)  ]
+  
+  // some A,some B precedes lone D globally
+  [ (some A precedes lone D globally) && (some B precedes lone D )]
+
+  
+  /*for B,C below we have (ESetExp (UnionCom (ClaferId (Path [ModIdIdent (PosIdent ((61,19),"B"))])) (ClaferId (Path [ModIdIdent (PosIdent ((61,21),"C"))])))) (TmpScopeBefore (ScopeParam (QuantExp QuantLone (ESetExp (ClaferId (Path [ModIdIdent (PosIdent ((61,35),"D"))]*/
+  
+  //[ A precedes B,C]
+  //[ A precedes B,C globally]
+  //[ A precedes B,D before C ]
+  //[ A precedes B,C after D]
+  
+}

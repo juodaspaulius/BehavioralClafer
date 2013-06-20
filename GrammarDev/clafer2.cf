@@ -45,17 +45,24 @@ TmpPrecedes.	ConstrExp ::= Exp "precedes" Exp TmpScope;
 TmpRespondsTo.	ConstrExp ::= Exp "respondsTo" Exp TmpScope;
 TmpRespondsTo.	ConstrExp ::= Exp "responds" "to" Exp TmpScope;
 
-TmpAbsence.	ConstrExp ::= Exp "is" "false" TmpScope ;
-TmpExistence.	ConstrExp ::= Exp "is" "true" TmpScope ;
-TmpBoundedExistence.	ConstrExp ::= Exp "is" "true" PosInteger "times" TmpScope ;
+TmpAbsence.	ConstrExp1 ::= Exp "is" "false" TmpScope ;
+TmpExistence.	ConstrExp1 ::= Exp "is" "true" TmpScope ;
+TmpBoundedExistence.	ConstrExp1 ::= Exp "is" "true" PosInteger "times" TmpScope ;
+
+-- logical && has a higher precedence than logical ||
+ConstrExpOr.	ConstrExp2	::= ConstrExp "||" ConstrExp ;
+ConstrExpAnd.	ConstrExp3	::= ConstrExp "&&" ConstrExp ;
+
+coercions ConstrExp 3 ;
+
+-- what's the main difference between Existence and Universality?
+-- Do we need both patterns?
+
+
 
 -- Non pattern constraint
 NonPatternsExp.		ConstrExp ::= Exp;
 
-
---Question
--- Do we need to change the previous rule to look like the following?
--- TmpRespondsTo. 	ConstrExp ::= Exp "responds" "to" Exp TmpScope;
 
 -- List of Temporal Patterns - END
 
@@ -123,7 +130,7 @@ ElementsList.   Elements ::= "{" [Element] "}" ;
 Subclafer.      Element ::= Clafer ;
 ClaferUse.      Element ::= "`" Name Card Elements ;
 Subconstraint.  Element ::= Constraint ;
-Subgoal. 	    Element ::= Goal; 
+Subgoal.	Element ::= Goal; 
 Subsoftconstraint. Element ::=SoftConstraint;
 
 SuperEmpty.     Super ::=  ;

@@ -12,57 +12,64 @@ abstract Person
   [ age >= 0 ]
   // age only increases
   [ let x = age | X age <= x + 1]
-  xor liveStatus
-    alive
-    dead
-  xor relationshipStatus
-    single
-    inARelatipship
-    xor maritalStatus
-      married
-	[age >= 18] // you have to be at least 18 to be married
-	spouse -> Person
-      neverMarried
-      divorced
-	ex -> Person
-      widowed
-    
-    //[ neverMarried ---> married <---> divorced ]
-    [ ]
   xor maritalStatus
-		neverMarried
-		married
-			[ age >= 2 ]  //18yr
-		divorced
-	[ neverMarried p--> married ]
-	[ married p--> divorced ]      // temporal constraint
-	[ divorced ---> married]
-	[ married x--> neverMarried ]	
-	[ divorced x--> neverMarried ]
-	[ neverMarried x--> divorced ]
+    neverMarried
+    married
+      [ age >= 18 ] // you have to be at least 18 to be married
+    divorced
+      
+    //[ neverMarried ---> married <---> divorced ]
+    
+    //from neverMarried to married - the next 2 constraints mean the same
+    [neverMarried => F married ]
+    [ neverMarried precedes married ]
+    
+    //from married to divorced - the next 3 constraints mean the same
+    [ married => F divorced ]
+    [ married precedes divorced]
+    [ divorced responds to married ]
+    
+    //from divorced to married - the next 3 constraints mean the same
+    [ divorced => F married]
+    [ divorced precedes married ]
+    [ divorced U married ]
+    
+    //from married you can't go to neverMarried
+    //[married => ! neverMarried ]
+    [married => F (married || divorced) ]
+    [married U divorced]
 
-	[ NewBorn e---> Dead ]
-	
-	
+    //from divorced you can't go to neverMarried - the next 2 constraints mean the same
+    //[if divorced then ! neverMarried else true ]
+    [ divorced => X ! neverMarried]
 
+    //from neverMarried you cannot go to divorced - the next 2 constraints mean the same
+    [ neverMarried => X !divorced ]
+    [ neverMarried => X neverMarried || married ]
+
+    
 // abstract state
 abstract NewBorn -> Person
   [ age = 0
   alive
   neverMarried ]
+  //from NewBorn(i) to Dead(i)
+  [ this => F Dead ]
 
 abstract Dead -> Person
-  [ dead ]
+  [ ! alive ]
 
 // concept instance
-/*Bob : Person
-	[ NewBorn --->* married ]    // temporal constraint
-	*/
+Bob : Person
+  [ NewBorn ]    // temporal constraint
 
-Bob: Person
-  [firstName= "Bob"
+
+
+
+Tom: Person
+  [firstName= "Tom"
   lastName= "Stevens"
-  gender.male
+  male
   ]
 
 Alice: Person
@@ -72,4 +79,3 @@ Alice: Person
   gender.female
   age = 25
   ] 
-

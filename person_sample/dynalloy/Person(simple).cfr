@@ -1,0 +1,36 @@
+// main concept
+abstract Person
+	age : integer
+	alive ?
+	[ age >= 0 ]
+	[ age increases ]     // temporal constraint
+
+	xor maritalStatus
+		neverMarried
+		married
+			[ age >= 2 ]  //18yr
+		divorced
+	[ neverMarried p--> married ]
+	[ married p--> divorced ]      // temporal constraint
+	[ divorced ---> married]
+	[ married x--> neverMarried ]	
+	[ divorced x--> neverMarried ]
+	[ neverMarried x--> divorced ]
+
+	[ NewBorn e---> Dead ]
+
+// abstract state
+abstract NewBorn -> Person
+	[ age = 0
+	  alive
+	  neverMarried ]
+
+
+abstract Dead -> Person
+	[ ! alive ]
+
+// concept instance
+Bob : Person
+	[ NewBorn --->* married ]    // temporal constraint
+
+

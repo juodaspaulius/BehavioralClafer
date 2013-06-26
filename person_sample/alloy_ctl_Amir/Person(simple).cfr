@@ -1,0 +1,28 @@
+// main concept
+// 
+abstract Person
+	age : integer
+	[ age >= 0 ]
+	[ next(age) >= age ]
+
+	xor maritalStatus
+		neverMarried
+		married
+			[ age >= 2 ]  //18yr
+		divorced
+	[ neverMarried ---> married <---> divorced ]
+
+// abstract state
+abstract NewBorn -> Person
+	[ age = 0
+	  neverMarried ]
+
+// concept instance
+Married -> Person 2
+	[ this in NewBorn ]
+	[ this e--> married ]
+
+Alice : Person
+Bob : NewBorn
+  [ this in NewBorn ]
+

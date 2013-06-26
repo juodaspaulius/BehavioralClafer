@@ -1,0 +1,75 @@
+// main concept
+abstract Person
+  firstName : string
+    [immutable]
+  lastName : string
+  [immutable lastName]
+  xor gender
+    male
+    female
+  age : integer
+  alive ?
+  [ age >= 0 ]
+  // age only increases
+  [ let x = age | X age <= x + 1]
+  xor liveStatus
+    alive
+    dead
+  xor relationshipStatus
+    single
+    inARelatipship
+    xor maritalStatus
+      married
+	[age >= 18] // you have to be at least 18 to be married
+	spouse -> Person
+      neverMarried
+      divorced
+	ex -> Person
+      widowed
+    
+    //[ neverMarried ---> married <---> divorced ]
+    [ ]
+  xor maritalStatus
+		neverMarried
+		married
+			[ age >= 2 ]  //18yr
+		divorced
+	[ neverMarried p--> married ]
+	[ married p--> divorced ]      // temporal constraint
+	[ divorced ---> married]
+	[ married x--> neverMarried ]	
+	[ divorced x--> neverMarried ]
+	[ neverMarried x--> divorced ]
+
+	[ NewBorn e---> Dead ]
+	
+	
+
+// abstract state
+abstract NewBorn -> Person
+  [ age = 0
+  alive
+  neverMarried ]
+
+abstract Dead -> Person
+  [ dead ]
+
+// concept instance
+/*Bob : Person
+	[ NewBorn --->* married ]    // temporal constraint
+	*/
+
+Bob: Person
+  [firstName= "Bob"
+  lastName= "Stevens"
+  gender.male
+  ]
+
+Alice: Person
+  [
+  firstName= "Alice"
+  lastName= "Papp"
+  gender.female
+  age = 25
+  ] 
+

@@ -5,6 +5,7 @@ abstract Person
   lastName : string
   [immutable lastName]
   xor gender
+    [immutable]
     male
     female
   age : integer
@@ -12,40 +13,27 @@ abstract Person
   [ age >= 0 ]
   // age only increases
   [ let x = age | X age <= x + 1]
-  xor maritalStatus
+  xor maritalStatus 
+    [immutable]
     neverMarried
     married
       [ age >= 18 ] // you have to be at least 18 to be married
     divorced
       
-    //[ neverMarried ---> married <---> divorced ]
-    
-    //from neverMarried to married - the next 2 constraints mean the same
-    [neverMarried => F married ]
+    //from neverMarried to married e
     [ neverMarried precedes married ]
     
-    //from married to divorced - the next 3 constraints mean the same
-    [ married => F divorced ]
+    //from married to divorced 
     [ married precedes divorced]
-    [ divorced responds to married ]
     
-    //from divorced to married - the next 3 constraints mean the same
-    [ divorced => F married]
-    [ divorced precedes married ]
-    [ divorced U married ]
+    //from divorced to married
+    [ divorced W married ]
     
-    //from married you can't go to neverMarried
-    //[married => ! neverMarried ]
-    [married => F (married || divorced) ]
-    [married U divorced]
+    //from married or divorced you can't go to neverMarried
+    [G (divorced || married => G !neverMarried) ]
 
-    //from divorced you can't go to neverMarried - the next 2 constraints mean the same
-    //[if divorced then ! neverMarried else true ]
-    [ divorced => X ! neverMarried]
-
-    //from neverMarried you cannot go to divorced - the next 2 constraints mean the same
-    [ neverMarried => X !divorced ]
-    [ neverMarried => X neverMarried || married ]
+    //from neverMarried you cannot go to divorced
+    [ G(neverMarried => X !divorced ) ]
 
     
 // abstract state

@@ -21,10 +21,8 @@ Constraint.     Constraint ::= "[" [ConstrExp] "]" ;
 SoftConstraint. SoftConstraint ::= "(" [Exp] ")";
 Goal.		Goal ::= "<<" [Exp] ">>" ;
 
--- The scope's parameters for all Temporal Patterns are basically an expression 
--- ScopeParam.         ScopeParam ::= Exp;
--- TmpScopeBefore.		TmpScope ::= "before" ScopeParam;
 
+-- The scope's parameters for all Temporal Patterns are basically an expression 
 -- Scopes of Temporal Patterns - BEGIN
 TmpScopeGlobally.	TmpScope ::= "globally" ;
 TmpScopeGlobally.	TmpScope ::=  ;
@@ -41,6 +39,7 @@ TmpScopeAfterUntil.	TmpScope ::= "after" Exp "until" Exp ;
 
 
 -- List of Temporal Patterns - BEGIN
+
 TmpPrecedes.	ConstrExp ::= Exp "precedes" Exp TmpScope;
 TmpRespondsTo.	ConstrExp ::= Exp "respondsTo" Exp TmpScope;
 TmpRespondsTo.	ConstrExp ::= Exp "responds" "to" Exp TmpScope;
@@ -48,21 +47,29 @@ TmpRespondsTo.	ConstrExp ::= Exp "responds" "to" Exp TmpScope;
 TmpAbsence.	ConstrExp1 ::= Exp "is" "false" TmpScope ;
 TmpExistence.	ConstrExp1 ::= Exp "is" "true" TmpScope ;
 TmpBoundedExistence.	ConstrExp1 ::= Exp "is" "true" PosInteger "times" TmpScope ;
+TmpEventually.	ConstrExp1	::= "eventually" Exp "becomes" "true" TmpScope ;
 
 -- logical && has a higher precedence than logical ||
-ConstrExpOr.	ConstrExp2	::= ConstrExp "||" ConstrExp ;
-ConstrExpAnd.	ConstrExp3	::= ConstrExp "&&" ConstrExp ;
-
-coercions ConstrExp 3 ;
-
--- what's the main difference between Existence and Universality?
--- Do we need both patterns?
-
-
+ConstrExpOr.	ConstrExp2	::= ConstrExp "||" ConstrExp1 ;
+ConstrExpAnd.	ConstrExp3	::= ConstrExp1 "&&" ConstrExp1 ;
 
 -- Non pattern constraint
 NonPatternsExp.		ConstrExp ::= Exp;
 
+coercions ConstrExp 3 ;
+
+{-
+link to Property Pattern Mappings for LTL
+http://patterns.projects.cis.ksu.edu/documentation/patterns/ltl.shtml
+
+The TmpExistence acts like the Universality pattern (P is true).
+
+TmpEventually acts like the Existence pattern (P becomes true).
+
+-}
+
+-- what's the main difference between Existence and Universality?
+-- Do we need both patterns?
 
 -- List of Temporal Patterns - END
 
@@ -73,7 +80,8 @@ NonPatternsExp.		ConstrExp ::= Exp;
 ImmutableConstr.	ConstrExp ::= Immutable;
 
 -- Question
--- Are the next rules written ok? They do what we need for the let / binding variable to state value scenario?
+-- Are the next rules written ok? 
+-- They do what we need for the let / binding variable to state value scenario?
 
 
 {-
@@ -109,13 +117,6 @@ separator nonempty DeclBindingSet "," ;
 DeclBindSet2.		SetExp		::= "{" [Decl] "|" Exp "}" ;
 separator nonempty Decl "," ;
 
-
-
-{-
-DeclarationSet.		DeclarationSet ::= [PosIdent] ":" SetExp ;
-DeclBindSet2.		SetExp		::= "{" [DeclarationSet] "|" Exp "}" ;
-separator nonempty DeclarationSet "," ;
--}
 
 
 

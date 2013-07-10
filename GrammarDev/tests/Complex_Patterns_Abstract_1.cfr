@@ -1,0 +1,19 @@
+A {
+  B ? {}
+  C ?
+  xor D
+    D1
+    D2
+  E ?
+  
+  // Structural constraint
+  [ no B ]
+
+  // Behavioural constraint
+  // Existence Pattern
+  
+  [ #A = 3 is true globally || E is true globally && C is true ]
+  
+  [ #A = 3 is true globally && E is true || C is true globally ]
+  
+}

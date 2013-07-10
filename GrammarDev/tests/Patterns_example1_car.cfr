@@ -1,0 +1,52 @@
+abstract Car {
+  door 4
+    xor door_status
+      open
+      closed
+  tire 4
+  speed : int
+  max_speed : int
+  distance_covered : int
+  xor status
+    moving
+    stopped
+  engine
+    xor fuel
+      gasoline
+      diesel
+    tank : int
+  xor transmission
+    automatic
+    manual
+  xor status
+    driving
+    stopped
+    
+  
+  // Structural constraint
+  [ automatic => gasoline || electric
+    velocity >= 0
+    tank >= 0
+    distance_covered >= 0
+  ]
+ 
+  // lines below -> behaviour 
+  
+  //each time distance_covered increases with 40 km, tank decreases by 1
+  [let x = distance_covered, value = tank | distance_covered = x + 40 => tank = value - 1 ]
+  
+  // after you drive a lot, eventually the car stops, because it's tank is empty
+  [ stopped responds to tank = 0 ]
+  
+  [ eventually status.stopped becomes true ]
+
+}
+
+Ford : Car
+  [max_speed = 200]
+
+BMW : Car
+  [max_speed = 260]
+
+
+

@@ -1,0 +1,20 @@
+abstract Company {
+  employees -> Person *
+  CEO -> Person
+  xor ROI
+    positive
+    negative
+  
+  // lines below = behaviour 
+  
+  // if the company loses money, the board hires a new CEO
+  [ let x = CEO | negative => CEO != x ]
+  
+}
+
+Company_A : Company
+
+Company_B : Company
+
+
+

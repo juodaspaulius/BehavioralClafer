@@ -9,7 +9,7 @@ open util/integer
 open util/ordering[Time]
 pred show {}
 -- run show for 1 but 2 c12_maritalStatus, 2 c1_Person, 2 c2_firstName, 2 c3_lastName, 2 c4_gender, 2 c7_age
-run show for 10
+run show for 8
 
 sig Time {loop: lone Time}
 fact Loop {loop in last->Time}

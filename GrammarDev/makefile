@@ -1,4 +1,5 @@
 
+
 all:
 	bnfc clafer.cf
 	happy -gca Parclafer.y

@@ -1,0 +1,39 @@
+enum RecipientLocation  = AtHome | Away
+enum ParcelStatus = Dropped | InTransit | Delivered
+
+abstract Parcel
+  PStatus -> ParcelStatus
+  Rec -> Recipient
+  [PStatus = InTransit]
+  [F (PStatus=Delivered) ]
+  [G (PStatus = Delivered => G(PStatus = Delivered)) ]
+  [ (PStatus = InTransit) precedes (PStatus = Delivered) ]
+  [ (PStatus = Dropped) precedes (PStatus = InTransit) ]
+
+abstract Recipient
+  RLoc -> RecipientLocation
+  Addr -> Address
+    [immutable]
+
+abstract Messenger
+  P -> Parcel
+  Location -> Address
+  [ G (P.PStatus = InTransit || P.PStatus = Delivered) ]
+  /*[ G (P.PStatus = Delivered => X P.PStatus = InTransit)  ]*/
+  [G ((P.PStatus = InTransit && Location = P.Rec.Addr && P.Rec.RLoc = AtHome ) <=> (P.PStatus = InTransit) &&  X (P.PStatus = Delivered))]
+  /* Would like to express that if parcel is delivered, messenger proceses new parcel*/
+
+abstract Address
+
+AlloyBook : Parcel
+  [Rec = Bob]
+
+Mark : Messenger
+
+Bob : Recipient
+  [Addr = Main1]
+
+Main1 : Address
+Main2 : Address
+Main3 : Address
+

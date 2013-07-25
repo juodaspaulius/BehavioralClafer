@@ -1,0 +1,31 @@
+enum RecipientLocation  = AtHome | Away
+enum ParcelStatus = Dropped | InTransit | Delivered
+
+abstract Parcel
+  PStatus -> ParcelStatus
+  M -> Messenger ?
+  Rec -> Recipient
+
+abstract Recipient
+  RLoc -> RecipientLocation
+  Addr -> Address
+
+abstract Messenger
+  P -> Parcel ?
+  Location -> Address
+  [ P => P.M=this ]
+
+abstract Address
+
+AlloyBook : Parcel
+  [Rec = Bob]
+
+Mark : Messenger
+
+Bob : Recipient
+  [Addr = Main1]
+
+Main1 : Address
+Main2 : Address
+Main3 : Address
+

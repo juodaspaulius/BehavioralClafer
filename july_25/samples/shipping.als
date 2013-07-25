@@ -1,6 +1,6 @@
 /*
-All clafers: 21 | Abstract: 6 | Concrete: 9 | References: 6
-Constraints: 13
+All clafers: 24 | Abstract: 6 | Concrete: 11 | References: 7
+Constraints: 20
 Goals: 0
 Global scope: 1..*
 All names unique: False
@@ -36,68 +36,86 @@ one sig c7_Delivered extends c4_ParcelStatus
 
 abstract sig c8_Parcel
 { r_c9_PStatus : c9_PStatus -> Time
-, r_c19_Rec : c19_Rec -> Time }
-{ all t : Time | one r_c9_PStatus.t && one r_c19_Rec.t
+, r_c19_M : c19_M -> Time
+, r_c29_Rec : one c29_Rec }
+{ all t : Time | one r_c9_PStatus.t && lone r_c19_M.t
   all t : (Time <: first)  | all disj x, y : this.@r_c9_PStatus.t | (x.@ref) != (y.@ref)
-  all t : (Time <: first)  | all disj x, y : this.@r_c19_Rec.t | (x.@ref) != (y.@ref)
-  all t : (Time <: first)  | (this.(@r_c9_PStatus.t.@ref)) = c6_InTransit
+  all t : (Time <: first)  | all disj x, y : this.@r_c19_M.t | (x.@ref) != (y.@ref)
+  all disj x, y : this.@r_c29_Rec | (x.@ref) != (y.@ref)
+  all t : (Time <: first)  | (this.(@r_c9_PStatus.t.@ref)) = c5_Dropped
   all t : (Time <: first)  | (some t':t.*(Time <: next + loop) | (this.(@r_c9_PStatus.t'.@ref)) = c7_Delivered)
-  all t : (Time <: first)  | (some loop and all t':t.*(Time <: next + loop) | ((this.(@r_c9_PStatus.t'.@ref)) = c7_Delivered) => ((some loop and all t'':t'.*(Time <: next + loop) | (this.(@r_c9_PStatus.t''.@ref)) = c7_Delivered))) }
+  all t : (Time <: first)  | (some loop and all t':t.*(Time <: next + loop) | ((this.(@r_c9_PStatus.t'.@ref)) = c7_Delivered) => ((some loop and all t'':t'.*(Time <: next + loop) | (this.(@r_c9_PStatus.t''.@ref)) = c7_Delivered)))
+  all t : (Time <: first)  | ((some t':t.*(Time <: next + loop) | (this.(@r_c9_PStatus.t'.@ref)) = c7_Delivered)) => ((some t':t.*(Time <: next + loop) | ((this.(@r_c9_PStatus.t'.@ref)) = c5_Dropped) || ((this.(@r_c9_PStatus.t'.@ref)) = c7_Delivered) and ( all t'':t.*(Time <: next + loop) & ^(Time <: next + loop).t'|!((this.(@r_c9_PStatus.t''.@ref)) = c6_InTransit))))
+  all t : (Time <: first)  | (some loop and all t':t.*(Time <: next + loop) | ((this.(@r_c9_PStatus.t'.@ref)) = c6_InTransit) => ((let t''=t'.(Time <: next + loop) | some t'' and !((this.(@r_c9_PStatus.t''.@ref)) = c5_Dropped))))
+  all t : (Time <: first)  | ((some loop and all t':t.*(Time <: next + loop) | !((this.(@r_c9_PStatus.t'.@ref)) = c7_Delivered))) || ((some t':t.*(Time <: next + loop) | (this.(@r_c9_PStatus.t'.@ref)) = c6_InTransit and ( all t'':t.*(Time <: next + loop) & ^(Time <: next + loop).t'|!((this.(@r_c9_PStatus.t''.@ref)) = c7_Delivered))))
+  all t : (Time <: first)  | (some loop and all t':t.*(Time <: next + loop) | (((this.(@r_c9_PStatus.t'.@ref)) = c6_InTransit) && ((let t''=t'.(Time <: next + loop) | some t'' and (this.(@r_c9_PStatus.t''.@ref)) = c7_Delivered))) => (some this.@r_c19_M.t'))
+  all t : (Time <: first)  | (some loop and all t':t.*(Time <: next + loop) | (some this.@r_c19_M.t') => ((this.(@r_c9_PStatus.t'.@ref)) != c5_Dropped)) }
 
 sig c9_PStatus
 { ref : one c4_ParcelStatus }
 { one @r_c9_PStatus.Time.this }
 
-sig c19_Rec
-{ ref : one c45_Recipient }
-{ one @r_c19_Rec.Time.this }
+sig c19_M
+{ ref : one c136_Messenger }
+{ one @r_c19_M.Time.this }
 
-abstract sig c45_Recipient
-{ r_c46_RLoc : c46_RLoc -> Time
-, r_c56_Addr : one c56_Addr }
-{ all t : Time | one r_c46_RLoc.t
-  all t : (Time <: first)  | all disj x, y : this.@r_c46_RLoc.t | (x.@ref) != (y.@ref)
-  all disj x, y : this.@r_c56_Addr | (x.@ref) != (y.@ref) }
+sig c29_Rec
+{ ref : one c115_Recipient }
+{ one @r_c29_Rec.this }
 
-sig c46_RLoc
+abstract sig c115_Recipient
+{ r_c116_RLoc : c116_RLoc -> Time
+, r_c126_Addr : one c126_Addr }
+{ all t : Time | one r_c116_RLoc.t
+  all t : (Time <: first)  | all disj x, y : this.@r_c116_RLoc.t | (x.@ref) != (y.@ref)
+  all disj x, y : this.@r_c126_Addr | (x.@ref) != (y.@ref) }
+
+sig c116_RLoc
 { ref : one c1_RecipientLocation }
-{ one @r_c46_RLoc.Time.this }
+{ one @r_c116_RLoc.Time.this }
 
-sig c56_Addr
-{ ref : one c134_Address }
-{ one @r_c56_Addr.this }
+sig c126_Addr
+{ ref : one c216_Address }
+{ one @r_c126_Addr.this }
 
-abstract sig c66_Messenger
-{ r_c67_P : c67_P -> Time
-, r_c77_Location : c77_Location -> Time }
-{ all t : Time | one r_c67_P.t && one r_c77_Location.t
-  all t : (Time <: first)  | all disj x, y : this.@r_c67_P.t | (x.@ref) != (y.@ref)
-  all t : (Time <: first)  | all disj x, y : this.@r_c77_Location.t | (x.@ref) != (y.@ref)
-  all t : (Time <: first)  | (some loop and all t':t.*(Time <: next + loop) | (((this.@r_c67_P.t').(@ref.(@r_c9_PStatus.t'.@ref))) = c6_InTransit) || (((this.@r_c67_P.t').(@ref.(@r_c9_PStatus.t'.@ref))) = c7_Delivered))
-  all t : (Time <: first)  | (some loop and all t':t.*(Time <: next + loop) | (((((this.@r_c67_P.t').(@ref.(@r_c9_PStatus.t'.@ref))) = c6_InTransit) && ((this.(@r_c77_Location.t'.@ref)) = (((this.@r_c67_P.t').(@ref.@r_c19_Rec.t')).(@ref.(@r_c56_Addr.@ref))))) && ((((this.@r_c67_P.t').(@ref.@r_c19_Rec.t')).(@ref.(@r_c46_RLoc.t'.@ref))) = c2_AtHome)) <=> ((((this.@r_c67_P.t').(@ref.(@r_c9_PStatus.t'.@ref))) = c6_InTransit) && ((let t''=t'.(Time <: next + loop) | some t'' and ((this.@r_c67_P.t'').(@ref.(@r_c9_PStatus.t''.@ref))) = c7_Delivered)))) }
+abstract sig c136_Messenger
+{ r_c137_P : c137_P -> Time
+, r_c147_Location : c147_Location -> Time }
+{ all t : Time | lone r_c137_P.t && one r_c147_Location.t
+  all t : (Time <: first)  | all disj x, y : this.@r_c137_P.t | (x.@ref) != (y.@ref)
+  all t : (Time <: first)  | all disj x, y : this.@r_c147_Location.t | (x.@ref) != (y.@ref)
+  all t : (Time <: first)  | (some loop and all t':t.*(Time <: next + loop) | (some this.@r_c137_P.t') => ((((((this.@r_c137_P.t').(@ref.(@r_c9_PStatus.t'.@ref))) = c6_InTransit) && ((this.(@r_c147_Location.t'.@ref)) = (((this.@r_c137_P.t').(@ref.@r_c29_Rec)).(@ref.(@r_c126_Addr.@ref))))) && ((((this.@r_c137_P.t').(@ref.@r_c29_Rec)).(@ref.(@r_c116_RLoc.t'.@ref))) = c2_AtHome)) <=> ((((this.@r_c137_P.t').(@ref.(@r_c9_PStatus.t'.@ref))) = c6_InTransit) && ((let t''=t'.(Time <: next + loop) | some t'' and ((this.@r_c137_P.t'').(@ref.(@r_c9_PStatus.t''.@ref))) = c7_Delivered)))))
+  all t : (Time <: first)  | (some loop and all t':t.*(Time <: next + loop) | (some this.@r_c137_P.t') => (((this.@r_c137_P.t').(@ref.(@r_c19_M.t'.@ref))) = this))
+  all t : (Time <: first)  | (some loop and all t':t.*(Time <: next + loop) | (some this.@r_c137_P.t') => ((some t'':t'.*(Time <: next + loop) | ((this.@r_c137_P.t'').(@ref.(@r_c9_PStatus.t''.@ref))) = c7_Delivered and ( all t''':t'.*(Time <: next + loop) & ^(Time <: next + loop).t''|some this.@r_c137_P.t''')))) }
 
-sig c67_P
+sig c137_P
 { ref : one c8_Parcel }
-{ one @r_c67_P.Time.this }
+{ one @r_c137_P.Time.this }
 
-sig c77_Location
-{ ref : one c134_Address }
-{ one @r_c77_Location.Time.this }
+sig c147_Location
+{ ref : one c216_Address }
+{ one @r_c147_Location.Time.this }
 
-abstract sig c134_Address
+abstract sig c216_Address
 {}
 
-one sig c135_AlloyBook extends c8_Parcel
+one sig c217_AlloyBook extends c8_Parcel
 {}
-{ all t : (Time <: first)  | (this.(@r_c19_Rec.t.@ref)) = c140_Bob }
+{ (this.(@r_c29_Rec.@ref)) = c222_Bob }
 
-one sig c139_Mark extends c66_Messenger
+one sig c221_Mark extends c136_Messenger
 {}
 
-one sig c140_Bob extends c45_Recipient
+one sig c222_Bob extends c115_Recipient
 {}
-{ (this.(@r_c56_Addr.@ref)) = c144_Main1 }
+{ (this.(@r_c126_Addr.@ref)) = c226_Main1 }
 
-one sig c144_Main1 extends c134_Address
+one sig c226_Main1 extends c216_Address
+{}
+
+one sig c227_Main2 extends c216_Address
+{}
+
+one sig c228_Main3 extends c216_Address
 {}
 

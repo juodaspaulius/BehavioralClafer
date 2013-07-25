@@ -3,12 +3,19 @@ enum ParcelStatus = Dropped | InTransit | Delivered
 
 abstract Parcel
   PStatus -> ParcelStatus
+  M -> Messenger ?
   Rec -> Recipient
-  [PStatus = InTransit]
-  [F (PStatus=Delivered) ]
-  [G (PStatus = Delivered => G(PStatus = Delivered)) ]
-  [ (PStatus = InTransit) precedes (PStatus = Delivered) ]
-  [ (PStatus = Dropped) precedes (PStatus = InTransit) ]
+    [immutable]
+  [ PStatus = Dropped]
+  [ F (PStatus=Delivered) ]
+  [ G (PStatus=Delivered => G(PStatus=Delivered)) ]
+  [ PStatus=Dropped precedes PStatus=InTransit before (PStatus=Delivered) ] 
+  // is translated to F (PStatus=Delivered) => (!PStatus=Status U (PStatus=Dropped or PStatus=Delivered))
+  [ G (PStatus=InTransit => X !(PStatus=Dropped)) ]
+  [ PStatus=InTransit precedes PStatus=Delivered]
+  [ G ((PStatus=InTransit && X PStatus=Delivered) => M) ]
+  [ G (M => (PStatus!=Dropped)) ]
+  
 
 abstract Recipient
   RLoc -> RecipientLocation
@@ -16,17 +23,20 @@ abstract Recipient
     [immutable]
 
 abstract Messenger
-  P -> Parcel
+  P -> Parcel ?
   Location -> Address
-  [ G (P.PStatus = InTransit || P.PStatus = Delivered) ]
-  /*[ G (P.PStatus = Delivered => X P.PStatus = InTransit)  ]*/
-  [G ((P.PStatus = InTransit && Location = P.Rec.Addr && P.Rec.RLoc = AtHome ) <=> (P.PStatus = InTransit) &&  X (P.PStatus = Delivered))]
+  [ G (P => ((P.PStatus=InTransit && Location=P.Rec.Addr && P.Rec.RLoc=AtHome ) <=> (P.PStatus=InTransit) &&  X (P.PStatus=Delivered)))]
   /* Would like to express that if parcel is delivered, messenger proceses new parcel*/
+  [ G (P => P.M=this) ]
+  [ G (P => ((some P) U P.PStatus=Delivered)) ]
 
 abstract Address
 
 AlloyBook : Parcel
   [Rec = Bob]
+
+/*CompilerBook : Parcel*/
+  /*[Rec = Bob]*/
 
 Mark : Messenger
 

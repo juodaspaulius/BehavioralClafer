@@ -1,0 +1,16 @@
+Main2
+Main3
+AtHome
+Away
+Dropped
+InTransit
+Delivered
+AlloyBook
+  PStatus = Delivered
+  Rec = Bob
+Mark
+  Location = Main3
+Bob
+  RLoc = Away
+  Addr = Main1
+Main1

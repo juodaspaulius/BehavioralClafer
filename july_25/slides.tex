@@ -39,8 +39,8 @@
   \begin{frame}
     \frametitle{Current Clafer}
     \begin{itemize}
-      \item Clafer is a great concise modeling language for expressing models with some structure. 
-      \item Clafer models encapsulates all possible configuration.
+      \item Clafer is a modeling language with many purposes.
+      \item Clafer code is concise and intuitive.
       \item With tool support we can generate and analyze instances.
     \end{itemize} 
     Let's start with an example.
@@ -275,8 +275,9 @@
     \begin{itemize}
       \item Syntactic solution for referencing current state.
       \item Calculate scope - right now it is just a parameter (--fs=scope).
-      \item For reference clafers add Time product to \ttfamily{rel} field instead of appending to field declarations in parent signature. It will prevent generation of unnecessary instances.
-      \item Create more models.
+      \item For reference clafers add Time product to \ttfamily{ref} field instead of appending to field declarations in parent signature. It will prevent generation of unnecessary instances.
+      \item Mutable vs immutable.
+      \item Global modality assumption and its overriding with Initially/Now.
     \end{itemize}
   \end{frame}
 \end{document}

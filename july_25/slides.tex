@@ -150,7 +150,7 @@
     \lstinputlisting[linerange=28-28,basicstyle=\footnotesize,breaklines=true]{samples/shipping.cfr}
     This is structural property, that ensures bidirectional reference link between Parcel and Messenger clafers:
     \lstinputlisting[linerange=30-30,basicstyle=\footnotesize,breaklines=true]{samples/shipping.cfr}
-    During delivery parcel has to be linked with messenger:
+    Until parcel is delivered, it has to be linked with the messenger:
     \lstinputlisting[linerange=31-31,basicstyle=\footnotesize,breaklines=true]{samples/shipping.cfr}
   \end{frame}
 
@@ -195,6 +195,17 @@
 
     Liveness property in Alloy: 
     \lstinputlisting[linerange=46-46,basicstyle=\footnotesize,breaklines=true]{samples/shipping.als}
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Other temporal properties}
+    Once delivered, parcel status will never change.
+
+    Property in Clafer:
+    \lstinputlisting[linerange=11-11,basicstyle=\footnotesize,breaklines=true]{samples/shipping.cfr}
+
+    Property in Alloy: 
+    \lstinputlisting[linerange=47-47,basicstyle=\footnotesize,breaklines=true]{samples/shipping.als}
   \end{frame}
 
   \begin{frame}
@@ -262,6 +273,7 @@
   \begin{frame}
     \frametitle{Open issues/Future work}
     \begin{itemize}
+      \item Syntactic solution for referencing current state.
       \item Calculate scope - right now it is just a parameter (--fs=scope).
       \item For reference clafers add Time product to \ttfamily{rel} field instead of appending to field declarations in parent signature. It will prevent generation of unnecessary instances.
       \item Create more models.

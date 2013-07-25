@@ -1,4 +1,4 @@
 [ A precedes B]
 [ C responds to D before E]
-[ eventually A before E ]
-[ eventually C after B and D ]
+[ eventually A after E ]
+[ eventually C between B and D ]

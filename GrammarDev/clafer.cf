@@ -17,133 +17,48 @@ EnumDecl.       Declaration ::= "enum" PosIdent "=" [EnumId] ;
 ElementDecl.    Declaration ::= Element ;
 
 Clafer.         Clafer ::= Abstract GCard PosIdent Super Card Init Elements ;
-Constraint.     Constraint ::= "[" [ConstraintExp] "]" ;
+Constraint.     Constraint ::= "[" [ConstrExp] "]" ;
 SoftConstraint. SoftConstraint ::= "(" [Exp] ")";
-Goal.   	Goal ::= "<<" [Exp] ">>" ;
-
--- Behavioral Clafer BEGIN ------------------
-
-StructConstraint.	ConstraintExp ::= Exp;
-LTLConstraint.		ConstraintExp ::= LTLExp;
-PatternConstraint.	ConstraintExp ::= TmpPatExp;
-
--- LTL BEGIN
--- precedence order: <AP>, !, X, G, F, W, U, R, &&, ||, =>, <=> 
-
-LTLDeclAllDisj.		LTLExp   ::= "all" "disj" Decl "|" LTLExp ;
-LTLDeclAll.		LTLExp   ::= "all"        Decl "|" LTLExp ;
-LTLDeclQuantDisj.	LTLExp   ::= Quant "disj" Decl "|" LTLExp ;
-LTLDeclQuant.      	LTLExp   ::= Quant        Decl "|" LTLExp ;
-
--- Question
--- Is the next rule written ok? It does what we need for the let / binding variable to state value scenario?
--- In the next rule should we use : or = ???
---LTLDeclLet1.		LTLExp	 ::= "let" PosIdent "=" Exp "|" LTLExp11 ;
---LTLDeclLet2.		LTLExp	 ::= "let" PosIdent "=" Exp "|" SetExp ;
- 
--- the next 3 rules don't work
--- I wanted something like what we have in let_binding2.cfr test file
-LTLDeclLetBinding.	LTLDeclLetBinding ::= PosIdent ":" Exp;
-LTLDeclLet.		LTLExp::= "let" [LTLDeclLetBinding] "|" LTLExp ;
-
---LTLDeclLet1.		LTLExp::= "let" [LTLDeclLetBinding] "|" Exp1 ;
---LTLDeclLet1.		LTLExp::= "let" [LTLDeclLetBinding] "|" LTLExp11 ;
---LTLDeclLet2.		LTLExp::= "let" [LTLDeclLetBinding] "|" SetExp ;
-
-separator nonempty LTLDeclLetBinding ""  ;
-
---separator nonempty LTLDeclLetBinding "$"  ;
-
-
--- Question
--- Do we need max and min for LTL expressions?
--- LTLEGMax.	LTLExp1  ::= "max" LTLExp2 ;
--- LTLEGMin.	LTLExp1  ::= "min" LTLExp2 ;
-
-LTLIff.		    LTLExp1 ::= LTLExp1 "<=>" LTLExp2 ;
-
-LTLImplies.     LTLExp2 ::= LTLExp2 "=>" LTLExp3;
-LTLOr.          LTLExp3 ::= LTLExp3 "||" LTLExp4;
-LTLAnd.         LTLExp4 ::= LTLExp4 "&&" LTLExp5;
-LTLRelease.	    LTLExp5	::= LTLExp5 "R" LTLExp6;
-LTLUntil.	    LTLExp6	::= LTLExp6 "U" LTLExp7;
-LTLWeakUntil.	LTLExp7	::= LTLExp7 "W" LTLExp8;
-LTLFinally.	    LTLExp8	::= "F" LTLExp9;
-LTLGlobally.	LTLExp9	::= "G" LTLExp10;
-LTLNext.	    LTLExp10	::= "X" LTLExp11;
-LTLNot.         LTLExp11	::= "!" LTLExp12;
-
-LTLELt.		    LTLExp12  ::= LTLExp12 "<"  LTLExp13 ;
-LTLEGt.         LTLExp12  ::= LTLExp12 ">"  LTLExp13 ;
-LTLEEq.         LTLExp12  ::= LTLExp12 "="  LTLExp13 ;
-LTLELte.        LTLExp12  ::= LTLExp12 "<=" LTLExp13 ;
-LTLEGte.        LTLExp12  ::= LTLExp12 ">=" LTLExp13 ;
-LTLENeq.        LTLExp12  ::= LTLExp12 "!=" LTLExp13 ;
-LTLEIn.         LTLExp12  ::= LTLExp12 "in" LTLExp13 ;
-LTLENin.        LTLExp12  ::= LTLExp12 "not" "in" LTLExp13 ;
-
-LTLQuantExp.	LTLExp13 ::= Quant LTLExp14 ;
-LTLEAdd.        LTLExp13  ::= LTLExp13 "+" LTLExp14 ;
-LTLESub.        LTLExp13  ::= LTLExp13 "-" LTLExp14 ;
-LTLEMul.        LTLExp14  ::= LTLExp14 "*" LTLExp15 ;
-LTLEDiv.        LTLExp14  ::= LTLExp14 "/" LTLExp15 ;
-
-LTLECSetExp.	LTLExp15  ::= "#" LTLExp16 ;
-LTLEMinExp.     LTLExp15  ::= "-" LTLExp16 ;
-LTLEImpliesElse.LTLExp16  ::= "if" LTLExp16 "then" LTLExp16 "else" LTLExp17 ;
-LTLEInt.	    LTLExp17  ::= PosInteger ;
-LTLEDouble.     LTLExp17  ::= PosDouble ;
-LTLEStr.        LTLExp17  ::= PosString ;
-LTLESetExp.     LTLExp17  ::= SetExp ;
-LTLExp17 ::= "(" LTLExp ")"
--- Question
--- Do we need sum for an LTL expression?
--- LTLESumSetExp.     LTLExp13  ::= "sum" LTLExp12;
-
-
--- LTL END
+Goal.		Goal ::= "<<" [Exp] ">>" ;
 
 
 -- The scope's parameters for all Temporal Patterns are basically an expression 
-ScopeParam.         ScopeParam ::= Exp;
+-- Scopes of Temporal Patterns - BEGIN
+TmpScopeGlobally.	TmpScope ::= "globally" ;
+TmpScopeGlobally.	TmpScope ::=  ;
+TmpScopeBefore.		TmpScope ::= "before" Exp ;
+TmpScopeAfter.		TmpScope ::= "after" Exp ;
+TmpScopeBetweenAnd.	TmpScope ::= "between" Exp "and" Exp ;
+TmpScopeAfterUntil.	TmpScope ::= "after" Exp "until" Exp ;
 
-TmpScopeGlobally.	TmpScope ::= "globally";
-TmpScopeGlobally.	TmpScope ::= ;
-TmpScopeBefore.	TmpScope  ::= "before" ScopeParam;
-TmpScopeAfter.	TmpScope  ::= "after" ScopeParam;
-TmpScopeBetweenAnd.	TmpScope ::= "between" ScopeParam "and" ScopeParam;
-TmpScopeAfterUntil.	TmpScope ::= "after" ScopeParam "until" ScopeParam;
+-- Immutable constraint
+ImmutableConstr.	ConstrExp ::= Immutable;
+ConstrExp.	        ConstrExp ::= Exp;
 
---Question: here maybe we can use something like this?
--- 	_.	TmpScope ::= ;   or 	coercions TmpScope 1;
--- instead of:	TmpScopeGlobally.	TmpScope ::= ;
+DeclLetBindingValue.	DeclLetBindingValue	::= PosIdent "=" Exp ;
+DeclLetBindValue.	Exp16	::= "let" [DeclLetBindingValue] "|" Exp ;
+separator nonempty DeclLetBindingValue "," ;
 
--- List of Temporal Patterns
-TmpPrecedes.	TmpPatExp ::= Exp "precedes" Exp TmpScope;
-TmpRespondsTo. 	TmpPatExp ::= Exp "respondsTo" Exp TmpScope;
-TmpRespondsTo. 	TmpPatExp ::= Exp "responds" "to" Exp TmpScope;
+DeclBindingSet.		DeclBindingSet	::= PosIdent ":" SetExp ;
+DeclBindSet1.		SetExp		::= "{" [DeclBindingSet] "|" Exp "}" ;
+separator nonempty DeclBindingSet "," ;
 
---Question
--- Do we need to change the previous rule to look like the following?
--- TmpRespondsTo. 	TmpPatExp ::= Exp "responds" "to" Exp TmpScope;
+DeclBindSet2.		SetExp		::= "{" [Decl] "|" Exp "}" ;
+separator nonempty Decl "," ;
 
-TmpRespondsTo. 	TmpPatExp ::= Exp "respondsTo" Exp TmpScope;
-
-
--- End of temporal Patterns
--- Behavioral Clafer END ----------------------
 
 AbstractEmpty.  Abstract ::= ;
 Abstract.       Abstract ::= "abstract" ;
 
 -- ElementsEmpty causes parsing problems
+-- Why does this happen???
 ElementsEmpty.  Elements ::= ;
 ElementsList.   Elements ::= "{" [Element] "}" ;
 
 Subclafer.      Element ::= Clafer ;
 ClaferUse.      Element ::= "`" Name Card Elements ;
 Subconstraint.  Element ::= Constraint ;
-Subgoal. 	Element ::= Goal; 
+Subgoal.	Element ::= Goal; 
 Subsoftconstraint. Element ::=SoftConstraint;
 
 SuperEmpty.     Super ::=  ;
@@ -180,39 +95,57 @@ ExIntegerNum.   ExInteger ::= PosInteger ;
 
 Path.           Name ::= [ModId] ;
 
+-- LTL precedence order: <AP>, !, X, G, F, W, U, R, &&, ||, => 
+
 DeclAllDisj.    Exp   ::= "all" "disj" Decl "|" Exp ;
 DeclAll.        Exp   ::= "all"        Decl "|" Exp ;
 DeclQuantDisj.  Exp   ::= Quant "disj" Decl "|" Exp ;
 DeclQuant.      Exp   ::= Quant        Decl "|" Exp ;
-EGMax.          Exp1  ::= "max" Exp2 ;
-EGMin.          Exp1  ::= "min" Exp2 ;
-EIff.           Exp1  ::= Exp1 "<=>" Exp2 ;
-EImplies.       Exp2  ::= Exp2 "=>"  Exp3 ;
-EOr.            Exp3  ::= Exp3 "||"  Exp4 ;
-EXor.           Exp4  ::= Exp4 "xor" Exp5 ;
-EAnd.           Exp5  ::= Exp5 "&&"  Exp6 ;
-ENeg.           Exp6  ::= "!" Exp7 ;
-ELt.            Exp7  ::= Exp7 "<"  Exp8 ;
-EGt.            Exp7  ::= Exp7 ">"   Exp8 ;
-EEq.            Exp7  ::= Exp7 "="  Exp8 ;
-ELte.           Exp7  ::= Exp7 "<=" Exp8 ;
-EGte.           Exp7  ::= Exp7 ">=" Exp8 ;
-ENeq.           Exp7  ::= Exp7 "!=" Exp8 ;
-EIn.            Exp7  ::= Exp7 "in" Exp8 ;
-ENin.           Exp7  ::= Exp7 "not" "in" Exp8 ;
-QuantExp.       Exp8  ::= Quant Exp12 ;
-EAdd.           Exp9  ::= Exp9  "+" Exp10 ;
-ESub.           Exp9  ::= Exp9  "-" Exp10 ;
-EMul.           Exp10 ::= Exp10 "*" Exp11 ;
-EDiv.           Exp10 ::= Exp10 "/" Exp11 ;
-ESumSetExp.     Exp11 ::= "sum" Exp12;
-ECSetExp.       Exp11 ::= "#" Exp12 ;
-EMinExp.        Exp11 ::= "-" Exp12 ;
-EImpliesElse.   Exp12 ::= "if" Exp12 "then" Exp12 "else" Exp13 ;
-EInt.           Exp13 ::= PosInteger ;
-EDouble.        Exp13 ::= PosDouble ;
-EStr.           Exp13 ::= PosString ;
-ESetExp.        Exp13 ::= SetExp ;
+
+TmpPrecedes.	Exp1 ::= Exp4 "precedes" Exp TmpScope;
+TmpRespondsTo.	Exp1 ::= Exp4 "respondsTo" Exp TmpScope;
+TmpRespondsTo.	Exp1 ::= Exp4 "responds" "to" Exp TmpScope;
+TmpAbsence.	    Exp1 ::= Exp4 "is" "false" TmpScope ;
+TmpUniversality.	Exp1 ::= Exp4 "is" "true" TmpScope ;
+TmpBoundedExistence.	Exp1 ::= Exp4 "is" "true" PosInteger "times" TmpScope ;
+TmpExistence.	Exp1 ::= "eventually" Exp4 TmpScope ;
+
+
+EGMax.          Exp2  ::= "max" Exp3 ;
+EGMin.          Exp3  ::= "min" Exp4 ;
+EIff.           Exp4  ::= Exp4 "<=>" Exp5 ;
+EImplies.       Exp5  ::= Exp5 "=>"  Exp6 ;
+EOr.            Exp6  ::= Exp6 "||"  Exp7 ;
+EXor.           Exp7  ::= Exp7 "xor" Exp8 ;
+EAnd.           Exp8  ::= Exp8 "&&"  Exp9 ;
+LtlRel.         Exp9  ::= Exp9 "R"  Exp10 ;
+LtlUntil.       Exp9  ::= Exp9 "U"  Exp10 ;
+LtlWUntil.      Exp9  ::= Exp9 "W"  Exp10 ;
+LtlF.           Exp10  ::= "F"  Exp11 ;
+LtlG.           Exp10  ::= "G"  Exp11 ;
+LtlX.           Exp11  ::= "X"  Exp12 ;
+ENeg.           Exp12  ::= "!" Exp13 ;
+ELt.            Exp13  ::= Exp13 "<"  Exp14 ;
+EGt.            Exp13  ::= Exp13 ">"  Exp14 ;
+EEq.            Exp13  ::= Exp13 "="  Exp14 ;
+ELte.           Exp13  ::= Exp13 "<=" Exp14 ;
+EGte.           Exp13  ::= Exp13 ">=" Exp14 ;
+ENeq.           Exp13  ::= Exp13 "!=" Exp14 ;
+EIn.            Exp13  ::= Exp13 "in" Exp14 ;
+ENin.           Exp13  ::= Exp13 "not" "in" Exp14 ;
+QuantExp.       Exp14  ::= Quant Exp18 ;
+EAdd.           Exp15  ::= Exp15  "+" Exp16 ;
+ESub.           Exp15  ::= Exp15  "-" Exp16 ;
+EMul.           Exp16 ::= Exp16 "*" Exp17 ;
+EDiv.           Exp16 ::= Exp16 "/" Exp17 ;
+ESumSetExp.     Exp17 ::= "sum" Exp18;
+ECSetExp.       Exp17 ::= "#" Exp18 ;
+EMinExp.        Exp17 ::= "-" Exp18 ;
+EImpliesElse.   Exp18 ::= "if" Exp18 "then" Exp18 "else" Exp19 ;
+EInt.           Exp19 ::= PosInteger ;
+EDouble.        Exp19 ::= PosDouble ;
+EStr.           Exp19 ::= PosString ;
+ESetExp.        Exp19 ::= SetExp ;
 
 Union.          SetExp  ::= SetExp  "++" SetExp1 ;
 UnionCom.       SetExp  ::= SetExp  ","  SetExp1 ;
@@ -225,7 +158,7 @@ ClaferId.       SetExp6 ::= Name ;
 
 Decl.           Decl ::= [LocId] ":" SetExp ;
 
-QuantNo.        Quant ::=  "no" ;
+QuantNo.        Quant ::= "no" ;
 QuantLone.      Quant ::= "lone" ;
 QuantOne.       Quant ::= "one" ;
 QuantSome.      Quant ::= "some" ;
@@ -241,22 +174,25 @@ separator           Declaration ""  ;
 separator  nonempty EnumId      "|" ;
 separator           Element     ""  ;
 separator           Exp         ""  ;
-separator           ConstraintExp ""  ;
+separator           ConstrExp         ""  ;
 separator  nonempty LocId       ";" ;
 separator  nonempty ModId       "\\" ;
 
-coercions Exp 13 ;
+coercions Exp 19 ;
 coercions SetExp 6 ;
-coercions LTLExp 17;
-coercions ConstraintExp 1;
 
+--QuantNo.        Quant ::=  No ;
 --position token No ('n' 'o');
+
+
+
+-- This is the same as the following rule?
+--position token Immutable ('i' 'm' 'm' 'u' 't' 'a' 'b' 'l' 'e') ;
+
+position token Immutable {"immutable"} ;
+
 position token PosInteger (digit+) ;
 position token PosDouble (digit+ '.' digit+ ('e' '-'? digit+)?) ;
 position token PosString '"' ((char - ["\"\\"]) | ('\\' ["\"\\nt"]))* '"' ;
 position token PosIdent (letter (letter|digit|'_'|'\'')*) ;
 
---position token 
-
---Question
--- Do we need to put tokens for every keyword in the syntax?

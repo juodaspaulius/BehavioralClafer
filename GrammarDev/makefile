@@ -6,17 +6,8 @@ all:
 	alex -g Lexclafer.x
 	ghc --make Testclafer.hs -o Testclafer
 
-alt:
-	bnfc clafer2.cf
-	happy -gca Parclafer2.y
-	alex -g Lexclafer2.x
-	ghc --make Testclafer2.hs -o Testclafer2
-
 test: 
 	./runtests.sh
-
-testalt:
-	./runtests.sh ./Testclafer2
 
 
 clean:
